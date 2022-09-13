@@ -2,10 +2,13 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="GestorTareas.Prism.Views.MainPage"
-             Title="{Binding Title}">
-
-    <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
-        <Label Text="Welcome to Xamarin Forms and Prism!" />
+             BackgroundColor="#F7F7F7">
+    <NavigationPage.TitleView>
+        <Image Source="formato_vertical_pleca.jpg" Aspect="Fill"></Image>
+    </NavigationPage.TitleView>
+    <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="Start">
+        <Image Source="LOGO_UMAD.png" WidthRequest="230" Margin="10,200,0,0"></Image>
+        <ActivityIndicator IsRunning="True" Color="#EE0B28"></ActivityIndicator>
     </StackLayout>
 
 </ContentPage>
