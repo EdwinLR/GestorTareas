@@ -7,5 +7,6 @@
         <Style TargetType="NavigationPage">
             <Setter Property="BarBackgroundColor" Value="#3a79c5"/>
         </Style>
+
     </Application.Resources>
 </prism:PrismApplication>

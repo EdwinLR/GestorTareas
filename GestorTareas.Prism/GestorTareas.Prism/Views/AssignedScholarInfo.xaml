@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="GestorTareas.Prism.Views.AssignedScholarInfo" BackgroundColor="#F7F7F7">
+    <NavigationPage.TitleView>
+        <Image Source="formato_vertical_pleca.jpg" Aspect="Fill"></Image>
+    </NavigationPage.TitleView>
+    <ScrollView HorizontalOptions="CenterAndExpand">
+        <StackLayout Padding="30,10,30,10">
+            <Image Source="ic_person.png" HeightRequest="250"></Image>
+            <Label Text="Barroeta Martínez Alejandro" TextColor="Black" FontAttributes="Bold" HorizontalOptions="Center"></Label>
+            <Label Text="20071361" TextColor="Black" HorizontalOptions="Center"></Label>
+            <Label Text="barroetaalejandro160401@gmail.com" TextColor="Black" HorizontalOptions="Center" Margin="0,0,0,20"></Label>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="240"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    
+                </Grid.RowDefinitions>
+                
+                <Label TextColor="Black" FontAttributes="Bold" Text="Horario Disponible" Grid.ColumnSpan="2" Grid.Row="0"></Label>
+                <Label TextColor="Black" FontAttributes="Bold" Text="Lunes" Grid.Row="1"></Label>
+                <Label TextColor="Black" Text="9:00-11:00, 15:00-17:00" Grid.Row="2"></Label>
+                <Button ImageSource="edit.png" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" BackgroundColor="#1873C8" ScaleX=".8" ScaleY=".9"></Button>
+
+                <Label TextColor="Black" FontAttributes="Bold" Text="Martes" Grid.Row="3"></Label>
+                <Label TextColor="Black" Text="9:00-11:00, 15:00-17:00" Grid.Row="4"></Label>
+                <Button ImageSource="edit.png" Grid.Column="1" Grid.Row="3" Grid.RowSpan="2" BackgroundColor="#1873C8" ScaleX=".8" ScaleY=".9"></Button>
+
+                <Label TextColor="Black" FontAttributes="Bold" Text="Miércoles" Grid.Row="5"></Label>
+                <Label TextColor="Black" Text="9:00-11:00, 15:00-17:00" Grid.Row="6"></Label>
+                <Button ImageSource="edit.png" Grid.Column="1" Grid.Row="5" Grid.RowSpan="2" BackgroundColor="#1873C8" ScaleX=".8" ScaleY=".9"></Button>
+
+                <Label TextColor="Black" FontAttributes="Bold" Text="Jueves" Grid.Row="7"></Label>
+                <Label TextColor="Black" Text="9:00-11:00, 15:00-17:00" Grid.Row="8"></Label>
+                <Button ImageSource="edit.png" Grid.Column="1" Grid.Row="7" Grid.RowSpan="2" BackgroundColor="#1873C8" ScaleX=".8" ScaleY=".9"></Button>
+
+                <Label TextColor="Black" FontAttributes="Bold" Text="Viernes" Grid.Row="9"></Label>
+                <Label TextColor="Black" Text="9:00-11:00, 15:00-17:00" Grid.Row="10"></Label>
+                <Button ImageSource="edit.png" Grid.Column="1" Grid.Row="9" Grid.RowSpan="2" BackgroundColor="#1873C8" ScaleX=".8" ScaleY=".9"></Button>
+
+            </Grid>
+            
+            <Grid Margin="0,30,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="240"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+
+                </Grid.RowDefinitions>
+
+                <Label TextColor="Black" FontAttributes="Bold" Text="Actividades Asignadas" Grid.ColumnSpan="2" Grid.Row="0"></Label>
+                <Label TextColor="Black" Text="Aún no hay tareas asignadas a este becario" Grid.Row="1" Grid.ColumnSpan="2" ></Label>
+
+            </Grid>
+            <Button Text="Asignar Tarea" BackgroundColor="#1873C8" Margin="0,0,0,0"></Button>
+        </StackLayout>
+    </ScrollView>
+  
+</ContentPage>

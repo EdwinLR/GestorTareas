@@ -29,6 +29,10 @@ namespace GestorTareas.Prism
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
             containerRegistry.RegisterForNavigation<Login, LoginViewModel>();
+            containerRegistry.RegisterForNavigation<ManagerHomePage, ManagerHomePageViewModel>();
+            containerRegistry.RegisterForNavigation<RegisterSchedule, RegisterScheduleViewModel>();
+            containerRegistry.RegisterForNavigation<RegisterTask, RegisterTaskViewModel>();
+            containerRegistry.RegisterForNavigation<AssignedScholarInfo, AssignedScholarInfoViewModel>();
         }
     }
 }
