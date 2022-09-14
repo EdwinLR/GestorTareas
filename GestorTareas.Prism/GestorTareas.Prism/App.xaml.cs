@@ -19,7 +19,7 @@ namespace GestorTareas.Prism
         {
             InitializeComponent();
 
-            await NavigationService.NavigateAsync("NavigationPage/MainPage");
+            await NavigationService.NavigateAsync("NavigationPage/Login");
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
@@ -28,6 +28,7 @@ namespace GestorTareas.Prism
 
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
+            containerRegistry.RegisterForNavigation<Login, LoginViewModel>();
         }
     }
 }
