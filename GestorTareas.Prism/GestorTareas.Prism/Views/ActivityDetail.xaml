@@ -12,12 +12,22 @@
 
     <ContentPage.Content>
         <ScrollView>
-            <StackLayout HorizontalOptions="Fill" VerticalOptions="Start" Margin="20,0,0,20">
+            <StackLayout HorizontalOptions="Fill" Margin="30,50,30,0">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="5*"/>
                         <ColumnDefinition Width="5*"/>
                     </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="15"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="15"/>
+                        <RowDefinition Height="70"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                    </Grid.RowDefinitions>
                     
                     <Label Grid.Column="0" 
                            Grid.Row="0"
@@ -26,8 +36,9 @@
                            TextColor="black"/>
 
                     <Label Grid.Column="0" 
+                           Grid.ColumnSpan="2"
                            Grid.Row="1" 
-                           Text=""
+                           Text="Limpiar anaqueles de Soporte Técnico"
                            FontSize="Medium"
                            TextColor="black"/>
 
@@ -38,8 +49,9 @@
                            TextColor="black"/>
 
                     <Label Grid.Column="0" 
+                           Grid.ColumnSpan="2"
                            Grid.Row="3" 
-                           Text=""
+                           Text="Acudir al área de Soporte Tecnico y realizar la limpieza de los anaqueles del almacen alli ubicados."
                            FontSize="Medium"
                            TextColor="black"/>
 
@@ -51,7 +63,7 @@
 
                     <Label Grid.Column="1" 
                            Grid.Row="4" 
-                           Text=""
+                           Text="09/11/2022"
                            FontSize="Medium"
                            TextColor="black"/>
 
@@ -63,7 +75,7 @@
 
                     <Label Grid.Column="1" 
                            Grid.Row="5" 
-                           Text=""
+                           Text="08:00 am"
                            FontSize="Medium"
                            TextColor="black"/>
 
@@ -75,13 +87,47 @@
 
                     <Label Grid.Column="1" 
                            Grid.Row="6" 
-                           Text=""
+                           Text="Urgente"
                            FontSize="Medium"
                            TextColor="black"/>
                 </Grid>
 
-                <Button Text="📎   Adjuntar evidencia" BackgroundColor="#EE0B28" Margin="0,0,0,0"/>
+                <Button Text="📎   Adjuntar evidencia" BackgroundColor="#EE0B28" Margin="20,20,20,0"/>
 
+                <Grid Padding="30,20,30,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="5*"/>
+                        <ColumnDefinition Width="5*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="100"/>
+                        <RowDefinition Height="25"/>
+                    </Grid.RowDefinitions>
+
+                    <Image Source="image.png"
+                           Grid.Column="0" 
+                           Grid.Row="0"/>
+
+                    <Label Grid.Column="0" 
+                           Grid.Row="1" 
+                           Text="Imagen.png"
+                           FontSize="Small"
+                           HorizontalTextAlignment="Center"
+                           TextColor="black"/>
+
+                    <Image Source="image.png"
+                           Grid.Column="1" 
+                           Grid.Row="0"/>
+
+                    <Label Grid.Column="1" 
+                           Grid.Row="1" 
+                           Text="Documento.pdf"
+                           FontSize="Small"
+                           HorizontalTextAlignment="Center"
+                           TextColor="black"/>
+
+                </Grid>
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>
