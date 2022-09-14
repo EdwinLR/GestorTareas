@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="GestorTareas.Prism.Views.ActivityDetail"
+             BackgroundColor="#F7F7F7">
+
+    <NavigationPage.TitleView>
+        <Image Source="formato_vertical_pleca.jpg" Aspect="Fill"/>
+    </NavigationPage.TitleView>
+
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout HorizontalOptions="Fill" VerticalOptions="Start" Margin="20,0,0,20">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="5*"/>
+                        <ColumnDefinition Width="5*"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <Label Grid.Column="0" 
+                           Grid.Row="0"
+                           Text="Titulo de la Tarea:"
+                           FontSize="Small"
+                           TextColor="black"/>
+
+                    <Label Grid.Column="0" 
+                           Grid.Row="1" 
+                           Text=""
+                           FontSize="Medium"
+                           TextColor="black"/>
+
+                    <Label Grid.Column="0" 
+                           Grid.Row="2" 
+                           Text="Descripción Corta:"
+                           FontSize="Small"
+                           TextColor="black"/>
+
+                    <Label Grid.Column="0" 
+                           Grid.Row="3" 
+                           Text=""
+                           FontSize="Medium"
+                           TextColor="black"/>
+
+                    <Label Grid.Column="0" 
+                           Grid.Row="4" 
+                           Text="Fecha Limite:"
+                           FontSize="Small"
+                           TextColor="black"/>
+
+                    <Label Grid.Column="1" 
+                           Grid.Row="4" 
+                           Text=""
+                           FontSize="Medium"
+                           TextColor="black"/>
+
+                    <Label Grid.Column="0" 
+                           Grid.Row="5" 
+                           Text="Hora Limite:"
+                           FontSize="Small"
+                           TextColor="black"/>
+
+                    <Label Grid.Column="1" 
+                           Grid.Row="5" 
+                           Text=""
+                           FontSize="Medium"
+                           TextColor="black"/>
+
+                    <Label Grid.Column="0" 
+                           Grid.Row="6" 
+                           Text="Tipo de Tarea:"
+                           FontSize="Small"
+                           TextColor="black"/>
+
+                    <Label Grid.Column="1" 
+                           Grid.Row="6" 
+                           Text=""
+                           FontSize="Medium"
+                           TextColor="black"/>
+                </Grid>
+
+                <Button Text="📎   Adjuntar evidencia" BackgroundColor="#EE0B28" Margin="0,0,0,0"/>
+
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+    
+</ContentPage>

@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="GestorTareas.Prism.Views.HomePageScholar"
+             BackgroundColor="#F7F7F7">
+
+    <NavigationPage.TitleView>
+        <Image Source="formato_vertical_pleca.jpg" Aspect="Fill"/>
+    </NavigationPage.TitleView>
+
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout HorizontalOptions="Fill" VerticalOptions="Start" WidthRequest="280" Margin="10,0,0,20">
+                <Grid Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="5*"/>
+                        <ColumnDefinition Width="5*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" 
+                           Grid.Row="0"
+                           Text="Área:"
+                           TextColor="black"></Label>
+
+                    <Label Grid.Column="1" 
+                           Grid.Row="0" 
+                           Text="Jefe:"
+                           TextColor="black"></Label>
+                </Grid>
+
+                <Label Text="Lunes" FontSize="Large" TextColor="black"/>
+                <ListView x:Name="Lunes" HeightRequest="150">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <TextCell Text="{Binding Name}" 
+                               Detail="{Binding Detail}" DetailColor="black"/>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+
+                <Label Text="Martes" FontSize="Large" TextColor="black"/>
+                <ListView x:Name="Martes" HeightRequest="50">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <TextCell Text="{Binding Name}" 
+                               Detail="{Binding Detail}" DetailColor="black"/>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+
+                <Label Text="Miercoles" FontSize="Large"  TextColor="black"/>
+                <ListView x:Name="Miercoles" HeightRequest="50">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <TextCell Text="{Binding Name}" 
+                               Detail="{Binding Detail}" DetailColor="black"/>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+
+                <Label Text="Jueves" FontSize="Large" TextColor="black"/>
+                <ListView x:Name="Jueves" HeightRequest="100">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <TextCell Text="{Binding Name}" 
+                               Detail="{Binding Detail}" DetailColor="black"/>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+
+                <Label Text="Viernes" FontSize="Large" TextColor="black"/>
+                <ListView x:Name="Viernes" HeightRequest="50">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <TextCell Text="{Binding Name}" 
+                               Detail="{Binding Detail}" DetailColor="black"/>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+
+</ContentPage>

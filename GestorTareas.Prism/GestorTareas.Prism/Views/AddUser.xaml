@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="GestorTareas.Prism.Views.AddUser"
+             BackgroundColor="#F7F7F7">
+
+    <NavigationPage.TitleView>
+        <Image Source="formato_vertical_pleca.jpg" Aspect="Fill"/>
+    </NavigationPage.TitleView>
+
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="Start" WidthRequest="280">
+                <Label Text="Nombre(s)" TextColor="black" Margin="0,50,0,0"/>
+                <Entry Keyboard="Text" BackgroundColor="White" TextColor="black"/>
+
+                <Label Text="Apellido Paterno" TextColor="black" Margin="0,20,0,0"/>
+                <Entry Keyboard="Text" BackgroundColor="White" TextColor="black"/>
+
+                <Label Text="Apellido Materno" TextColor="black" Margin="0,20,0,0"/>
+                <Entry Keyboard="Text" BackgroundColor="White" TextColor="black" />
+
+                <Label Text="Email" TextColor="black" Margin="0,20,0,0"/>
+                <Entry Keyboard="Email" BackgroundColor="White" TextColor="black" />
+
+                <Label Text="Teléfono" TextColor="black" Margin="0,20,0,0"/>
+                <Entry Keyboard="Telephone" BackgroundColor="White" TextColor="black" />
+
+                <Label Text="Matrícula" TextColor="black" Margin="0,20,0,0"/>
+                <Entry Keyboard="Numeric" BackgroundColor="White" TextColor="black" />
+
+                <Label Text="Área" TextColor="black" Margin="0,20,0,0"/>
+                <Picker BackgroundColor="White" TextColor="black" />
+
+                <Label Text="Fotografia" TextColor="black" Margin="0,20,0,0"/>
+                <SearchBar BackgroundColor="White" TextColor="black" />
+
+                <Button Text="Ingresar" BackgroundColor="#1873C8" Margin="0,25,0,40"></Button>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+
+</ContentPage>
