@@ -19,7 +19,7 @@ namespace GestorTareas.Prism
         {
             InitializeComponent();
 
-            await NavigationService.NavigateAsync("NavigationPage/Login");
+            await NavigationService.NavigateAsync("NavigationPage/TaskDetail");
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
@@ -28,15 +28,35 @@ namespace GestorTareas.Prism
 
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
+            containerRegistry.RegisterForNavigation<HomePage, HomePageViewModel>();
             containerRegistry.RegisterForNavigation<Login, LoginViewModel>();
             containerRegistry.RegisterForNavigation<ManagerHomePage, ManagerHomePageViewModel>();
+            containerRegistry.RegisterForNavigation<ScholarHomePage, ScholarHomePageViewModel>();
             containerRegistry.RegisterForNavigation<RegisterSchedule, RegisterScheduleViewModel>();
             containerRegistry.RegisterForNavigation<RegisterTask, RegisterTaskViewModel>();
             containerRegistry.RegisterForNavigation<AssignedScholarInfo, AssignedScholarInfoViewModel>();
-            containerRegistry.RegisterForNavigation<RegisteredUsersList, RegisteredUsersListViewModel>();
-            containerRegistry.RegisterForNavigation<AddUser, AddUserViewModel>();
-            containerRegistry.RegisterForNavigation<HomePageScholar, HomePageScholarViewModel>();
-            containerRegistry.RegisterForNavigation<ActivityDetail, ActivityDetailViewModel>();
+            containerRegistry.RegisterForNavigation<RegisteredScholarsList, RegisteredUsersListViewModel>();
+            containerRegistry.RegisterForNavigation<AddNewScholar, AddUserViewModel>();
+            containerRegistry.RegisterForNavigation<TaskDetail, ActivityDetailViewModel>();
+
+            containerRegistry.RegisterForNavigation<AdminHomePage, AdminHomePageViewModel>();
+            containerRegistry.RegisterForNavigation<ScholarsAssigned, ScholarsAssignedViewModel>();
+            containerRegistry.RegisterForNavigation<RegisteredAreaManagersList, RegisteredAreaManagersListViewModel>();
+            containerRegistry.RegisterForNavigation<AddNewAreaManager, AddNewAreaManagerViewModel>();
+            containerRegistry.RegisterForNavigation<AssignedTasks, AssignedTasksViewModel>();
+            containerRegistry.RegisterForNavigation<Settings, SettingsViewModel>();
+            containerRegistry.RegisterForNavigation<ChangePassword, ChangePasswordViewModel>();
+            containerRegistry.RegisterForNavigation<ScholarsPaidHours, ScholarsPaidHoursViewModel>();
+            containerRegistry.RegisterForNavigation<ScholarHoursDetail, ScholarHoursDetailViewModel>();
+            containerRegistry.RegisterForNavigation<ScholarsRequests, ScholarsRequestsViewModel>();
+            containerRegistry.RegisterForNavigation<NewScholarRequest, NewScholarRequestViewModel>();
+            containerRegistry.RegisterForNavigation<RequestDetail, RequestDetailViewModel>();
+            containerRegistry.RegisterForNavigation<TaskProgress, TaskProgressViewModel>();
+            containerRegistry.RegisterForNavigation<ReassingnTask, ReassingnTaskViewModel>();
+            containerRegistry.RegisterForNavigation<AreaManagersScholarsRequests, AreaManagersScholarsRequestsViewModel>();
+            containerRegistry.RegisterForNavigation<RequestValidation, RequestValidationViewModel>();
+            containerRegistry.RegisterForNavigation<RequestDenegationReasons, RequestDenegationReasonsViewModel>();
+            
         }
     }
 }

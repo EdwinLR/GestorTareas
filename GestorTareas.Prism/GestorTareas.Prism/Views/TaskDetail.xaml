@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
              prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="GestorTareas.Prism.Views.ActivityDetail"
+             x:Class="GestorTareas.Prism.Views.TaskDetail"
              BackgroundColor="#F7F7F7">
 
     <NavigationPage.TitleView>
@@ -15,20 +15,21 @@
             <StackLayout HorizontalOptions="Fill" Margin="30,50,30,0">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="5*"/>
-                        <ColumnDefinition Width="5*"/>
+                        <ColumnDefinition Width="120"/>
+                        <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
                     <Grid.RowDefinitions>
                         <RowDefinition Height="15"/>
-                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="30"/>
                         <RowDefinition Height="15"/>
-                        <RowDefinition Height="70"/>
+                        <RowDefinition Height="80"/>
+                        <RowDefinition Height="25"/>
                         <RowDefinition Height="25"/>
                         <RowDefinition Height="25"/>
                         <RowDefinition Height="25"/>
                     </Grid.RowDefinitions>
-                    
+
                     <Label Grid.Column="0" 
                            Grid.Row="0"
                            Text="Titulo de la Tarea:"
@@ -90,11 +91,21 @@
                            Text="Urgente"
                            FontSize="Medium"
                            TextColor="black"/>
+
+                    <Label Grid.Column="0" 
+                           Grid.Row="7" 
+                           Text="Progreso:"
+                           FontSize="Small"
+                           TextColor="black"/>
+
+                    <Slider Grid.Column="1"
+                            Grid.Row="7"
+                            MinimumTrackColor="#1873C8"
+                            MaximumTrackColor="Black"
+                            ThumbColor="#1873C8"/>
                 </Grid>
 
-                <Button Text="📎   Adjuntar evidencia" BackgroundColor="#EE0B28" Margin="20,20,20,0"/>
-
-                <Grid Padding="30,20,30,10">
+                <Grid Padding="30,50,30,10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="5*"/>
                         <ColumnDefinition Width="5*"/>
@@ -128,6 +139,11 @@
                            TextColor="black"/>
 
                 </Grid>
+
+                <Button Text="Adjuntar evidencia" BackgroundColor="#EE0B28" Margin="0,25,0,0"/>
+
+                <Button Text="Confirmar" BackgroundColor="#1873C8" Margin="0,30,0,0"></Button>
+
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>

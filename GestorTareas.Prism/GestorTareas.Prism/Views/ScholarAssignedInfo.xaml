@@ -4,15 +4,17 @@
              xmlns:prism="http://prismlibrary.com"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="GestorTareas.Prism.Views.AssignedScholarInfo" BackgroundColor="#F7F7F7">
+    
     <NavigationPage.TitleView>
         <Image Source="formato_vertical_pleca.jpg" Aspect="Fill"></Image>
     </NavigationPage.TitleView>
+    
     <ScrollView HorizontalOptions="CenterAndExpand">
         <StackLayout Padding="30,10,30,10">
-            <Image Source="ic_person.png" HeightRequest="250"></Image>
+            <Image Source="ic_person.png" HeightRequest="220"></Image>
             <Label Text="Barroeta Martínez Alejandro" TextColor="Black" FontAttributes="Bold" HorizontalOptions="Center"></Label>
             <Label Text="20071361" TextColor="Black" HorizontalOptions="Center"></Label>
-            <Label Text="barroetaalejandro160401@gmail.com" TextColor="Black" HorizontalOptions="Center" Margin="0,0,0,20"></Label>
+            <Label Text="barroetaalejandro160401@gmail.com" TextColor="Black" HorizontalOptions="Center" Margin="0,0,0,30"></Label>
 
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -68,27 +70,19 @@
                     <ColumnDefinition Width="*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition></RowDefinition>
-
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
-
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
-
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
-
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
-
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
-
+                    <RowDefinition Height="20"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
                 </Grid.RowDefinitions>
 
                 <Label TextColor="Black" FontAttributes="Bold" Text="Actividades Asignadas" Grid.ColumnSpan="2" Grid.Row="0"></Label>
-                <Label TextColor="Black" Text="Aún no hay tareas asignadas a este becario" Grid.Row="1" Grid.ColumnSpan="2" ></Label>
+                <ListView x:Name="Tasks" HeightRequest="150" Grid.ColumnSpan="2" Grid.Row="1">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <TextCell Text="{Binding Name}" 
+                               Detail="{Binding Detail}" DetailColor="black"/>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
 
             </Grid>
             <Button Text="Asignar Tarea" BackgroundColor="#1873C8" Margin="0,0,0,0"></Button>

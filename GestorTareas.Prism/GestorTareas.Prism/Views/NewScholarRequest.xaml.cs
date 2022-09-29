@@ -2,9 +2,9 @@
 
 namespace GestorTareas.Prism.Views
 {
-    public partial class AssignedScholarInfo : ContentPage
+    public partial class NewScholarRequest : ContentPage
     {
-        public AssignedScholarInfo()
+        public NewScholarRequest()
         {
             InitializeComponent();
         }

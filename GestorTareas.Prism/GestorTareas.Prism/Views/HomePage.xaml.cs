@@ -2,9 +2,9 @@
 
 namespace GestorTareas.Prism.Views
 {
-    public partial class MainPage : FlyoutPage
+    public partial class HomePage : ContentPage
     {
-        public MainPage()
+        public HomePage()
         {
             InitializeComponent();
         }

@@ -3,9 +3,9 @@ using Xamarin.Forms;
 
 namespace GestorTareas.Prism.Views
 {
-    public partial class ManagerHomePage : ContentPage
+    public partial class ScholarHomePage : ContentPage
     {
-        public ManagerHomePage()
+        public ScholarHomePage()
         {
             InitializeComponent();
 
@@ -13,25 +13,13 @@ namespace GestorTareas.Prism.Views
             {
                 new MenuItem()
                 {
-                    Item = "Becarios Asignados",
+                    Item = "Tareas Asignadas",
                     Detail = "",
                     Image = "ic_person.png"
                 },
                 new MenuItem()
                 {
-                    Item = "Consulta horas registradas por becario",
-                    Detail = "",
-                    Image = "ic_person.png"
-                },
-                new MenuItem()
-                {
-                    Item = "Solicitud de Becarios",
-                    Detail = "",
-                    Image = "ic_person.png"
-                },
-                new MenuItem()
-                {
-                    Item = "Búsqueda de Becarios",
+                    Item = "Horas retribuidas",
                     Detail = "",
                     Image = "ic_person.png"
                 }
@@ -46,3 +34,4 @@ namespace GestorTareas.Prism.Views
         }
     }
 }
+

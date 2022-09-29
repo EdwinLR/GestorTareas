@@ -6,9 +6,9 @@ using Xamarin.Forms;
 
 namespace GestorTareas.Prism.Views
 {
-    public partial class RegisteredUsersList : ContentPage
+    public partial class RegisteredScholarsList : ContentPage
     {
-        public RegisteredUsersList()
+        public RegisteredScholarsList()
         {
             InitializeComponent();
             list.ItemsSource = new List<Person>()

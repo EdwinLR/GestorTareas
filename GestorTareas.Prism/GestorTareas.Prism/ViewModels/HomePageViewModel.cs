@@ -6,9 +6,9 @@ using System.Linq;
 
 namespace GestorTareas.Prism.ViewModels
 {
-    public class HomePageScholarViewModel : BindableBase
+    public class HomePageViewModel : BindableBase
     {
-        public HomePageScholarViewModel()
+        public HomePageViewModel()
         {
 
         }

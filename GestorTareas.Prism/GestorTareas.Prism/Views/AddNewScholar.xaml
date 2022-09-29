@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
              prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="GestorTareas.Prism.Views.AddUser"
+             x:Class="GestorTareas.Prism.Views.AddNewScholar"
              BackgroundColor="#F7F7F7">
 
     <NavigationPage.TitleView>
@@ -31,13 +31,22 @@
                 <Label Text="Matrícula" TextColor="black" Margin="0,20,0,0"/>
                 <Entry Keyboard="Numeric" BackgroundColor="White" TextColor="black" />
 
-                <Label Text="Área" TextColor="black" Margin="0,20,0,0"/>
+                <Label Text="Tipo de Beca" TextColor="black" Margin="0,20,0,0"/>
+                <Picker BackgroundColor="White" TextColor="black" />
+
+                <Label Text="Porcentaje de Beca" TextColor="black" Margin="0,20,0,0"/>
+                <Picker BackgroundColor="White" TextColor="black" />
+
+                <Label Text="Jefe de Área a asignar" TextColor="black" Margin="0,20,0,0"/>
                 <Picker BackgroundColor="White" TextColor="black" />
 
                 <Label Text="Fotografia" TextColor="black" Margin="0,20,0,0"/>
-                <SearchBar BackgroundColor="White" TextColor="black" />
 
-                <Button Text="Ingresar" BackgroundColor="#1873C8" Margin="0,25,0,40"></Button>
+                <Image Source="ic_person.png" HeightRequest="220"></Image>
+
+                <Button Text="Cargar Foto" BackgroundColor="#EE0B28" Margin="0,15,0,40"></Button>
+
+                <Button Text="Crear Usuario" BackgroundColor="#1873C8" Margin="0,25,0,40"></Button>
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>

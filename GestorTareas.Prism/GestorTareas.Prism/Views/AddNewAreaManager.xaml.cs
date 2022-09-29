@@ -2,9 +2,9 @@
 
 namespace GestorTareas.Prism.Views
 {
-    public partial class MainPage : FlyoutPage
+    public partial class AddNewAreaManager : ContentPage
     {
-        public MainPage()
+        public AddNewAreaManager()
         {
             InitializeComponent();
         }

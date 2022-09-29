@@ -2,9 +2,9 @@
 
 namespace GestorTareas.Prism.Views
 {
-    public partial class AddUser : ContentPage
+    public partial class RequestValidation : ContentPage
     {
-        public AddUser()
+        public RequestValidation()
         {
             InitializeComponent();
         }

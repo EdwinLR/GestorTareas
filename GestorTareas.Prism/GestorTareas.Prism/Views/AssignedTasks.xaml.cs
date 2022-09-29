@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
 using Xamarin.Forms;
-using static GestorTareas.Prism.Views.RegisteredUsersList;
 
 namespace GestorTareas.Prism.Views
 {
-    public partial class HomePageScholar : ContentPage
+    public partial class AssignedTasks : ContentPage
     {
-        public HomePageScholar()
+        public AssignedTasks()
         {
             InitializeComponent();
 

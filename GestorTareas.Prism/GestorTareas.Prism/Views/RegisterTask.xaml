@@ -9,11 +9,11 @@
     </NavigationPage.TitleView>
     <ScrollView HorizontalOptions="CenterAndExpand" WidthRequest="290">
         <StackLayout>
-            <Label Text="Título de la tarea" TextColor="black" Margin="0,10,0,0"/>
+            <Label Text="Título de la tarea" TextColor="black" Margin="0,30,0,0"/>
             <Entry Keyboard="Default" BackgroundColor="White" TextColor="Black"/>
 
             <Label Text="Descripción Corta" TextColor="black" Margin="0,10,0,0"/>
-            <Entry Keyboard="Default" BackgroundColor="White" TextColor="Black"  HeightRequest="200"/>
+            <Entry Keyboard="Default" BackgroundColor="White" TextColor="Black"  HeightRequest="160"/>
 
             <Label Text="Fecha Límite" TextColor="black" Margin="0,10,0,0"/>
             <DatePicker BackgroundColor="White" TextColor="Black"></DatePicker>
@@ -31,7 +31,16 @@
                 </Picker.Items>
             </Picker>
 
-            <Button Text="Asignar " BackgroundColor="#1873C8" Margin="0,10,0,0"></Button>
+            <Label Text="Prioridad" TextColor="black" Margin="0,10,0,0"/>
+            <Picker BackgroundColor="White" TextColor="Black">
+                <Picker.Items>
+                    <x:String>Puede esperar</x:String>
+                    <x:String>Regular</x:String>
+                    <x:String>Urgente</x:String>
+                </Picker.Items>
+            </Picker>
+
+            <Button Text="Asignar actividad" BackgroundColor="#1873C8" Margin="0,20,0,0"></Button>
         </StackLayout>
     </ScrollView>
 
