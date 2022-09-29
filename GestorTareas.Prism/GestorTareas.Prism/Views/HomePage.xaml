@@ -12,6 +12,6 @@
 
     <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="Start">
         <Image Source="LOGO_UMAD.png" WidthRequest="230" Margin="10,200,0,0"></Image>
-        <ActivityIndicator IsRunning="True" Color="#EE0B28"></ActivityIndicator>
+        <ActivityIndicator IsRunning="True" Color="#A01033"></ActivityIndicator>
     </StackLayout>
 </ContentPage>

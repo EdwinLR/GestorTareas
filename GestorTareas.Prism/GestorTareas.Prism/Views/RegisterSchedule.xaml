@@ -17,14 +17,16 @@
             <Button Grid.Column="1" ImageSource="add.png" Margin="-10,-30,0,0" BackgroundColor="#a8123b"></Button>
         </Grid>
     </NavigationPage.TitleView>
-    <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="Start" WidthRequest="280">
+    <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="Center" WidthRequest="280">
 
         <Label Text="Hora Inicio" TextColor="black" Margin="0,20,0,0"/>
         <TimePicker BackgroundColor="White" TextColor="Black"></TimePicker>
 
         <Label Text="Hora Término" TextColor="black" Margin="0,20,0,0"/>
         <TimePicker BackgroundColor="White" TextColor="Black"></TimePicker>
-        <Button Text="Confirmar Horario" BackgroundColor="#1873C8" Margin="0,400,0,0"></Button>
+        
+        
+        <Button Text="Confirmar Horario" BackgroundColor="#1873C8" Margin="0,300,0,0"></Button>
 
     </StackLayout>
   

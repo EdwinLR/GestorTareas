@@ -140,7 +140,7 @@
 
                 </Grid>
 
-                <Button Text="Adjuntar evidencia" BackgroundColor="#EE0B28" Margin="0,25,0,0"/>
+                <Button Text="Adjuntar evidencia" BackgroundColor="#A01033" Margin="0,25,0,0"/>
 
                 <Button Text="Confirmar" BackgroundColor="#1873C8" Margin="0,30,0,0"></Button>
 

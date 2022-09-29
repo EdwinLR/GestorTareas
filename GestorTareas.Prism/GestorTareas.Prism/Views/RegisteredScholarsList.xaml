@@ -11,7 +11,7 @@
     </NavigationPage.TitleView>
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem IconImageSource="add.png"></ToolbarItem>
+        <ToolbarItem IconImageSource="add.png"/>
     </ContentPage.ToolbarItems>
 
     <StackLayout HorizontalOptions="Fill" VerticalOptions="Start" WidthRequest="280">

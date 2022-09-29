@@ -44,7 +44,7 @@
 
                 <Image Source="ic_person.png" HeightRequest="220"></Image>
 
-                <Button Text="Cargar Foto" BackgroundColor="#EE0B28" Margin="0,15,0,40"></Button>
+                <Button Text="Cargar Foto" BackgroundColor="#A01033" Margin="0,15,0,40"></Button>
 
                 <Button Text="Crear Usuario" BackgroundColor="#1873C8" Margin="0,25,0,40"></Button>
             </StackLayout>

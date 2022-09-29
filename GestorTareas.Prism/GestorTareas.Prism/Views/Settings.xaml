@@ -3,6 +3,23 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
              prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="GestorTareas.Prism.Views.Settings">
-  
+             x:Class="GestorTareas.Prism.Views.Settings" BackgroundColor="#F7F7F7">
+
+    <NavigationPage.TitleView>
+        <Image Source="formato_vertical_pleca.jpg" Aspect="Fill"></Image>
+    </NavigationPage.TitleView>
+
+    <ScrollView HorizontalOptions="CenterAndExpand">
+        <StackLayout Padding="30,10,30,10">
+            <Image Source="ic_person.png" HeightRequest="220" Margin="0,20,0,0"></Image>
+            <Label Text="Barroeta Martínez Alejandro" TextColor="Black" FontAttributes="Bold" HorizontalOptions="Center" FontSize="Large"></Label>
+            <Label Text="20071361" TextColor="Black" HorizontalOptions="Center"></Label>
+            <Label Text="barroetaalejandro160401@gmail.com" TextColor="Black" HorizontalOptions="Center" Margin="0,0,0,0"></Label>
+
+            <Button Text="Cambiar Contraseña" BackgroundColor="#1873C8" Margin="0,120,0,0"></Button>
+
+            <Button Text="Cerrar Sesión" BackgroundColor="#A01033" Margin="0,25,0,0"/>
+        </StackLayout>
+    </ScrollView>
+
 </ContentPage>
