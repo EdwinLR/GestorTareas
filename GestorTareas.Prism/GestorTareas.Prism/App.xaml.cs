@@ -19,7 +19,7 @@ namespace GestorTareas.Prism
         {
             InitializeComponent();
 
-            await NavigationService.NavigateAsync("NavigationPage/ChangePassword");
+            await NavigationService.NavigateAsync("NavigationPage/Login");
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)

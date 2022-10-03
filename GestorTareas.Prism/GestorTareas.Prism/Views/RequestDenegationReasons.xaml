@@ -3,6 +3,56 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
              prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="GestorTareas.Prism.Views.RequestDenegationReasons">
-  
+             x:Class="GestorTareas.Prism.Views.RequestDenegationReasons"
+             BackgroundColor="#F7F7F7">
+
+    <NavigationPage.TitleView>
+        <Image Source="formato_vertical_pleca.jpg" Aspect="Fill"/>
+    </NavigationPage.TitleView>
+
+    <StackLayout HorizontalOptions="Fill" VerticalOptions="Start" WidthRequest="280" Margin="30,40,30,0">
+        <Label Text="Seleccione una o más razones por las cuales se denegó la solicitud:"
+               FontSize="Small"
+               HorizontalTextAlignment="Start"
+               TextColor="black"
+               FontAttributes="Bold"
+               Margin="0,0,0,0"/>
+
+        <Grid Margin="0,10,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="40"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
+
+            <CheckBox Grid.Column="0"
+                      Grid.Row="0"
+                      VerticalOptions="Center"/>
+
+            <Label Grid.Column="1"
+                   Grid.Row="0"
+                   Text="Sin becarios disponibles durante este periodo."
+                   FontSize="Small"
+                   HorizontalTextAlignment="Start"
+                   VerticalTextAlignment="Center"
+                   TextColor="black"/>
+
+            <CheckBox Grid.Column="0"
+                      Grid.Row="1"
+                      VerticalOptions="Center"/>
+
+            <Label Grid.Column="1"
+                   Grid.Row="1"
+                   Text="Número de becarios en el área superado."
+                   FontSize="Small"
+                   HorizontalTextAlignment="Start"
+                   VerticalTextAlignment="Center"
+                   TextColor="black"/>
+        </Grid>
+
+        <Button Text="Aceptar" BackgroundColor="#1873C8" Margin="0,450,0,0"/>
+    </StackLayout>
 </ContentPage>

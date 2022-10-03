@@ -3,6 +3,27 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
              prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="GestorTareas.Prism.Views.ScholarsRequests">
-  
+             x:Class="GestorTareas.Prism.Views.ScholarsRequests"
+             BackgroundColor="#F7F7F7">
+
+    <NavigationPage.TitleView>
+        <Image Source="formato_vertical_pleca.jpg" Aspect="Fill"/>
+    </NavigationPage.TitleView>
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem IconImageSource="add.png"/>
+    </ContentPage.ToolbarItems>
+
+    <StackLayout HorizontalOptions="Fill" VerticalOptions="Start" WidthRequest="280">
+
+        <ListView x:Name="list" Margin="20,30,20,30">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextCell Text="{Binding RequestName}" 
+                               Detail="{Binding State}"/>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+    </StackLayout>
 </ContentPage>

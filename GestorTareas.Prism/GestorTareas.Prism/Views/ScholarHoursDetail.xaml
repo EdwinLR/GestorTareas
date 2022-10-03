@@ -3,6 +3,150 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
              prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="GestorTareas.Prism.Views.ScholarHoursDetail">
-  
+             x:Class="GestorTareas.Prism.Views.ScholarHoursDetail"
+             BackgroundColor="#F7F7F7">
+
+    <NavigationPage.TitleView>
+        <Image Source="formato_vertical_pleca.jpg" Aspect="Fill"/>
+    </NavigationPage.TitleView>
+
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout HorizontalOptions="Fill" Margin="20,20,20,0">
+
+                <Grid Padding="0,20,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="50"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="20"/>
+                        <RowDefinition Height="20"/>
+                        <RowDefinition Height="20"/>
+                    </Grid.RowDefinitions>
+
+                    <Label Grid.Column="0" 
+                           Grid.Row="0" 
+                           Text="Horas Totales:"
+                           FontSize="Small"
+                           HorizontalTextAlignment="Start"
+                           TextColor="black"
+                           FontAttributes="Bold"/>
+
+                    <Label Grid.Column="1" 
+                           Grid.Row="0" 
+                           Text="375"
+                           FontSize="Small"
+                           HorizontalTextAlignment="Start"
+                           TextColor="black"/>
+
+                    <Label Grid.Column="0" 
+                           Grid.Row="1" 
+                           Text="Horas Registradas:"
+                           FontSize="Small"
+                           HorizontalTextAlignment="Start"
+                           TextColor="black"
+                           FontAttributes="Bold"/>
+
+                    <Label Grid.Column="1" 
+                           Grid.Row="1" 
+                           Text="100"
+                           FontSize="Small"
+                           HorizontalTextAlignment="Start"
+                           TextColor="black"/>
+
+                    <Label Grid.Column="0" 
+                           Grid.Row="2" 
+                           Text="Horas Restantes:"
+                           FontSize="Small"
+                           HorizontalTextAlignment="Start"
+                           TextColor="black"
+                           FontAttributes="Bold"/>
+
+                    <Label Grid.Column="1" 
+                           Grid.Row="2" 
+                           Text="275"
+                           FontSize="Small"
+                           HorizontalTextAlignment="Start"
+                           TextColor="black"/>
+                </Grid>
+
+                <Grid Padding="0,30,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="30"/>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="50"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="100"/>
+                    </Grid.RowDefinitions>
+
+                    <Label Grid.Column="0" 
+                           Grid.Row="0" 
+                           Text="No."
+                           FontSize="Small"
+                           HorizontalTextAlignment="Center"
+                           TextColor="black"
+                           FontAttributes="Bold"/>
+
+                    <Label Grid.Column="1" 
+                           Grid.Row="0" 
+                           Text="Responsable"
+                           FontSize="Small"
+                           HorizontalTextAlignment="Center"
+                           TextColor="black"
+                           FontAttributes="Bold"/>
+
+                    <Label Grid.Column="2" 
+                           Grid.Row="0" 
+                           Text="Fecha"
+                           FontSize="Small"
+                           HorizontalTextAlignment="Center"
+                           TextColor="black"
+                           FontAttributes="Bold"/>
+
+                    <Label Grid.Column="3" 
+                           Grid.Row="0" 
+                           Text="Horas"
+                           FontSize="Small"
+                           HorizontalTextAlignment="Center"
+                           TextColor="black"
+                           FontAttributes="Bold"/>
+
+                    <Label Grid.Column="0" 
+                           Grid.Row="1" 
+                           Text="1"
+                           FontSize="Small"
+                           HorizontalTextAlignment="Center"
+                           TextColor="black"/>
+
+                    <Label Grid.Column="1" 
+                           Grid.Row="1" 
+                           Text="Sanchez Nava Rosa Maria"
+                           FontSize="Small"
+                           HorizontalTextAlignment="Center"
+                           TextColor="black"/>
+
+                    <Label Grid.Column="2" 
+                           Grid.Row="1" 
+                           Text="28/09/2022"
+                           FontSize="Small"
+                           HorizontalTextAlignment="Center"
+                           TextColor="black"/>
+
+                    <Label Grid.Column="3" 
+                           Grid.Row="1" 
+                           Text="100"
+                           FontSize="Small"
+                           HorizontalTextAlignment="Center"
+                           TextColor="black"/>
+                </Grid>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
 </ContentPage>

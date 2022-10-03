@@ -3,6 +3,24 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
              prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="GestorTareas.Prism.Views.NewScholarRequest">
-  
+             x:Class="GestorTareas.Prism.Views.NewScholarRequest"
+             BackgroundColor="#F7F7F7">
+
+    <NavigationPage.TitleView>
+        <Image Source="formato_vertical_pleca.jpg" Aspect="Fill"/>
+    </NavigationPage.TitleView>
+
+    <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="Start" WidthRequest="280">
+
+        <Label Text="Número de Becarios a solicitar:" TextColor="black" Margin="0,40,0,0"/>
+        <Entry BackgroundColor="White" TextColor="Black" Keyboard="Numeric"/>
+
+        <Label Text="Justificación:" TextColor="black" Margin="0,20,0,0"/>
+        <Entry BackgroundColor="White" TextColor="Black" HeightRequest="140"/>
+
+        <Label Text="Observaciones:" TextColor="black" Margin="0,20,0,0"/>
+        <Entry BackgroundColor="White" TextColor="Black" HeightRequest="140"/>
+
+        <Button Text="Enviar Solicitud" BackgroundColor="#1873C8" Margin="0,110,0,0"/>
+    </StackLayout>
 </ContentPage>
