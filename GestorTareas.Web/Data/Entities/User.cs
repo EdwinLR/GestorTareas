@@ -12,9 +12,15 @@ namespace GestorTareas.Web.Data.Entities
 
         [Required(ErrorMessage = "{0} es obligatorio.")]
         [MaxLength(50, ErrorMessage = "El campo {0} no puede tener más de {1} caracteres.")]
-        [Display(Name = "Apellidos")]
-        public string LastName { get; set; }
+        [Display(Name = "Apellido Paterno")]
+        public string FatherLastName { get; set; }
 
+        [Required(ErrorMessage = "{0} es obligatorio.")]
+        [MaxLength(50, ErrorMessage = "El campo {0} no puede tener más de {1} caracteres.")]
+        [Display(Name = "Apellido Materno")]
+        public string MotherLastName { get; set; }
 
+        [Display(Name = "Nombre Completo")]
+        public string FullName => $"{FatherLastName} {MotherLastName} {FirstName}";
     }
 }

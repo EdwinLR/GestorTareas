@@ -1,9 +1,11 @@
 using GestorTareas.Web.Data;
 using GestorTareas.Web.Data.Entities;
+using GestorTareas.Web.Helpers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -31,18 +33,30 @@ namespace GestorTareas.Web
             services.AddIdentity<User, IdentityRole>(cfg =>
             {
                 cfg.User.RequireUniqueEmail = true;
-                cfg.Password.RequireDigit = false;
+                cfg.Password.RequireDigit = true;
                 cfg.Password.RequiredUniqueChars = 0;
                 cfg.Password.RequireLowercase = false;
                 cfg.Password.RequireNonAlphanumeric = false;
-                cfg.Password.RequireUppercase = false;
-                cfg.Password.RequiredLength = 7;
+                cfg.Password.RequireUppercase = true;
+                cfg.Password.RequiredLength = 6;
             })
 
            .AddEntityFrameworkStores<DataContext>();
             services.AddDbContext<DataContext>(cfg =>
             {
                 cfg.UseSqlServer(Configuration.GetConnectionString("DefaultConection"));
+            });
+
+            services.AddTransient<Seeder>();
+            services.AddScoped<IUserHelper, UserHelper>();
+            //services.AddScoped<ICombosHelper, CombosHelper>();
+            //services.AddScoped<IImageHelper, ImageHelper>();
+            services.AddControllersWithViews();
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = "/Accounts/NotAutorized";
+                options.AccessDeniedPath = "/Accounts/NotAutorized";
             });
         }
 
