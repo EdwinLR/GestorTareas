@@ -12,6 +12,6 @@ namespace GestorTareas.Web.Data.Entities
         [Display(Name = "Género")]
         public string Name { get; set; }
 
-        public ICollection<User> Users { get; set; }
+        public ICollection<Student> Students { get; set; }
     }
 }

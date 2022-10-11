@@ -3,7 +3,7 @@ using System;
 
 namespace GestorTareas.Web.Data.Entities
 {
-    public class AssignedTask
+    public class Activity
     {
         public int Id { get; set; }
 
@@ -26,9 +26,11 @@ namespace GestorTareas.Web.Data.Entities
         [Display(Name = "Hora límite")]
         [DisplayFormat(ApplyFormatInEditMode = false, DataFormatString = "{0:hh:mm:ss}")]
         public DateTime DeadlineTime { get; set; }
-
-
+        public int Progress { get; set; }
+        public DateTime CreationDate { get; set; }
         public Category Category { get; set; }
         public Priority Priority { get; set; }
+        public Teacher Teacher { get; set; }
+
     }
 }

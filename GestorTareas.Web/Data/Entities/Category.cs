@@ -12,6 +12,6 @@ namespace GestorTareas.Web.Data.Entities
         [Display(Name = "Categoría")]
         public string Name { get; set; }
 
-        public ICollection<AssignedTask> AssignedTasks { get; set; }
+        public ICollection<Activity> AssignedTasks { get; set; }
     }
 }

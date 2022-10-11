@@ -10,9 +10,9 @@ namespace GestorTareas.Web.Data.Entities
         [Required(ErrorMessage = "La matrícula es requerido")]
         [Display(Name = "Matrícula")]
         public int StudentId { get; set; }
-
         public Career Career { get; set; }
         public Gender Gender { get; set; }
+        public string PhotoUrl { get; set; }
         public User User { get; set; }
     }
 }
