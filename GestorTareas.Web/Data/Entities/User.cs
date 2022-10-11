@@ -22,5 +22,8 @@ namespace GestorTareas.Web.Data.Entities
 
         [Display(Name = "Nombre Completo")]
         public string FullName => $"{FatherLastName} {MotherLastName} {FirstName}";
+
+        [Display(Name = "Foto")]
+        public string PhotoUrl { get; set; }
     }
 }

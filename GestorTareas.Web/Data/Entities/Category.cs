@@ -10,8 +10,8 @@ namespace GestorTareas.Web.Data.Entities
         [Required(ErrorMessage = "Nombre de la categoría requerido")]
         [StringLength(30)]
         [Display(Name = "Categoría")]
-        public string Name { get; set; }
+        public string CategoryName { get; set; }
 
-        public ICollection<Activity> AssignedTasks { get; set; }
+        public ICollection<Activity> Activities { get; set; }
     }
 }

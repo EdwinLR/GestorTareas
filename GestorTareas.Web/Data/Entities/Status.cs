@@ -10,7 +10,7 @@ namespace GestorTareas.Web.Data.Entities
         [Required(ErrorMessage = "Nombre del estado requerido")]
         [StringLength(30)]
         [Display(Name = "Estado")]
-        public string Name { get; set; }
+        public string StatusName { get; set; }
 
         public ICollection<Activity> Activities { get; set; }
     }

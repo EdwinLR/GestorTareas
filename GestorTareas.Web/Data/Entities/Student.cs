@@ -12,7 +12,6 @@ namespace GestorTareas.Web.Data.Entities
         public int StudentId { get; set; }
         public Career Career { get; set; }
         public Gender Gender { get; set; }
-        public string PhotoUrl { get; set; }
         public User User { get; set; }
     }
 }

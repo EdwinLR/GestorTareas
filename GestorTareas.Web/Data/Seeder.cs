@@ -77,7 +77,7 @@ namespace GestorTareas.Web.Data
         {
             this.dataContext.Genders.Add(new Gender
             {
-                Name = name
+                GenderName = name
             }
             );
             await this.dataContext.SaveChangesAsync();
@@ -87,7 +87,7 @@ namespace GestorTareas.Web.Data
         {
             this.dataContext.Categories.Add(new Category
             {
-                Name = name
+                CategoryName = name
             }
             );
             await this.dataContext.SaveChangesAsync();
@@ -97,7 +97,7 @@ namespace GestorTareas.Web.Data
         {
             this.dataContext.Priorities.Add(new Priority
             {
-                Name = name
+                PriorityName = name
             }
             );
             await this.dataContext.SaveChangesAsync();
@@ -107,7 +107,7 @@ namespace GestorTareas.Web.Data
         {
             this.dataContext.Statuses.Add(new Status
             {
-                Name = name
+                StatusName = name
             }
             );
             await this.dataContext.SaveChangesAsync();

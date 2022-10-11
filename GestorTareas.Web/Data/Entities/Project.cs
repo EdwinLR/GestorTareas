@@ -6,7 +6,7 @@ namespace GestorTareas.Web.Data.Entities
     {
         public int Id { get; set; }
         public string ProjectName { get; set; }
-        public Convocation Annoucement { get; set; }
+        public Convocation Convocation { get; set; }
         public ICollection<ProjectCollaborator> ProjectCollaborators { get; set; }
         public ICollection<AssignedActivity> AssignedActivities{ get; set; }
     }

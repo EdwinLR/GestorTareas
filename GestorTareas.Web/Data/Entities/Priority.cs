@@ -10,8 +10,8 @@ namespace GestorTareas.Web.Data.Entities
         [Required(ErrorMessage = "Nombre de la prioridad requerido")]
         [StringLength(30)]
         [Display(Name = "Prioridad")]
-        public string Name { get; set; }
+        public string PriorityName { get; set; }
 
-        public ICollection<Activity> AssignedTasks { get; set; }
+        public ICollection<Activity> Activities { get; set; }
     }
 }

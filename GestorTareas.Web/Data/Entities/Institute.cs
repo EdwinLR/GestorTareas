@@ -9,5 +9,7 @@ namespace GestorTareas.Web.Data.Entities
         public string ContactPhone { get; set; }
         public ContactPerson ContactPerson { get; set; }
         public ICollection<Convocation> Annoucements { get; set; }
+
+        //Pendiente: Agregar dirección (Ciudad,Calle, número, colonia)
     }
 }

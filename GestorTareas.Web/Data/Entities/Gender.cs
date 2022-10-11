@@ -10,7 +10,7 @@ namespace GestorTareas.Web.Data.Entities
         [Required(ErrorMessage = "Nombre del genéro requerido")]
         [StringLength(15)]
         [Display(Name = "Género")]
-        public string Name { get; set; }
+        public string GenderName { get; set; }
 
         public ICollection<Student> Students { get; set; }
     }
