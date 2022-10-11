@@ -8,6 +8,6 @@ namespace GestorTareas.Web.Data.Entities
         public string Name { get; set; }
         public string ContactPhone { get; set; }
         public ContactPerson ContactPerson { get; set; }
-        public ICollection<Annoucement> Annoucements { get; set; }
+        public ICollection<Convocation> Annoucements { get; set; }
     }
 }

@@ -8,7 +8,7 @@ namespace GestorTareas.Web.Data
     {
         public DbSet<Activity> Activities { get; set; }
         public DbSet<Admin> Admins { get; set; }
-        public DbSet<Annoucement> Annoucements { get; set; }
+        public DbSet<Convocation> Convocations { get; set; }
         public DbSet<AssignedActivity> AssignedActivities { get; set; }
         public DbSet<Career> Careers { get; set; }
         public DbSet<Category> Categories { get; set; }

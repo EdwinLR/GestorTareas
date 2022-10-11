@@ -10,7 +10,7 @@ namespace GestorTareas.Web.Data.Entities
         [Required(ErrorMessage = "Título de la tarea requerido")]
         [StringLength(100)]
         [Display(Name = "Título de la tarea")]
-        public string TaskTitle { get; set; }
+        public string Title { get; set; }
 
         [Required(ErrorMessage = "Descripción requerida")]
         [StringLength(250)]
@@ -30,6 +30,7 @@ namespace GestorTareas.Web.Data.Entities
         public DateTime CreationDate { get; set; }
         public Category Category { get; set; }
         public Priority Priority { get; set; }
+        public Status Status { get; set; }
         public Teacher Teacher { get; set; }
 
     }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace GestorTareas.Web.Data.Entities
 {
-    public class Annoucement:IEntity
+    public class Convocation:IEntity
     {
         public int Id { get; set; }
         public DateTime StartingDate { get; set; }
