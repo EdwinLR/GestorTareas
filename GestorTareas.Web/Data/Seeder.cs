@@ -28,7 +28,7 @@ namespace GestorTareas.Web.Data
 
             if (!this.dataContext.Careers.Any())
             {
-                await CheckCareer("ISF");
+                await CheckCareer("Ingeniería en Software", "ISF");
             }
 
             if (!this.dataContext.Categories.Any())
@@ -61,13 +61,22 @@ namespace GestorTareas.Web.Data
                 await CheckStatus("Terminada");
             }
 
+            if (!this.dataContext.Students.Any())
+            {
+                var user = await CheckUser("Alejandro", "Barroeta", "Martinez", "alexbm@umad.edu.mx", "20071361ABM");
+                var career = this.dataContext.Careers.FirstOrDefault(f => f.Id == 1);
+                var gender = this.dataContext.Genders.FirstOrDefault(f => f.Id == 1);
+                await CheckStudent(user, "Student", 20071361, career, gender);
+            }
+
         }
 
-        private async Task CheckCareer(string name)
+        private async Task CheckCareer(string name, string code)
         {
             this.dataContext.Careers.Add(new Career
             {
-                Name = name
+                Name = name,
+                CareerCode = code
             }
             );
             await this.dataContext.SaveChangesAsync();
@@ -111,6 +120,19 @@ namespace GestorTareas.Web.Data
             }
             );
             await this.dataContext.SaveChangesAsync();
+        }
+
+        private async Task CheckStudent(User user, string role, int studentId, Career career, Gender gender)
+        {
+            this.dataContext.Students.Add(new Student
+            {
+                User = user,
+                StudentId = studentId,
+                Career = career,
+                Gender = gender
+            });
+            await this.dataContext.SaveChangesAsync();
+            await userHelper.AddUserToRoleAsync(user, role);
         }
 
         private async Task<User> CheckUser(string firstName, string fatherlastName, string motherlastName, string email, string password)
