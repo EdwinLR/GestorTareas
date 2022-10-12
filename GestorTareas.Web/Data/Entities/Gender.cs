@@ -13,5 +13,7 @@ namespace GestorTareas.Web.Data.Entities
         public string GenderName { get; set; }
 
         public ICollection<Student> Students { get; set; }
+        public ICollection<Teacher> Teachers { get; set; }
+        public ICollection<Coordinator> Coordinators { get; set; }
     }
 }

@@ -69,6 +69,12 @@ namespace GestorTareas.Web.Data
                 await CheckStudent(user, "Student", 20071361, career, gender);
             }
 
+            if(!this.dataContext.Admins.Any())
+            {
+                var user = await CheckUser("Admin", "Admin", "Admin", "admin@umad.edu.mx", "00000001ADM");
+                await CheckAdmin(user, "Admin");
+            }
+
         }
 
         private async Task CheckCareer(string name, string code)
@@ -130,6 +136,16 @@ namespace GestorTareas.Web.Data
                 StudentId = studentId,
                 Career = career,
                 Gender = gender
+            });
+            await this.dataContext.SaveChangesAsync();
+            await userHelper.AddUserToRoleAsync(user, role);
+        }
+
+        private async Task CheckAdmin(User user, string role)
+        {
+            this.dataContext.Admins.Add(new Admin
+            {
+                User = user
             });
             await this.dataContext.SaveChangesAsync();
             await userHelper.AddUserToRoleAsync(user, role);

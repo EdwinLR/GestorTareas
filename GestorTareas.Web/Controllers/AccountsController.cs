@@ -1,7 +1,9 @@
-﻿using GestorTareas.Web.Helpers;
+﻿using GestorTareas.Web.Data;
+using GestorTareas.Web.Helpers;
 using GestorTareas.Web.Models;
 using Microsoft.AspNetCore.Mvc;
-using System;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace GestorTareas.Web.Controllers
@@ -9,10 +11,14 @@ namespace GestorTareas.Web.Controllers
     public class AccountsController : Controller
     {
         private readonly IUserHelper userHelper;
+        private readonly DataContext dataContext;
+      
 
-        public AccountsController(IUserHelper userHelper)
+        public AccountsController(IUserHelper userHelper, DataContext dataContext)
         {
             this.userHelper = userHelper;
+            this.dataContext = dataContext;
+
         }
 
         [HttpGet]
@@ -52,6 +58,31 @@ namespace GestorTareas.Web.Controllers
         public IActionResult NotAutorized()
         {
             return View();
+        }
+
+
+        [HttpGet]
+        public IActionResult ChangePassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel passwordViewModel)
+        {
+            if (passwordViewModel.NewPassword == passwordViewModel.RepeatedNewPassword)
+            {
+                var user = await this.dataContext.Users.FirstOrDefaultAsync(u => u.Email == User.Identity.Name);
+                await this.userHelper.ChangePasswordAsync(user,passwordViewModel.CurrentPassword, passwordViewModel.NewPassword);
+                await dataContext.SaveChangesAsync();
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Las contraseñas no coinciden. Inténtelo nuevamente");
+                return View(passwordViewModel);
+
+            }
         }
 
     }

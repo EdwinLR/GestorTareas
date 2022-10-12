@@ -1,0 +1,75 @@
+﻿@model IEnumerable<GestorTareas.Web.Data.Entities.Coordinator>
+
+@{
+    ViewData["Title"] = "Coordinadores";
+}
+<link rel="stylesheet" href="~/css/style-icon.css" />
+@*<link href="~/css/estilo-home.css" type="text/css" rel="stylesheet" />*@
+
+<h1>Coordinadores</h1>
+
+<p>
+        <a asp-action="Create" class="btn btn-outline-success">
+            <span class="icon-user-plus"></span> Nuevo Coordinador</a>
+</p>
+<table class="table" style="text-align:center;">
+    <thead>
+        <tr>
+            <th scope="col">
+                @Html.DisplayNameFor(model => model.WorkerId)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(model => model.User.FullName)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(model => model.User.Email)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(model => model.User.PhotoUrl)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.WorkerId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.Email)
+            </td>
+            <td>
+                @if (!string.IsNullOrEmpty(item.User.PhotoUrl))
+                {
+                    <img src="@Url.Content(item.User.PhotoUrl)" style="width:100px; height:auto;" />
+                }
+            </td>
+                @if (User.IsInRole("Admin"))
+                {
+                    <td>
+
+
+                 <a asp-action="Details" asp-route-id="@item.Id" class="btn btn btn-outline-dark">
+                    <span class="icon-list"></span> Detalles</a>
+                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-primary">
+                    <span class="icon-pencil"></span> Editar</a>
+                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger">
+                    <span class="icon-cancel-circle"></span> Eliminar</a>
+            </td>
+            } else if(User.IsInRole("Coordinator"))
+            {
+                <td>
+                 <a asp-action="Details" asp-route-id="@item.Id" class="btn btn btn-outline-dark">
+                    <span class="icon-list"></span> Detalles</a>
+                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-primary">
+                    <span class="icon-pencil"></span> Editar</a>
+            </td>
+            }
+        </tr>
+}
+    </tbody>
+</table>

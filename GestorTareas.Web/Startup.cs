@@ -1,19 +1,14 @@
 using GestorTareas.Web.Data;
 using GestorTareas.Web.Data.Entities;
 using GestorTareas.Web.Helpers;
+using GestorTareas.Web.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace GestorTareas.Web
 {
@@ -49,8 +44,9 @@ namespace GestorTareas.Web
 
             services.AddTransient<Seeder>();
             services.AddScoped<IUserHelper, UserHelper>();
-            //services.AddScoped<ICombosHelper, CombosHelper>();
-            //services.AddScoped<IImageHelper, ImageHelper>();
+            services.AddScoped<ICombosHelper, CombosHelper>();
+            services.AddScoped<IImageHelper, ImageHelper>();
+
             services.AddControllersWithViews();
 
             services.ConfigureApplicationCookie(options =>
