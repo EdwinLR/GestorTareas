@@ -40,6 +40,18 @@ namespace GestorTareas.Web.Data
                 await CheckCategory("Trabajo en exterior");
             }
 
+            if (!this.dataContext.ContactPeople.Any())
+            {
+                await CheckContactPerson("Rodrigo", "Flores", "Reyes", "rodFR@ieee.com", 2224596532);
+            }
+
+            if (!this.dataContext.Countries.Any())
+            {
+                await CheckCountry("México");
+                await CheckCountry("Estados Unidos");
+                await CheckCountry("Canadá");
+            }
+
             if (!this.dataContext.Genders.Any())
             {
                 await CheckGender("Masculino");
@@ -69,9 +81,15 @@ namespace GestorTareas.Web.Data
                 await CheckStudent(user, "Student", 20071361, career, gender);
             }
 
-            if(!this.dataContext.Admins.Any())
+            if (!this.dataContext.Teachers.Any())
             {
-                var user = await CheckUser("Admin", "Admin", "Admin", "admin@umad.edu.mx", "00000001ADM");
+                var user = await CheckUser("Edwin", "Lozada", "Ramos", "edwinlr@umad.edu.mx", "20078390ELR");                var gender = this.dataContext.Genders.FirstOrDefault(f => f.Id == 1);
+                await CheckTeacher(user, "Teacher", 20078390);
+            }
+
+            if (!this.dataContext.Admins.Any())
+            {
+                var user = await CheckUser("Admin", "", "", "admin@umad.edu.mx", "12345A");
                 await CheckAdmin(user, "Admin");
             }
 
@@ -88,21 +106,45 @@ namespace GestorTareas.Web.Data
             await this.dataContext.SaveChangesAsync();
         }
 
-        private async Task CheckGender(string name)
-        {
-            this.dataContext.Genders.Add(new Gender
-            {
-                GenderName = name
-            }
-            );
-            await this.dataContext.SaveChangesAsync();
-        }
-
         private async Task CheckCategory(string name)
         {
             this.dataContext.Categories.Add(new Category
             {
                 CategoryName = name
+            }
+            );
+            await this.dataContext.SaveChangesAsync();
+        }
+
+        private async Task CheckContactPerson(string firstName, string fatherName, string motherName, string email, long phone)
+        {
+            this.dataContext.ContactPeople.Add(new ContactPerson
+            {
+                FirstName = firstName,
+                FatherLastName = fatherName,
+                MotherLastName = motherName,
+                Email = email,
+                PhoneNumber = phone
+            }
+            );
+            await this.dataContext.SaveChangesAsync();
+        }
+
+        private async Task CheckCountry(string name)
+        {
+            this.dataContext.Countries.Add(new Country
+            {
+                CountryName = name
+            }
+            );
+            await this.dataContext.SaveChangesAsync();
+        }
+
+        private async Task CheckGender(string name)
+        {
+            this.dataContext.Genders.Add(new Gender
+            {
+                GenderName = name
             }
             );
             await this.dataContext.SaveChangesAsync();
@@ -136,6 +178,17 @@ namespace GestorTareas.Web.Data
                 StudentId = studentId,
                 Career = career,
                 Gender = gender
+            });
+            await this.dataContext.SaveChangesAsync();
+            await userHelper.AddUserToRoleAsync(user, role);
+        }
+
+        private async Task CheckTeacher(User user, string role, int workerId)
+        {
+            this.dataContext.Teachers.Add(new Teacher
+            {
+                User = user,
+                WorkerId = workerId
             });
             await this.dataContext.SaveChangesAsync();
             await userHelper.AddUserToRoleAsync(user, role);
