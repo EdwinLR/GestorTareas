@@ -13,7 +13,7 @@ namespace GestorTareas.Web.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<ContactPerson> ContactPeople { get; set; }
         public DbSet<Convocation> Convocations { get; set; }
-	public DbSet<Coordinator> Coordinators { get; set; }
+	    public DbSet<Coordinator> Coordinators { get; set; }
         public DbSet<Country> Countries { get; set; }
         public DbSet<Gender> Genders { get; set; }
         public DbSet<Institute> Institutes { get; set; }
