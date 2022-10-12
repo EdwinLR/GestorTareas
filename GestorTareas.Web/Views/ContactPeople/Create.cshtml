@@ -1,0 +1,56 @@
+﻿@model GestorTareas.Web.Data.Entities.ContactPerson
+
+@{
+    ViewData["Title"] = "Crear";
+}
+<link href="~/css/estilo-home.css" type="text/css" rel="stylesheet" />
+<link rel="stylesheet" href="~/css/style-icon.css" />
+
+<h1>Crear</h1>
+
+<h4>Persona de Contacto</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="FirstName" class="control-label"></label>
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FatherLastName" class="control-label"></label>
+                <input asp-for="FatherLastName" class="form-control" />
+                <span asp-validation-for="FatherLastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MotherLastName" class="control-label"></label>
+                <input asp-for="MotherLastName" class="form-control" />
+                <span asp-validation-for="MotherLastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PhoneNumber" class="control-label"></label>
+                <input asp-for="PhoneNumber" class="form-control" />
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Crear" class="btn btn-outline-success" /> |
+                <a asp-action="Index" class="btn btn-outline-secondary">
+                    <span class="icon-undo2"></span>  Regresar a la Lista
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }

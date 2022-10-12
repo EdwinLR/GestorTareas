@@ -1,0 +1,44 @@
+﻿@model IEnumerable<GestorTareas.Web.Data.Entities.Priority>
+
+@{
+    ViewData["Title"] = "Prioridades";
+}
+
+<link href="~/css/estilo-home.css" type="text/css" rel="stylesheet" />
+<link rel="stylesheet" href="~/css/style-icon.css" />
+
+<h1>Prioridades</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-outline-success">
+        <span class="icon-plus"></span>
+    </a>
+</p>
+<table class="table" style="text-align:center;">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.PriorityName)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PriorityName)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-primary">
+                        <span class="icon-pencil"></span>
+                    </a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger">
+                        <span class="icon-cancel-circle"></span>
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
