@@ -25,5 +25,8 @@ namespace GestorTareas.Web.Data.Entities
 
         [Display(Name = "Foto")]
         public string PhotoUrl { get; set; }
+
+        [Display(Name = "Celular")]
+        public override string PhoneNumber { get; set; }
     }
 }
