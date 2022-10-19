@@ -12,6 +12,7 @@ namespace GestorTareas.Web.Helpers
         public IEnumerable<SelectListItem> GetComboPriorities();
         public IEnumerable<SelectListItem> GetComboStatuses();
         public IEnumerable<SelectListItem> GetComboContacts();
+        public IEnumerable<SelectListItem> GetComboPositions();
 
     }
 }

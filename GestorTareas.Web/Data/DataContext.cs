@@ -13,16 +13,16 @@ namespace GestorTareas.Web.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<ContactPerson> ContactPeople { get; set; }
         public DbSet<Convocation> Convocations { get; set; }
-	    public DbSet<Coordinator> Coordinators { get; set; }
         public DbSet<Country> Countries { get; set; }
         public DbSet<Gender> Genders { get; set; }
         public DbSet<Institute> Institutes { get; set; }
         public DbSet<Priority> Priorities { get; set; }
         public DbSet<Project> Projects { get; set; }
+        public DbSet<Position> Positions { get; set; }
         public DbSet<ProjectCollaborator> ProjectCollaborators { get; set; }
         public DbSet<Status> Statuses { get; set; }
         public DbSet<Student> Students { get; set; }
-        public DbSet<Teacher> Teachers { get; set; }
+        public DbSet<Worker> Workers { get; set; }
 
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {

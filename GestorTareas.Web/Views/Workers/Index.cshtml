@@ -1,18 +1,18 @@
-﻿@model IEnumerable<GestorTareas.Web.Data.Entities.Teacher>
+﻿@model IEnumerable<GestorTareas.Web.Data.Entities.Worker>
 
 @{
-    ViewData["Title"] = "Docentes";
+    ViewData["Title"] = "Trabajadores";
 }
 <link rel="stylesheet" href="~/css/style-icon.css" />
 <link href="~/css/estilo-home.css" type="text/css" rel="stylesheet" />
 
-<h1>Docentes</h1>
+<h1>Trabajadores</h1>
 
 <p>
     @if (User.IsInRole("Admin"))
     {
         <a asp-action="Create" class="btn btn-outline-success">
-            <span class="icon-user-plus"></span> Nuevo Docente</a>
+            <span class="icon-user-plus"></span> Nuevo Trabajador</a>
     }
     else if(User.IsInRole("Coordinator"))
     {
@@ -32,9 +32,32 @@
                 @Html.DisplayNameFor(model => model.User.Email)
             </th>
             <th scope="col">
+                @Html.DisplayNameFor(model => model.Position.Description)
+            </th>
+            <th scope="col">
                 @Html.DisplayNameFor(model => model.User.PhotoUrl)
             </th>
-            <th></th>
+            @if (User.IsInRole("Admin"))
+            {
+                <th scope="col">
+                    <a>Editar</a>
+                </th>
+                <th scope="col">
+                    <a>Detalles</a>
+                </th>
+                <th scope="col">
+                    <a>Eliminar</a>
+                </th>
+            }
+            else if(User.IsInRole("Coordinator"))
+            {
+                <th scope="col">
+                    <a>Editar</a>
+                </th>
+                <th scope="col">
+                    <a>Detalles</a>
+                </th>
+            }
         </tr>
     </thead>
     <tbody>
@@ -49,32 +72,40 @@
             <td>
                 @Html.DisplayFor(modelItem => item.User.Email)
             </td>
+             <td>
+                @Html.DisplayFor(modelItem => item.Position.Description)
+            </td>
             <td>
                 @if (!string.IsNullOrEmpty(item.User.PhotoUrl))
                 {
                     <img src="@Url.Content(item.User.PhotoUrl)" style="width:100px; height:auto;" />
                 }
             </td>
-                @if (User.IsInRole("Admin"))
-                {
-                    <td>
+            @if (User.IsInRole("Admin"))
+            {
 
-
-                 <a asp-action="Details" asp-route-id="@item.Id" class="btn btn btn-outline-dark">
-                    <span class="icon-list"></span> Detalles</a>
+            <td> 
                 <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-primary">
-                    <span class="icon-pencil"></span> Editar</a>
+                    <span class="icon-pencil"></span></a>
+            </td>
+            <td>
+                 <a asp-action="Details" asp-route-id="@item.Id" class="btn btn btn-outline-dark">
+                    <span class="icon-list"></span></a>
+            </td>
+            <td>
                 <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger">
-                    <span class="icon-cancel-circle"></span> Eliminar</a>
+                    <span class="icon-cancel-circle"></span></a>
             </td>
             } else if(User.IsInRole("Coordinator"))
             {
                 <td>
+                                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-primary">
+                    <span class="icon-pencil"></span></a>
+                 </td>
+                 <td>
                  <a asp-action="Details" asp-route-id="@item.Id" class="btn btn btn-outline-dark">
-                    <span class="icon-list"></span> Detalles</a>
-                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-primary">
-                    <span class="icon-pencil"></span> Editar</a>
-            </td>
+                    <span class="icon-list"></span></a>
+                 </td>
             }
         </tr>
 }

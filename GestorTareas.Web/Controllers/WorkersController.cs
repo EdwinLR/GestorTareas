@@ -11,14 +11,14 @@ using System.Threading.Tasks;
 
 namespace GestorTareas.Web.Controllers
 {
-    public class CoordinatorsController : Controller
+    public class WorkersController : Controller
     {
         private readonly DataContext dataContext;
         private readonly IImageHelper imageHelper;
         private readonly IUserHelper userHelper;
         private readonly ICombosHelper combosHelper;
 
-        public CoordinatorsController(DataContext dataContext,
+        public WorkersController(DataContext dataContext,
             IImageHelper imageHelper, IUserHelper userHelper, ICombosHelper combosHelper)
         {
             this.dataContext = dataContext;
@@ -27,15 +27,16 @@ namespace GestorTareas.Web.Controllers
             this.combosHelper = combosHelper;
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Coordinator,Admin")]
         public async Task<IActionResult> Index()
         {
-            return View(await dataContext.Coordinators
+            return View(await dataContext.Workers
                 .Include(u => u.User)
+                .Include(p=>p.Position)
                 .ToListAsync());
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Coordinator,Admin")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -43,33 +44,35 @@ namespace GestorTareas.Web.Controllers
                 return NotFound();
             }
 
-            var coordinator = await dataContext.Coordinators
+            var teacher = await dataContext.Workers
                 .Include(u => u.User)
                 .Include(g => g.Gender)
+                .Include(p=>p.Position)
                 .FirstOrDefaultAsync(t => t.Id == id);
 
-            if (coordinator == null)
+            if (teacher == null)
             {
                 return NotFound();
             }
 
-            return View(coordinator);
+            return View(teacher);
         }
 
         [HttpGet]
         [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
-            var model = new CoordinatorViewModel
+            var model = new WorkerViewModel
             {
-                Genders = this.combosHelper.GetComboGenders()
+                Genders = this.combosHelper.GetComboGenders(),
+                Positions = this.combosHelper.GetComboPositions()
             };
             return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(CoordinatorViewModel model)
+        public async Task<IActionResult> Create(WorkerViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -83,23 +86,30 @@ namespace GestorTareas.Web.Controllers
                         MotherLastName = model.User.MotherLastName,
                         Email = model.User.Email,
                         UserName = model.User.Email,
-                        PhotoUrl = await imageHelper.UploadImageAsync(model.ImageFile, model.User.FullName,"Coordinators"),
+                        PhotoUrl = await imageHelper.UploadImageAsync(model.ImageFile, model.User.FullName, "Teachers"),
                     };
                     var result = await userHelper.AddUserAsync(user, model.WorkerId.ToString() + model.User.FatherLastName[0] + model.User.MotherLastName[0] + model.User.FirstName[0] + model.User.FirstName[1]);
                     if (result != IdentityResult.Success)
                     {
                         throw new InvalidOperationException("ERROR. No se pudo crear el usuario.");
                     }
-                    await userHelper.AddUserToRoleAsync(user, "Coordinator");
+
                 }
 
-                var coordinator = new Coordinator
+                var worker = new Worker
                 {
                     WorkerId = model.WorkerId,
                     Gender = await this.dataContext.Genders.FindAsync(model.GenderId),
+                    Position= await this.dataContext.Positions.FindAsync(model.PositionId),
                     User = await this.dataContext.Users.FindAsync(user.Id)
                 };
-                dataContext.Add(coordinator);
+
+                if (worker.Position.Description!="Coordinador")
+                    await userHelper.AddUserToRoleAsync(user, "Teacher");
+                else
+                    await userHelper.AddUserToRoleAsync(user, "Coordinator");
+
+                dataContext.Add(worker);
                 await dataContext.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
@@ -107,7 +117,7 @@ namespace GestorTareas.Web.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Coordinator,Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -115,24 +125,27 @@ namespace GestorTareas.Web.Controllers
                 return NotFound();
             }
 
-            var coordinator = await dataContext.Coordinators
+            var worker = await dataContext.Workers
                 .Include(u => u.User)
                 .Include(g => g.Gender)
+                .Include(p=>p.Position)
                 .FirstOrDefaultAsync(t => t.Id == id);
 
-            if (coordinator == null)
+            if (worker == null)
             {
                 return NotFound();
             }
 
-            var model = new CoordinatorViewModel
+            var model = new WorkerViewModel
             {
-                Id = coordinator.Id,
-                WorkerId = coordinator.WorkerId,
-                User = coordinator.User,
-                Gender = coordinator.Gender,
-                GenderId = coordinator.Gender.Id,
-                Genders = this.combosHelper.GetComboGenders()
+                Id = worker.Id,
+                WorkerId = worker.WorkerId,
+                User = worker.User,
+                Gender = worker.Gender,
+                GenderId = worker.Gender.Id,
+                Genders = this.combosHelper.GetComboGenders(),
+                PositionId= worker.Position.Id,
+                Positions=this.combosHelper.GetComboPositions()
             };
 
             return View(model);
@@ -140,7 +153,7 @@ namespace GestorTareas.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(CoordinatorViewModel model)
+        public async Task<IActionResult> Edit(WorkerViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -152,22 +165,29 @@ namespace GestorTareas.Web.Controllers
                 user.UserName = model.User.Email;
                 user.PhotoUrl = (model.User.PhotoUrl != null ?
                         (model.User.PhotoUrl.Contains("_default.png") ?
-                        await imageHelper.UploadImageAsync(model.ImageFile, model.User.FullName, "Coordinators") :
+                        await imageHelper.UploadImageAsync(model.ImageFile, model.User.FullName, "Workers") :
                         await imageHelper.UpdateImageAsync(model.ImageFile, model.User.PhotoUrl)) :
-                        await imageHelper.UploadImageAsync(model.ImageFile, model.User.FullName, "Coordinators"));
+                        await imageHelper.UploadImageAsync(model.ImageFile, model.User.FullName, "Workers"));
 
                 this.dataContext.Update(user);
                 await dataContext.SaveChangesAsync();
 
-                var coordinator = new Coordinator
+                var worker = new Worker
                 {
                     Id = model.Id,
                     WorkerId = model.WorkerId,
                     Gender = await this.dataContext.Genders.FindAsync(model.GenderId),
+                    Position=await this.dataContext.Positions.FindAsync(model.PositionId),
                     User = await this.dataContext.Users.FindAsync(user.Id)
                 };
 
-                this.dataContext.Update(coordinator);
+                this.dataContext.Update(worker);
+
+                if (worker.Position.Description != "Coordinador")
+                    await userHelper.AddUserToRoleAsync(user, "Teacher");
+                else
+                    await userHelper.AddUserToRoleAsync(user, "Coordinator");
+
                 await dataContext.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
@@ -183,16 +203,16 @@ namespace GestorTareas.Web.Controllers
                 return NotFound();
             }
 
-            var coordinator = await dataContext.Coordinators
+            var teacher = await dataContext.Workers
                 .Include(u => u.User)
                 .FirstOrDefaultAsync(t => t.Id == id);
 
-            if (coordinator == null)
+            if (teacher == null)
             {
                 return NotFound();
             }
 
-            return View(coordinator);
+            return View(teacher);
         }
 
         // POST: Students/Delete/5
@@ -200,15 +220,15 @@ namespace GestorTareas.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var coordinator = await dataContext.Coordinators
+            var worker = await dataContext.Workers
                 .Include(u => u.User)
                 .FirstOrDefaultAsync(t => t.Id == id);
 
 
-            dataContext.Coordinators.Remove(coordinator);
+            dataContext.Workers.Remove(worker);
 
             var user = await dataContext.Users
-                .FindAsync(coordinator.User.Id);
+                .FindAsync(worker.User.Id);
             dataContext.Users.Remove(user);
 
             await dataContext.SaveChangesAsync();

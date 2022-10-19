@@ -6,11 +6,13 @@ using System.ComponentModel;
 
 namespace GestorTareas.Web.Models
 {
-    public class CoordinatorViewModel:Coordinator
+    public class WorkerViewModel:Worker
     {
-        [DisplayName("Foto del Coordinador")]
+        [DisplayName("Foto del Trabajador")]
         public IFormFile ImageFile { get; set; }
         public int GenderId { get; set; }
         public IEnumerable<SelectListItem> Genders { get; set; }
+        public int PositionId { get; set; }
+        public IEnumerable<SelectListItem> Positions { get; set; }
     }
 }

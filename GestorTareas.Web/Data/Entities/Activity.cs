@@ -31,7 +31,7 @@ namespace GestorTareas.Web.Data.Entities
         public Category Category { get; set; }
         public Priority Priority { get; set; }
         public Status Status { get; set; }
-        public Teacher Teacher { get; set; }
+        public Worker Teacher { get; set; }
 
     }
 }

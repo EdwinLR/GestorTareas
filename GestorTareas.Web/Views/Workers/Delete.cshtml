@@ -1,15 +1,16 @@
-﻿@model GestorTareas.Web.Data.Entities.Teacher
+﻿@model GestorTareas.Web.Data.Entities.Worker
 
 @{
-    ViewData["Title"] = "Detalles del docente";
+    ViewData["Title"] = "Eliminar trabajador";
 }
 
 <link rel="stylesheet" href="~/css/style-icon.css" />
+<link rel="stylesheet" href="~/css/estiloPaginas.css" />
 
-<h1>Detalles del docente</h1>
+<h1>Eliminar trabajador</h1>
 
+<h3>¿Está seguro que quieres eliminar a este trabajador?</h3>
 <div>
-    <h4>Docente</h4>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
@@ -31,14 +32,14 @@
             @Html.DisplayFor(model => model.User.Email)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Gender.GenderName)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Gender.GenderName)
         </dd>
         <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Position.Description)
         </dt>
         <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Position.Description)
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.User.PhotoUrl)
@@ -50,9 +51,12 @@
             }
         </dd>
     </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Eliminar" class="btn btn-outline-danger" /> |
+        <a asp-action="Index" class="btn btn-outline-secondary">
+            <span class="icon-undo2"></span>  Regresar a la lista</a>
+    </form>
 </div>
-<div>
-    <a asp-action="Index" class="btn btn-outline-secondary">
-        <span class="icon-undo2"></span>  Regresar a la lista
-    </a>
-</div>
+

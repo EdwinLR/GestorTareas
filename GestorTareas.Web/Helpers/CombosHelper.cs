@@ -14,6 +14,21 @@ namespace GestorTareas.Web.Helpers
             this.dataContext = dataContext;
         }
 
+        public IEnumerable<SelectListItem> GetComboPositions()
+        {
+            var list = this.dataContext.Positions.Select(d => new SelectListItem
+            {
+                Text = $"{d.Description}",
+                Value = $"{d.Id}"
+            }).ToList();
+            list.Insert(0, new SelectListItem
+            {
+                Text = "(Selecciona un puesto)",
+                Value = "0"
+            });
+            return list;
+        }
+
         public IEnumerable<SelectListItem> GetComboCareers()
         {
             var list = this.dataContext.Careers.Select(f => new SelectListItem
@@ -68,5 +83,8 @@ namespace GestorTareas.Web.Helpers
         {
             throw new System.NotImplementedException();
         }
+
+        
+        
     }
 }

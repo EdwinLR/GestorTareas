@@ -7,9 +7,10 @@ namespace GestorTareas.Web.Data.Entities
     {
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "La matrícula es requerido")]
+        [Required(ErrorMessage = "La matrícula es requerida")]
+        [StringLength(8, ErrorMessage = "La matrícula solo puede tener 8 caracteres")]
         [Display(Name = "Matrícula")]
-        public int StudentId { get; set; }
+        public string StudentId { get; set; }
         public Career Career { get; set; }
         public Gender Gender { get; set; }
         public User User { get; set; }

@@ -1,20 +1,22 @@
-﻿@model GestorTareas.Web.Models.TeacherViewModel
+﻿@model GestorTareas.Web.Models.WorkerViewModel
 
 @{
-    ViewData["Title"] = "Crear";
+    ViewData["Title"] = "Editar trabajador";
 }
 
 <link rel="stylesheet" href="~/css/style-icon.css" />
-<link rel="stylesheet" href="~/css/estiloPaginas.css" />
+<link href="~/css/estilo-home.css" type="text/css" rel="stylesheet" />
 
-<h1>Crear nuevo docente</h1>
+<h1>Editar trabajador</h1>
 
-<h4>Docente</h4>
+<h4>Trabajador</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create" enctype="multipart/form-data">
+        <form asp-action="Edit" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="User.Id" />
+            <input type="hidden" asp-for="User.PhotoUrl" />
 
             <div class="form-group">
                 <label asp-for="User.FirstName" class="control-label"></label>
@@ -38,7 +40,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="WorkerId" class="control-label"></label>
-                <input asp-for="WorkerId" class="form-control" type="text" />
+                <input asp-for="WorkerId" class="form-control" />
                 <span asp-validation-for="WorkerId" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -47,19 +49,29 @@
                 <span asp-validation-for="Gender" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Position.Description" class="control-label"></label>
+                <select asp-for="PositionId" asp-items="Model.Positions" class="form-control"></select>
+                <span asp-validation-for="Position" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="ImageFile" class="control-label"></label>
                 <input asp-for="ImageFile" class="form-control" type="file" accept=".png" />
                 <span asp-validation-for="ImageFile" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Crear" class="btn btn-outline-success" /> |
+                <input type="submit" value="Guardar" class="btn btn-outline-primary" />
                 <a asp-action="Index" class="btn btn-outline-secondary">
-                    <span class="icon-undo2"></span> Regresar a la Lista</a>
+                    <span class="icon-undo2"></span>  Regresar a la Lista</a>
             </div>
         </form>
     </div>
+    <div class="col-md-6 offset-md-1">
+        @if (!string.IsNullOrEmpty(Model.User.PhotoUrl))
+        {
+            <img src="@Url.Content(Model.User.PhotoUrl)" style="width:80%; height:auto;" />
+        }
+    </div>
 </div>
-
 
 
 @section Scripts {
