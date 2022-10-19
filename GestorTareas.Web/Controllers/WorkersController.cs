@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace GestorTareas.Web.Controllers
@@ -32,7 +33,8 @@ namespace GestorTareas.Web.Controllers
         {
             return View(await dataContext.Workers
                 .Include(u => u.User)
-                .Include(p=>p.Position)
+                .Include(p => p.Position)
+                .OrderBy(p => p.Position.Description)
                 .ToListAsync());
         }
 
@@ -215,7 +217,6 @@ namespace GestorTareas.Web.Controllers
             return View(teacher);
         }
 
-        // POST: Students/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

@@ -3,7 +3,6 @@ using GestorTareas.Web.Helpers;
 using GestorTareas.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace GestorTareas.Web.Controllers
@@ -12,7 +11,7 @@ namespace GestorTareas.Web.Controllers
     {
         private readonly IUserHelper userHelper;
         private readonly DataContext dataContext;
-      
+
 
         public AccountsController(IUserHelper userHelper, DataContext dataContext)
         {
@@ -73,7 +72,7 @@ namespace GestorTareas.Web.Controllers
             if (passwordViewModel.NewPassword == passwordViewModel.RepeatedNewPassword)
             {
                 var user = await this.dataContext.Users.FirstOrDefaultAsync(u => u.Email == User.Identity.Name);
-                await this.userHelper.ChangePasswordAsync(user,passwordViewModel.CurrentPassword, passwordViewModel.NewPassword);
+                await this.userHelper.ChangePasswordAsync(user, passwordViewModel.CurrentPassword, passwordViewModel.NewPassword);
                 await dataContext.SaveChangesAsync();
                 return RedirectToAction("Index", "Home");
             }
