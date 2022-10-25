@@ -46,17 +46,47 @@ namespace GestorTareas.Web.Helpers
 
         public IEnumerable<SelectListItem> GetComboCategories()
         {
-            throw new System.NotImplementedException();
+            var list = this.dataContext.Categories.Select(f => new SelectListItem
+            {
+                Text = $"{f.CategoryName}",
+                Value = $"{f.Id}"
+            }).ToList();
+            list.Insert(0, new SelectListItem
+            {
+                Text = "(Selecciona una categoría)",
+                Value = "0"
+            });
+            return list;
         }
 
         public IEnumerable<SelectListItem> GetComboContacts()
         {
-            throw new System.NotImplementedException();
+            var list = this.dataContext.ContactPeople.Select(f => new SelectListItem
+            {
+                Text = $"{f.FullName}",
+                Value = $"{f.Id}"
+            }).ToList();
+            list.Insert(0, new SelectListItem
+            {
+                Text = "(Selecciona una persona de contacto)",
+                Value = "0"
+            });
+            return list;
         }
 
         public IEnumerable<SelectListItem> GetComboCountries()
         {
-            throw new System.NotImplementedException();
+            var list = this.dataContext.Countries.Select(f => new SelectListItem
+            {
+                Text = $"{f.CountryName}",
+                Value = $"{f.Id}"
+            }).ToList();
+            list.Insert(0, new SelectListItem
+            {
+                Text = "(Selecciona un país)",
+                Value = "0"
+            });
+            return list;
         }
 
         public IEnumerable<SelectListItem> GetComboGenders()
@@ -76,12 +106,32 @@ namespace GestorTareas.Web.Helpers
 
         public IEnumerable<SelectListItem> GetComboPriorities()
         {
-            throw new System.NotImplementedException();
+            var list = this.dataContext.Priorities.Select(f => new SelectListItem
+            {
+                Text = $"{f.PriorityName}",
+                Value = $"{f.Id}"
+            }).ToList();
+            list.Insert(0, new SelectListItem
+            {
+                Text = "(Selecciona una prioridad)",
+                Value = "0"
+            });
+            return list;
         }
 
         public IEnumerable<SelectListItem> GetComboStatuses()
         {
-            throw new System.NotImplementedException();
+            var list = this.dataContext.Statuses.Select(f => new SelectListItem
+            {
+                Text = $"{f.StatusName}",
+                Value = $"{f.Id}"
+            }).ToList();
+            list.Insert(0, new SelectListItem
+            {
+                Text = "(Selecciona un estado)",
+                Value = "0"
+            });
+            return list;
         }
 
         

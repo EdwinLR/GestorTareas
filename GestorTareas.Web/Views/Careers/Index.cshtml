@@ -18,9 +18,20 @@
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.CareerCode)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>
-            <th></th>
+            @if (User.IsInRole("Admin"))
+            {
+                <th scope="col">
+                    <a>Editar</a>
+                </th>
+                <th scope="col">
+                    <a>Eliminar</a>
+                </th>
+            }
         </tr>
     </thead>
     <tbody>
@@ -33,14 +44,19 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-primary">
+                @if (User.IsInRole("Admin"))
+                {
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-primary">
                         <span class="icon-pencil"></span>
-                    </a>
-                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger">
-                        <span class="icon-cancel-circle"></span>
-                    </a>
-                </td>
+                        </a>
+                    </td>
+                    <td>
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger">
+                            <span class="icon-cancel-circle"></span>
+                        </a>
+                    </td>
+                }
             </tr>
         }
     </tbody>

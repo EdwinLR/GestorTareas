@@ -1,13 +1,13 @@
-﻿@model IEnumerable<GestorTareas.Web.Data.Entities.Country>
+﻿@model IEnumerable<GestorTareas.Web.Data.Entities.Position>
 
 @{
-    ViewData["Title"] = "Paises";
+    ViewData["Title"] = "Posiciones";
 }
 
 <link href="~/css/estilo-home.css" type="text/css" rel="stylesheet" />
 <link rel="stylesheet" href="~/css/style-icon.css" />
 
-<h1>Paises</h1>
+<h1>Posiciones</h1>
 
 <p>
     <a asp-action="Create" class="btn btn-outline-success">
@@ -18,7 +18,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.CountryName)
+                @Html.DisplayNameFor(model => model.Description)
             </th>
             @if (User.IsInRole("Admin"))
             {
@@ -36,13 +36,13 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.CountryName)
+                    @Html.DisplayFor(modelItem => item.Description)
                 </td>
                 @if (User.IsInRole("Admin"))
                 {
                     <td>
                         <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-primary">
-                            <span class="icon-pencil"></span>
+                        <span class="icon-pencil"></span>
                         </a>
                     </td>
                     <td>
