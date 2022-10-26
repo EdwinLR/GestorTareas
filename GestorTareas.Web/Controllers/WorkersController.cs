@@ -46,18 +46,18 @@ namespace GestorTareas.Web.Controllers
                 return NotFound();
             }
 
-            var teacher = await dataContext.Workers
+            var worker = await dataContext.Workers
                 .Include(u => u.User)
                 .Include(g => g.Gender)
                 .Include(p=>p.Position)
                 .FirstOrDefaultAsync(t => t.Id == id);
 
-            if (teacher == null)
+            if (worker == null)
             {
                 return NotFound();
             }
 
-            return View(teacher);
+            return View(worker);
         }
 
         [HttpGet]
@@ -88,7 +88,7 @@ namespace GestorTareas.Web.Controllers
                         MotherLastName = model.User.MotherLastName,
                         Email = model.User.Email,
                         UserName = model.User.Email,
-                        PhotoUrl = await imageHelper.UploadImageAsync(model.ImageFile, model.User.FullName, "Teachers"),
+                        PhotoUrl = await imageHelper.UploadImageAsync(model.ImageFile, model.User.FullName, "Workers"),
                     };
                     var result = await userHelper.AddUserAsync(user, model.WorkerId.ToString() + model.User.FatherLastName[0] + model.User.MotherLastName[0] + model.User.FirstName[0] + model.User.FirstName[1]);
                     if (result != IdentityResult.Success)
@@ -107,7 +107,7 @@ namespace GestorTareas.Web.Controllers
                 };
 
                 if (worker.Position.Description!="Coordinador")
-                    await userHelper.AddUserToRoleAsync(user, "Teacher");
+                    await userHelper.AddUserToRoleAsync(user, "Worker");
                 else
                     await userHelper.AddUserToRoleAsync(user, "Coordinator");
 
@@ -186,7 +186,7 @@ namespace GestorTareas.Web.Controllers
                 this.dataContext.Update(worker);
 
                 if (worker.Position.Description != "Coordinador")
-                    await userHelper.AddUserToRoleAsync(user, "Teacher");
+                    await userHelper.AddUserToRoleAsync(user, "Worker");
                 else
                     await userHelper.AddUserToRoleAsync(user, "Coordinator");
 
@@ -205,16 +205,16 @@ namespace GestorTareas.Web.Controllers
                 return NotFound();
             }
 
-            var teacher = await dataContext.Workers
+            var worker = await dataContext.Workers
                 .Include(u => u.User)
                 .FirstOrDefaultAsync(t => t.Id == id);
 
-            if (teacher == null)
+            if (worker == null)
             {
                 return NotFound();
             }
 
-            return View(teacher);
+            return View(worker);
         }
 
         [HttpPost, ActionName("Delete")]

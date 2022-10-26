@@ -106,7 +106,8 @@
             try
             {
                 var requestString = JsonConvert.SerializeObject(request);
-                var content = new StringContent(requestString, Encoding.UTF8, "application/json");
+                var content = new StringContent(requestString, Encoding.UTF8, 
+                    "application/json");
                 var client = new HttpClient
                 {
                     BaseAddress = new Uri(urlBase)
@@ -153,13 +154,15 @@
             try
             {//serializar el body
                 var request = JsonConvert.SerializeObject(model);
-                var content = new StringContent(request, Encoding.UTF8, "application/json");
+                var content = new StringContent(request, Encoding.UTF8, 
+                    "application/json");
                 var client = new HttpClient
                 {
                     BaseAddress = new Uri(urlBase)
                 };
                 //consumirlo de forma segura
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(tokenType, accessToken);
+                client.DefaultRequestHeaders.Authorization = 
+                    new AuthenticationHeaderValue(tokenType, accessToken);
                 var url = $"{servicePrefix}{controller}";
                 //realiza el post
                 var response = await client.PostAsync(url, content);
@@ -201,13 +204,15 @@
             try
             {
                 var request = JsonConvert.SerializeObject(model);
-                var content = new StringContent(request, Encoding.UTF8, "application/json");
+                var content = new StringContent(request, Encoding.UTF8, 
+                    "application/json");
                 var client = new HttpClient
                 {
                     BaseAddress = new Uri(urlBase)
                 };
 
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(tokenType, accessToken);
+                client.DefaultRequestHeaders.Authorization = 
+                    new AuthenticationHeaderValue(tokenType, accessToken);
                 var url = $"{servicePrefix}{controller}/{id}";
                 var response = await client.PutAsync(url, content);
                 var answer = await response.Content.ReadAsStringAsync();
@@ -252,7 +257,8 @@
                     BaseAddress = new Uri(urlBase)
                 };
 
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(tokenType, accessToken);
+                client.DefaultRequestHeaders.Authorization = 
+                    new AuthenticationHeaderValue(tokenType, accessToken);
                 var url = $"{servicePrefix}{controller}/{id}";
                 var response = await client.DeleteAsync(url);
                 var answer = await response.Content.ReadAsStringAsync();

@@ -92,10 +92,15 @@ namespace GestorTareas.Web.Data
 
             if (!this.dataContext.Workers.Any())
             {
-                var user = await CheckUser("Edwin", "Lozada", "Ramos", "edwinlr@umad.edu.mx", "20078390ELR");
-                var gender = this.dataContext.Genders.FirstOrDefault(f => f.Id == 1);
-                var position = this.dataContext.Positions.FirstOrDefault(p => p.Id == 1);
-                await CheckWorker(user, "Teacher", "1414", gender, position);
+                var user = await CheckUser("Carlos", "Zapata", "Bretón", "carloszb@umad.edu.mx", "12345C");
+                var gender = this.dataContext.Genders.FirstOrDefault(g => g.Id == 1);
+                var position = this.dataContext.Positions.FirstOrDefault(p => p.Id == 4);
+                await CheckWorker(user, "Coordinator", "1414", gender, position);
+
+                user = await CheckUser("Edwin", "Lozada", "Ramos", "edwinlr@umad.edu.mx", "12345B");
+                gender = this.dataContext.Genders.FirstOrDefault(g => g.Id == 1);
+                position = this.dataContext.Positions.FirstOrDefault(p => p.Id == 1);
+                await CheckWorker(user, "Teacher", "1417", gender, position);
             }
 
             if (!this.dataContext.Admins.Any())
