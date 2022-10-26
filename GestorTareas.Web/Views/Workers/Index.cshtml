@@ -4,7 +4,8 @@
     ViewData["Title"] = "Trabajadores";
 }
 <link rel="stylesheet" href="~/css/style-icon.css" />
-<link href="~/css/estilo-home.css" type="text/css" rel="stylesheet" />
+@*<link href="~/css/estilo-home.css" type="text/css" rel="stylesheet" />*@
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 
 <h1>Trabajadores</h1>
 
@@ -19,6 +20,15 @@
         
     }
 </p>
+
+<a>Ordenar por: </a>
+<select class="form-select form-select-lg mb-3">
+    <option hidden selected >Selecciona una opción</option>
+    <option value="ApellidoPAsc">Por Apellido Paterno (Ascendente)</option>
+    <option value="PuestoAsc">Por Puesto (Ascendente)</option>
+</select>
+
+<br />
 <table class="table" style="text-align:center;">
     <thead>
         <tr>
@@ -99,7 +109,7 @@
             } else if(User.IsInRole("Coordinator"))
             {
                 <td>
-                                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-primary">
+                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-primary">
                     <span class="icon-pencil"></span></a>
                  </td>
                  <td>
