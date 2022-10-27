@@ -4,31 +4,38 @@
     ViewData["Title"] = "Trabajadores";
 }
 <link rel="stylesheet" href="~/css/style-icon.css" />
-@*<link href="~/css/estilo-home.css" type="text/css" rel="stylesheet" />*@
 <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+<link type="text/javascript" href="~/js/site.js"/>
+<link type="text/css" rel="stylesheet" href="~/css/estilosHome.css" />
 
 <h1>Trabajadores</h1>
-
-<p>
-    @if (User.IsInRole("Admin"))
-    {
-        <a asp-action="Create" class="btn btn-outline-success">
-            <span class="icon-user-plus"></span> Nuevo Trabajador</a>
-    }
-    else if(User.IsInRole("Coordinator"))
-    {
-        
-    }
-</p>
-
-<a>Ordenar por: </a>
-<select class="form-select form-select-lg mb-3">
-    <option hidden selected >Selecciona una opción</option>
-    <option value="ApellidoPAsc">Por Apellido Paterno (Ascendente)</option>
-    <option value="PuestoAsc">Por Puesto (Ascendente)</option>
-</select>
-
+<div class="row justify-content-between">
+<div class="col-4">
+    <p>
+        @if (User.IsInRole("Admin"))
+        {
+            <a asp-action="Create" class="btn btn-outline-success">
+                <span class="icon-user-plus"></span> Nuevo Trabajador</a>
+        }
+        else if(User.IsInRole("Coordinator"))
+        {
+        }
+    </p>
+</div>
 <br />
+<div class="col-4">
+    <div class="dropdown">
+      <button class="btn dropdown-toggle btn-outline-primary float-right" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+         <span class="icon-sort-alpha-asc"></span>
+        Ordenar por:
+      </button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <a class="dropdown-item" href="#"> @Html.ActionLink("Por Apellido Paterno (Ascendente)", "Index", new { sortOrder = ViewBag.NameSortParm }, new { @class="linkButton", style="color:black; text-decoration: none; padding: 10px;" }) </a>
+        <a class="dropdown-item" href="#"> @Html.ActionLink(" Por Puesto (Ascendente) ", "Index", new { sortOrder = ViewBag.PositionSortParm }, new { style="color:black; text-decoration: none; padding: 10px;"}) </a>
+      </div>
+    </div>
+</div>
+</div>
 <table class="table" style="text-align:center;">
     <thead>
         <tr>
@@ -121,3 +128,22 @@
 }
     </tbody>
 </table>
+
+<script>
+    function ChangeView()
+    {
+        $.ajax(
+            {
+                url: "@Url.Action("Index", "Workers")",
+                type: "GET",
+                data: { order: $('#orderBy').val() 
+            },
+            success: function(data) 
+            {
+                var order ={"order":$('#orderBy').val() }
+                location.href = '/Workers/Index';
+                $(this).r(location.href, {"order":order});
+            }
+        });
+    }
+</script>

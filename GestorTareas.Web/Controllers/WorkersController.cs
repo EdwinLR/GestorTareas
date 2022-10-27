@@ -29,13 +29,37 @@ namespace GestorTareas.Web.Controllers
         }
 
         [Authorize(Roles = "Coordinator,Admin")]
-        public async Task<IActionResult> Index()
+        public IActionResult Index(string sortOrder)
         {
-            return View(await dataContext.Workers
-                .Include(u => u.User)
-                .Include(p => p.Position)
-                .OrderBy(p => p.Position.Description)
-                .ToListAsync());
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_asc" : "";
+            ViewBag.PositionSortParm = String.IsNullOrEmpty(sortOrder) ? "position_asc" : "";
+
+            var studentsList= dataContext.Workers
+                        .Include(u => u.User)
+                        .Include(p => p.Position)
+                        .OrderBy(p => p.Position.Description);
+
+            switch (sortOrder)
+            {
+                case "name_asc":
+                    {
+                        studentsList = dataContext.Workers
+                        .Include(u => u.User)
+                        .Include(p => p.Position)
+                        .OrderBy(u => u.User.FatherLastName);
+                        break;
+                    }
+                case "position_asc":
+                    {
+                        studentsList = dataContext.Workers
+                        .Include(u => u.User)
+                        .Include(p => p.Position)
+                        .OrderBy(p => p.Position.Description);
+                        break;
+                    }
+            }
+
+            return View(studentsList.ToList());
         }
 
         [Authorize(Roles = "Coordinator,Admin")]
@@ -49,7 +73,7 @@ namespace GestorTareas.Web.Controllers
             var worker = await dataContext.Workers
                 .Include(u => u.User)
                 .Include(g => g.Gender)
-                .Include(p=>p.Position)
+                .Include(p => p.Position)
                 .FirstOrDefaultAsync(t => t.Id == id);
 
             if (worker == null)
@@ -102,11 +126,11 @@ namespace GestorTareas.Web.Controllers
                 {
                     WorkerId = model.WorkerId,
                     Gender = await this.dataContext.Genders.FindAsync(model.GenderId),
-                    Position= await this.dataContext.Positions.FindAsync(model.PositionId),
+                    Position = await this.dataContext.Positions.FindAsync(model.PositionId),
                     User = await this.dataContext.Users.FindAsync(user.Id)
                 };
 
-                if (worker.Position.Description!="Coordinador")
+                if (worker.Position.Description != "Coordinador")
                     await userHelper.AddUserToRoleAsync(user, "Worker");
                 else
                     await userHelper.AddUserToRoleAsync(user, "Coordinator");
@@ -130,7 +154,7 @@ namespace GestorTareas.Web.Controllers
             var worker = await dataContext.Workers
                 .Include(u => u.User)
                 .Include(g => g.Gender)
-                .Include(p=>p.Position)
+                .Include(p => p.Position)
                 .FirstOrDefaultAsync(t => t.Id == id);
 
             if (worker == null)
@@ -146,8 +170,8 @@ namespace GestorTareas.Web.Controllers
                 Gender = worker.Gender,
                 GenderId = worker.Gender.Id,
                 Genders = this.combosHelper.GetComboGenders(),
-                PositionId= worker.Position.Id,
-                Positions=this.combosHelper.GetComboPositions()
+                PositionId = worker.Position.Id,
+                Positions = this.combosHelper.GetComboPositions()
             };
 
             return View(model);
@@ -179,14 +203,14 @@ namespace GestorTareas.Web.Controllers
                     Id = model.Id,
                     WorkerId = model.WorkerId,
                     Gender = await this.dataContext.Genders.FindAsync(model.GenderId),
-                    Position=await this.dataContext.Positions.FindAsync(model.PositionId),
+                    Position = await this.dataContext.Positions.FindAsync(model.PositionId),
                     User = await this.dataContext.Users.FindAsync(user.Id)
                 };
 
                 this.dataContext.Update(worker);
 
                 if (worker.Position.Description != "Coordinador")
-                    await userHelper.AddUserToRoleAsync(user, "Worker");
+                    await userHelper.AddUserToRoleAsync(user, "Teacher");
                 else
                     await userHelper.AddUserToRoleAsync(user, "Coordinator");
 
@@ -236,5 +260,11 @@ namespace GestorTareas.Web.Controllers
             return RedirectToAction(nameof(Index));
 
         }
+
+        //[Authorize(Roles = "Coordinator,Admin")]
+        //public IActionResult IndexOrder(string selectionChosen)
+        //{
+        //   return RedirectToAction("Index","Workers",selectionChosen);
+        //}
     }
 }
