@@ -1,28 +1,34 @@
 ﻿using GestorTareas.Web.Data;
 using GestorTareas.Web.Data.Entities;
+using GestorTareas.Web.Data.Repositories;
 using GestorTareas.Web.Helpers;
 using GestorTareas.Web.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace GestorTareas.Web.Controllers
 {
     public class WorkersController : Controller
     {
-        private readonly DataContext dataContext;
+        private readonly DataContext context;
+        private readonly IWorkerRepository repository;
+        private readonly IGenderRepository genderRepository;
+        private readonly IPositionRepository positionRepository;
         private readonly IImageHelper imageHelper;
         private readonly IUserHelper userHelper;
         private readonly ICombosHelper combosHelper;
 
-        public WorkersController(DataContext dataContext,
-            IImageHelper imageHelper, IUserHelper userHelper, ICombosHelper combosHelper)
+        public WorkersController(DataContext context, IWorkerRepository repository,
+           IGenderRepository genderRepository, IPositionRepository positionRepository, 
+           IImageHelper imageHelper, IUserHelper userHelper, ICombosHelper combosHelper)
         {
-            this.dataContext = dataContext;
+            this.context = context;
+            this.repository = repository;
+            this.genderRepository = genderRepository;
+            this.positionRepository = positionRepository;
             this.imageHelper = imageHelper;
             this.userHelper = userHelper;
             this.combosHelper = combosHelper;
@@ -34,32 +40,23 @@ namespace GestorTareas.Web.Controllers
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_asc" : "";
             ViewBag.PositionSortParm = String.IsNullOrEmpty(sortOrder) ? "position_asc" : "";
 
-            var studentsList= dataContext.Workers
-                        .Include(u => u.User)
-                        .Include(p => p.Position)
-                        .OrderBy(p => p.Position.Description);
+            var studentsList = repository.GetAllWorkersWithUserAndPositionOrderByPosition();
 
             switch (sortOrder)
             {
                 case "name_asc":
                     {
-                        studentsList = dataContext.Workers
-                        .Include(u => u.User)
-                        .Include(p => p.Position)
-                        .OrderBy(u => u.User.FatherLastName);
+                        studentsList = repository.GetAllWorkersWithUserAndPositionOrderByFatherLastname();
                         break;
                     }
                 case "position_asc":
                     {
-                        studentsList = dataContext.Workers
-                        .Include(u => u.User)
-                        .Include(p => p.Position)
-                        .OrderBy(p => p.Position.Description);
+                        studentsList = repository.GetAllWorkersWithUserAndPositionOrderByPosition();
                         break;
                     }
             }
 
-            return View(studentsList.ToList());
+            return View(studentsList);
         }
 
         [Authorize(Roles = "Coordinator,Admin")]
@@ -70,11 +67,7 @@ namespace GestorTareas.Web.Controllers
                 return NotFound();
             }
 
-            var worker = await dataContext.Workers
-                .Include(u => u.User)
-                .Include(g => g.Gender)
-                .Include(p => p.Position)
-                .FirstOrDefaultAsync(t => t.Id == id);
+            var worker = await repository.GetWorkerWithUserGenderAndPositionByIdAsync(id.Value);
 
             if (worker == null)
             {
@@ -125,18 +118,18 @@ namespace GestorTareas.Web.Controllers
                 var worker = new Worker
                 {
                     WorkerId = model.WorkerId,
-                    Gender = await this.dataContext.Genders.FindAsync(model.GenderId),
-                    Position = await this.dataContext.Positions.FindAsync(model.PositionId),
-                    User = await this.dataContext.Users.FindAsync(user.Id)
+                    Gender = await this.genderRepository.GetByIdAsync(model.GenderId),
+                    Position = await this.positionRepository.GetByIdAsync(model.PositionId),
+                    User = await this.context.Users.FindAsync(user.Id)
                 };
 
                 if (worker.Position.Description != "Coordinador")
-                    await userHelper.AddUserToRoleAsync(user, "Worker");
+                    await userHelper.AddUserToRoleAsync(user, "Teacher");
                 else
                     await userHelper.AddUserToRoleAsync(user, "Coordinator");
 
-                dataContext.Add(worker);
-                await dataContext.SaveChangesAsync();
+                //En este metodo hay error
+                await repository.CreateAsync(worker);
                 return RedirectToAction(nameof(Index));
             }
             return View(model);
@@ -151,11 +144,7 @@ namespace GestorTareas.Web.Controllers
                 return NotFound();
             }
 
-            var worker = await dataContext.Workers
-                .Include(u => u.User)
-                .Include(g => g.Gender)
-                .Include(p => p.Position)
-                .FirstOrDefaultAsync(t => t.Id == id);
+            var worker = await repository.GetWorkerWithUserGenderAndPositionByIdAsync(id.Value);
 
             if (worker == null)
             {
@@ -183,7 +172,7 @@ namespace GestorTareas.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await this.dataContext.Users.FindAsync(model.User.Id);
+                var user = await this.context.Users.FindAsync(model.User.Id);
                 user.FirstName = model.User.FirstName;
                 user.FatherLastName = model.User.FatherLastName;
                 user.MotherLastName = model.User.MotherLastName;
@@ -195,26 +184,24 @@ namespace GestorTareas.Web.Controllers
                         await imageHelper.UpdateImageAsync(model.ImageFile, model.User.PhotoUrl)) :
                         await imageHelper.UploadImageAsync(model.ImageFile, model.User.FullName, "Workers"));
 
-                this.dataContext.Update(user);
-                await dataContext.SaveChangesAsync();
+                this.context.Users.Update(user);
+                await this.context.SaveChangesAsync();
 
                 var worker = new Worker
                 {
                     Id = model.Id,
                     WorkerId = model.WorkerId,
-                    Gender = await this.dataContext.Genders.FindAsync(model.GenderId),
-                    Position = await this.dataContext.Positions.FindAsync(model.PositionId),
-                    User = await this.dataContext.Users.FindAsync(user.Id)
+                    Gender = await this.genderRepository.GetByIdAsync(model.GenderId),
+                    Position = await this.positionRepository.GetByIdAsync(model.PositionId),
+                    User = await this.context.Users.FindAsync(user.Id)
                 };
-
-                this.dataContext.Update(worker);
 
                 if (worker.Position.Description != "Coordinador")
                     await userHelper.AddUserToRoleAsync(user, "Teacher");
                 else
                     await userHelper.AddUserToRoleAsync(user, "Coordinator");
 
-                await dataContext.SaveChangesAsync();
+                await repository.UpdateAsync(worker);
                 return RedirectToAction(nameof(Index));
             }
             return View(model);
@@ -229,9 +216,7 @@ namespace GestorTareas.Web.Controllers
                 return NotFound();
             }
 
-            var worker = await dataContext.Workers
-                .Include(u => u.User)
-                .FirstOrDefaultAsync(t => t.Id == id);
+            var worker = await repository.GetWorkerWithUserGenderAndPositionByIdAsync(id.Value);
 
             if (worker == null)
             {
@@ -245,26 +230,15 @@ namespace GestorTareas.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var worker = await dataContext.Workers
-                .Include(u => u.User)
-                .FirstOrDefaultAsync(t => t.Id == id);
+            var worker = await repository.GetWorkerWithUserGenderAndPositionByIdAsync(id);
+            await repository.DeleteAsync(worker);
 
+            var user = await context.Users.FindAsync(worker.User.Id);
+            context.Users.Remove(user);
+            await context.SaveChangesAsync();
 
-            dataContext.Workers.Remove(worker);
-
-            var user = await dataContext.Users
-                .FindAsync(worker.User.Id);
-            dataContext.Users.Remove(user);
-
-            await dataContext.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
 
         }
-
-        //[Authorize(Roles = "Coordinator,Admin")]
-        //public IActionResult IndexOrder(string selectionChosen)
-        //{
-        //   return RedirectToAction("Index","Workers",selectionChosen);
-        //}
     }
 }

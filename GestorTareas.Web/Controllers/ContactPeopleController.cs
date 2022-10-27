@@ -1,9 +1,8 @@
-﻿using GestorTareas.Web.Data;
-using GestorTareas.Web.Data.Entities;
+﻿using GestorTareas.Web.Data.Entities;
+using GestorTareas.Web.Data.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace GestorTareas.Web.Controllers
@@ -11,16 +10,16 @@ namespace GestorTareas.Web.Controllers
     [Authorize(Roles = "Coordinator,Admin")]
     public class ContactPeopleController : Controller
     {
-        private readonly DataContext _context;
+        private readonly IContactPersonRepository repository;
 
-        public ContactPeopleController(DataContext context)
+        public ContactPeopleController(IContactPersonRepository context)
         {
-            _context = context;
+            repository = context;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.ContactPeople.ToListAsync());
+            return View(repository.GetAll());
         }
 
         public async Task<IActionResult> Details(int? id)
@@ -30,8 +29,7 @@ namespace GestorTareas.Web.Controllers
                 return NotFound();
             }
 
-            var contactPerson = await _context.ContactPeople
-                .FirstOrDefaultAsync(cP => cP.Id == id);
+            var contactPerson = await repository.GetByIdAsync(id.Value);
             if (contactPerson == null)
             {
                 return NotFound();
@@ -51,8 +49,7 @@ namespace GestorTareas.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(contactPerson);
-                await _context.SaveChangesAsync();
+                await repository.CreateAsync(contactPerson);
                 return RedirectToAction(nameof(Index));
             }
             return View(contactPerson);
@@ -65,7 +62,7 @@ namespace GestorTareas.Web.Controllers
                 return NotFound();
             }
 
-            var contactPerson = await _context.ContactPeople.FindAsync(id);
+            var contactPerson = await repository.GetByIdAsync(id.Value);
             if (contactPerson == null)
             {
                 return NotFound();
@@ -86,12 +83,11 @@ namespace GestorTareas.Web.Controllers
             {
                 try
                 {
-                    _context.Update(contactPerson);
-                    await _context.SaveChangesAsync();
+                    await repository.UpdateAsync(contactPerson);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ContactPersonExists(contactPerson.Id))
+                    if (!await repository.ExistAsync(contactPerson.Id))
                     {
                         return NotFound();
                     }
@@ -112,8 +108,7 @@ namespace GestorTareas.Web.Controllers
                 return NotFound();
             }
 
-            var contactPerson = await _context.ContactPeople
-                .FirstOrDefaultAsync(cP => cP.Id == id);
+            var contactPerson = await repository.GetByIdAsync(id.Value);
             if (contactPerson == null)
             {
                 return NotFound();
@@ -126,15 +121,9 @@ namespace GestorTareas.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var contactPerson = await _context.ContactPeople.FindAsync(id);
-            _context.ContactPeople.Remove(contactPerson);
-            await _context.SaveChangesAsync();
+            var contactPerson = await repository.GetByIdAsync(id);
+            await repository.DeleteAsync(contactPerson);
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool ContactPersonExists(int id)
-        {
-            return _context.ContactPeople.Any(cP => cP.Id == id);
         }
     }
 }

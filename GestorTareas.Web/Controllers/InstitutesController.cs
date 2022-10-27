@@ -1,34 +1,36 @@
-﻿using GestorTareas.Web.Data;
-using GestorTareas.Web.Data.Entities;
+﻿using GestorTareas.Web.Data.Entities;
+using GestorTareas.Web.Data.Repositories;
 using GestorTareas.Web.Helpers;
 using GestorTareas.Web.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace GestorTareas.Web.Controllers
 {
     public class InstitutesController : Controller
     {
-        private readonly DataContext _context;
+        private readonly IInstituteRepository _repository;
+        private readonly ICountryRepository _countryRepository;
+        private readonly IContactPersonRepository _contactPersonRepository;
         private readonly ICombosHelper combosHelper;
 
-        public InstitutesController(DataContext context,
+        public InstitutesController(IInstituteRepository repository,
+            ICountryRepository countryRepository,
+            IContactPersonRepository contactPersonRepository,
             ICombosHelper combosHelper)
         {
-            _context = context;
+            _repository = repository;
+            _countryRepository = countryRepository;
+            _contactPersonRepository = contactPersonRepository;
             this.combosHelper = combosHelper;
         }
 
         [Authorize(Roles = "Coordinator,Admin")]
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.Institutes
-                .Include(c => c.Country)
-                .Include(c => c.ContactPerson)
-                .ToListAsync());
+            return View(_repository.GetAllInstitutesWithCountriesAndContactPeople());
         }
 
         [Authorize(Roles = "Coordinator,Admin")]
@@ -39,10 +41,7 @@ namespace GestorTareas.Web.Controllers
                 return NotFound();
             }
 
-            var institute = await _context.Institutes
-                .Include(c => c.Country)
-                .Include(c => c.ContactPerson)
-                .FirstOrDefaultAsync(i => i.Id == id);
+            var institute = await _repository.GetInstituteWithCountryAndContactPersonAsync(id.Value);
             if (institute == null)
             {
                 return NotFound();
@@ -76,12 +75,11 @@ namespace GestorTareas.Web.Controllers
                     StreetNumber = model.StreetNumber,
                     District = model.District,
                     City = model.City,
-                    Country = await this._context.Countries.FindAsync(model.CountryId),
-                    ContactPerson = await this._context.ContactPeople.FindAsync(model.ContactPersonId)
+                    Country = await this._countryRepository.GetByIdAsync(model.CountryId),
+                    ContactPerson = await this._contactPersonRepository.GetByIdAsync(model.ContactPersonId)
                 };
 
-                _context.Add(institute);
-                await _context.SaveChangesAsync();
+                await _repository.CreateAsync(institute);
                 return RedirectToAction(nameof(Index));
             }
             return View(model);
@@ -95,10 +93,7 @@ namespace GestorTareas.Web.Controllers
                 return NotFound();
             }
 
-            var institute = await _context.Institutes
-                .Include(c => c.Country)
-                .Include(c => c.ContactPerson)
-                .FirstOrDefaultAsync(i => i.Id == id);
+            var institute = await _repository.GetInstituteWithCountryAndContactPersonAsync(id.Value);
             if (institute == null)
             {
                 return NotFound();
@@ -132,12 +127,11 @@ namespace GestorTareas.Web.Controllers
             {
                 try
                 {
-                    _context.Update(model);
-                    await _context.SaveChangesAsync();
+                    await _repository.UpdateAsync(model);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!InstituteExists(model.Id))
+                    if (!await _repository.ExistAsync(model.Id))
                     {
                         return NotFound();
                     }
@@ -159,10 +153,7 @@ namespace GestorTareas.Web.Controllers
                 return NotFound();
             }
 
-            var institute = await _context.Institutes
-                .Include(c => c.Country)
-                .Include(c => c.ContactPerson)
-                .FirstOrDefaultAsync(i => i.Id == id);
+            var institute = await _repository.GetInstituteWithCountryAndContactPersonAsync(id.Value);
             if (institute == null)
             {
                 return NotFound();
@@ -175,18 +166,9 @@ namespace GestorTareas.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var institute = await _context.Institutes
-                .Include(c => c.Country)
-                .Include(c => c.ContactPerson)
-                .FirstOrDefaultAsync(i => i.Id == id);
-            _context.Institutes.Remove(institute);
-            await _context.SaveChangesAsync();
+            var institute = await _repository.GetInstituteWithCountryAndContactPersonAsync(id);
+            await _repository.DeleteAsync(institute);
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool InstituteExists(int id)
-        {
-            return _context.Institutes.Any(i => i.Id == id);
         }
     }
 }

@@ -1,9 +1,8 @@
-﻿using GestorTareas.Web.Data;
-using GestorTareas.Web.Data.Entities;
+﻿using GestorTareas.Web.Data.Entities;
+using GestorTareas.Web.Data.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace GestorTareas.Web.Controllers
@@ -11,16 +10,16 @@ namespace GestorTareas.Web.Controllers
     [Authorize(Roles = "Coordinator,Admin")]
     public class CountriesController : Controller
     {
-        private readonly DataContext _context;
+        private readonly ICountryRepository _repository;
 
-        public CountriesController(DataContext context)
+        public CountriesController(ICountryRepository repository)
         {
-            _context = context;
+            _repository = repository;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.Countries.ToListAsync());
+            return View(_repository.GetAll());
         }
 
         public async Task<IActionResult> Details(int? id)
@@ -30,8 +29,7 @@ namespace GestorTareas.Web.Controllers
                 return NotFound();
             }
 
-            var country = await _context.Countries
-                .FirstOrDefaultAsync(c => c.Id == id);
+            var country = await _repository.GetByIdAsync(id.Value);
             if (country == null)
             {
                 return NotFound();
@@ -51,8 +49,7 @@ namespace GestorTareas.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(country);
-                await _context.SaveChangesAsync();
+                await _repository.CreateAsync(country);
                 return RedirectToAction(nameof(Index));
             }
             return View(country);
@@ -65,7 +62,7 @@ namespace GestorTareas.Web.Controllers
                 return NotFound();
             }
 
-            var country = await _context.Countries.FindAsync(id);
+            var country = await _repository.GetByIdAsync(id.Value);
             if (country == null)
             {
                 return NotFound();
@@ -86,12 +83,11 @@ namespace GestorTareas.Web.Controllers
             {
                 try
                 {
-                    _context.Update(country);
-                    await _context.SaveChangesAsync();
+                    await _repository.UpdateAsync(country);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CountryExists(country.Id))
+                    if (!await _repository.ExistAsync(country.Id))
                     {
                         return NotFound();
                     }
@@ -112,8 +108,7 @@ namespace GestorTareas.Web.Controllers
                 return NotFound();
             }
 
-            var country = await _context.Countries
-                .FirstOrDefaultAsync(c => c.Id == id);
+            var country = await _repository.GetByIdAsync(id.Value);
             if (country == null)
             {
                 return NotFound();
@@ -126,15 +121,9 @@ namespace GestorTareas.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var country = await _context.Countries.FindAsync(id);
-            _context.Countries.Remove(country);
-            await _context.SaveChangesAsync();
+            var country = await _repository.GetByIdAsync(id);
+            await _repository.DeleteAsync(country);
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool CountryExists(int id)
-        {
-            return _context.Countries.Any(c => c.Id == id);
         }
     }
 }

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace GestorTareas.Web.Data.Entities
 {
-    public class User:IdentityUser
+    public class User : IdentityUser
     {
         [Required(ErrorMessage = "{0} es obligatorio.")]
         [MaxLength(50, ErrorMessage = "El campo {0} no puede tener más de {1} caracteres.")]

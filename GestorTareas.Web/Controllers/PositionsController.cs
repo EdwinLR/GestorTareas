@@ -1,9 +1,8 @@
-﻿using GestorTareas.Web.Data;
-using GestorTareas.Web.Data.Entities;
+﻿using GestorTareas.Web.Data.Entities;
+using GestorTareas.Web.Data.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace GestorTareas.Web.Controllers
@@ -11,16 +10,16 @@ namespace GestorTareas.Web.Controllers
     [Authorize(Roles = "Coordinator,Admin")]
     public class PositionsController : Controller
     {
-        private readonly DataContext _context;
+        private readonly IPositionRepository _repository;
 
-        public PositionsController(DataContext context)
+        public PositionsController(IPositionRepository repository)
         {
-            _context = context;
+            _repository = repository;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.Positions.ToListAsync());
+            return View(_repository.GetAll());
         }
 
         public async Task<IActionResult> Details(int? id)
@@ -30,8 +29,7 @@ namespace GestorTareas.Web.Controllers
                 return NotFound();
             }
 
-            var position = await _context.Positions
-                .FirstOrDefaultAsync(p => p.Id == id);
+            var position = await _repository.GetByIdAsync(id.Value);
             if (position == null)
             {
                 return NotFound();
@@ -51,8 +49,7 @@ namespace GestorTareas.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(position);
-                await _context.SaveChangesAsync();
+                await _repository.CreateAsync(position);
                 return RedirectToAction(nameof(Index));
             }
             return View(position);
@@ -65,7 +62,7 @@ namespace GestorTareas.Web.Controllers
                 return NotFound();
             }
 
-            var position = await _context.Positions.FindAsync(id);
+            var position = await _repository.GetByIdAsync(id.Value);
             if (position == null)
             {
                 return NotFound();
@@ -86,12 +83,11 @@ namespace GestorTareas.Web.Controllers
             {
                 try
                 {
-                    _context.Update(position);
-                    await _context.SaveChangesAsync();
+                    await _repository.UpdateAsync(position);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PositionExists(position.Id))
+                    if (!await _repository.ExistAsync(position.Id))
                     {
                         return NotFound();
                     }
@@ -112,8 +108,7 @@ namespace GestorTareas.Web.Controllers
                 return NotFound();
             }
 
-            var position = await _context.Positions
-                .FirstOrDefaultAsync(p => p.Id == id);
+            var position = await _repository.GetByIdAsync(id.Value);
             if (position == null)
             {
                 return NotFound();
@@ -126,15 +121,9 @@ namespace GestorTareas.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var position = await _context.Positions.FindAsync(id);
-            _context.Positions.Remove(position);
-            await _context.SaveChangesAsync();
+            var position = await _repository.GetByIdAsync(id);
+            await _repository.DeleteAsync(position);
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool PositionExists(int id)
-        {
-            return _context.Positions.Any(p => p.Id == id);
         }
     }
 }

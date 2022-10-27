@@ -1,9 +1,8 @@
-﻿using GestorTareas.Web.Data;
-using GestorTareas.Web.Data.Entities;
+﻿using GestorTareas.Web.Data.Entities;
+using GestorTareas.Web.Data.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace GestorTareas.Web.Controllers
@@ -11,16 +10,16 @@ namespace GestorTareas.Web.Controllers
     [Authorize(Roles = "Coordinator,Admin")]
     public class CareersController : Controller
     {
-        private readonly DataContext _context;
+        private readonly ICareerRepository repository;
 
-        public CareersController(DataContext context)
+        public CareersController(ICareerRepository repository)
         {
-            _context = context;
+            this.repository = repository;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.Careers.ToListAsync());
+            return View(this.repository.GetAll());
         }
 
         public async Task<IActionResult> Details(int? id)
@@ -30,8 +29,7 @@ namespace GestorTareas.Web.Controllers
                 return NotFound();
             }
 
-            var career = await _context.Careers
-                .FirstOrDefaultAsync(c => c.Id == id);
+            var career = await this.repository.GetByIdAsync(id.Value);
             if (career == null)
             {
                 return NotFound();
@@ -51,8 +49,7 @@ namespace GestorTareas.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(career);
-                await _context.SaveChangesAsync();
+                await this.repository.CreateAsync(career);
                 return RedirectToAction(nameof(Index));
             }
             return View(career);
@@ -65,7 +62,7 @@ namespace GestorTareas.Web.Controllers
                 return NotFound();
             }
 
-            var career = await _context.Careers.FindAsync(id);
+            var career = await this.repository.GetByIdAsync(id.Value);
             if (career == null)
             {
                 return NotFound();
@@ -86,12 +83,11 @@ namespace GestorTareas.Web.Controllers
             {
                 try
                 {
-                    _context.Update(career);
-                    await _context.SaveChangesAsync();
+                    await this.repository.UpdateAsync(career);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CareerExists(career.Id))
+                    if (!await this.repository.ExistAsync(career.Id))
                     {
                         return NotFound();
                     }
@@ -112,8 +108,7 @@ namespace GestorTareas.Web.Controllers
                 return NotFound();
             }
 
-            var career = await _context.Careers
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var career = await this.repository.GetByIdAsync(id.Value);
             if (career == null)
             {
                 return NotFound();
@@ -126,15 +121,9 @@ namespace GestorTareas.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var career = await _context.Careers.FindAsync(id);
-            _context.Careers.Remove(career);
-            await _context.SaveChangesAsync();
+            var career = await this.repository.GetByIdAsync(id);
+            await this.repository.DeleteAsync(career);
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool CareerExists(int id)
-        {
-            return _context.Careers.Any(c => c.Id == id);
         }
     }
 }

@@ -1,9 +1,8 @@
-﻿using GestorTareas.Web.Data;
-using GestorTareas.Web.Data.Entities;
+﻿using GestorTareas.Web.Data.Entities;
+using GestorTareas.Web.Data.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace GestorTareas.Web.Controllers
@@ -11,16 +10,16 @@ namespace GestorTareas.Web.Controllers
     [Authorize(Roles = "Coordinator,Admin")]
     public class StatusesController : Controller
     {
-        private readonly DataContext _context;
+        private readonly IStatusRepository _repository;
 
-        public StatusesController(DataContext context)
+        public StatusesController(IStatusRepository repository)
         {
-            _context = context;
+            _repository = repository;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.Statuses.ToListAsync());
+            return View(_repository.GetAll());
         }
 
         public async Task<IActionResult> Details(int? id)
@@ -30,8 +29,7 @@ namespace GestorTareas.Web.Controllers
                 return NotFound();
             }
 
-            var status = await _context.Statuses
-                .FirstOrDefaultAsync(s => s.Id == id);
+            var status = await _repository.GetByIdAsync(id.Value);
             if (status == null)
             {
                 return NotFound();
@@ -51,8 +49,7 @@ namespace GestorTareas.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(status);
-                await _context.SaveChangesAsync();
+                await _repository.CreateAsync(status);
                 return RedirectToAction(nameof(Index));
             }
             return View(status);
@@ -65,7 +62,7 @@ namespace GestorTareas.Web.Controllers
                 return NotFound();
             }
 
-            var status = await _context.Statuses.FindAsync(id);
+            var status = await _repository.GetByIdAsync(id.Value);
             if (status == null)
             {
                 return NotFound();
@@ -86,12 +83,11 @@ namespace GestorTareas.Web.Controllers
             {
                 try
                 {
-                    _context.Update(status);
-                    await _context.SaveChangesAsync();
+                    await _repository.UpdateAsync(status);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!StatusExists(status.Id))
+                    if (!await _repository.ExistAsync(status.Id))
                     {
                         return NotFound();
                     }
@@ -112,8 +108,7 @@ namespace GestorTareas.Web.Controllers
                 return NotFound();
             }
 
-            var status = await _context.Statuses
-                .FirstOrDefaultAsync(s => s.Id == id);
+            var status = await _repository.GetByIdAsync(id.Value);
             if (status == null)
             {
                 return NotFound();
@@ -126,15 +121,9 @@ namespace GestorTareas.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var status = await _context.Statuses.FindAsync(id);
-            _context.Statuses.Remove(status);
-            await _context.SaveChangesAsync();
+            var status = await _repository.GetByIdAsync(id);
+            await _repository.DeleteAsync(status);
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool StatusExists(int id)
-        {
-            return _context.Statuses.Any(s => s.Id == id);
         }
     }
 }

@@ -1,9 +1,8 @@
-﻿using GestorTareas.Web.Data;
-using GestorTareas.Web.Data.Entities;
+﻿using GestorTareas.Web.Data.Entities;
+using GestorTareas.Web.Data.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace GestorTareas.Web.Controllers
@@ -11,16 +10,16 @@ namespace GestorTareas.Web.Controllers
     [Authorize(Roles = "Coordinator,Admin")]
     public class GendersController : Controller
     {
-        private readonly DataContext _context;
+        private readonly IGenderRepository _repository;
 
-        public GendersController(DataContext context)
+        public GendersController(IGenderRepository repository)
         {
-            _context = context;
+            _repository = repository;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.Genders.ToListAsync());
+            return View(_repository.GetAll());
         }
 
         public async Task<IActionResult> Details(int? id)
@@ -30,8 +29,7 @@ namespace GestorTareas.Web.Controllers
                 return NotFound();
             }
 
-            var gender = await _context.Genders
-                .FirstOrDefaultAsync(g => g.Id == id);
+            var gender = await _repository.GetByIdAsync(id.Value);
             if (gender == null)
             {
                 return NotFound();
@@ -51,8 +49,7 @@ namespace GestorTareas.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(gender);
-                await _context.SaveChangesAsync();
+                await _repository.CreateAsync(gender);
                 return RedirectToAction(nameof(Index));
             }
             return View(gender);
@@ -65,7 +62,7 @@ namespace GestorTareas.Web.Controllers
                 return NotFound();
             }
 
-            var gender = await _context.Genders.FindAsync(id);
+            var gender = await _repository.GetByIdAsync(id.Value);
             if (gender == null)
             {
                 return NotFound();
@@ -86,12 +83,11 @@ namespace GestorTareas.Web.Controllers
             {
                 try
                 {
-                    _context.Update(gender);
-                    await _context.SaveChangesAsync();
+                    await _repository.UpdateAsync(gender);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!GenderExists(gender.Id))
+                    if (!await _repository.ExistAsync(gender.Id))
                     {
                         return NotFound();
                     }
@@ -112,8 +108,7 @@ namespace GestorTareas.Web.Controllers
                 return NotFound();
             }
 
-            var gender = await _context.Genders
-                .FirstOrDefaultAsync(g => g.Id == id);
+            var gender = await _repository.GetByIdAsync(id.Value);
             if (gender == null)
             {
                 return NotFound();
@@ -126,15 +121,9 @@ namespace GestorTareas.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var gender = await _context.Genders.FindAsync(id);
-            _context.Genders.Remove(gender);
-            await _context.SaveChangesAsync();
+            var gender = await _repository.GetByIdAsync(id);
+            await _repository.DeleteAsync(gender);
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool GenderExists(int id)
-        {
-            return _context.Genders.Any(g => g.Id == id);
         }
     }
 }

@@ -1,9 +1,8 @@
-﻿using GestorTareas.Web.Data;
-using GestorTareas.Web.Data.Entities;
+﻿using GestorTareas.Web.Data.Entities;
+using GestorTareas.Web.Data.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace GestorTareas.Web.Controllers
@@ -11,16 +10,16 @@ namespace GestorTareas.Web.Controllers
     [Authorize(Roles = "Coordinator,Admin")]
     public class PrioritiesController : Controller
     {
-        private readonly DataContext _context;
+        private readonly IPriorityRepository _repository;
 
-        public PrioritiesController(DataContext context)
+        public PrioritiesController(IPriorityRepository repository)
         {
-            _context = context;
+            _repository = repository;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.Priorities.ToListAsync());
+            return View(_repository.GetAll());
         }
 
         public async Task<IActionResult> Details(int? id)
@@ -30,8 +29,7 @@ namespace GestorTareas.Web.Controllers
                 return NotFound();
             }
 
-            var priority = await _context.Priorities
-                .FirstOrDefaultAsync(p => p.Id == id);
+            var priority = await _repository.GetByIdAsync(id.Value);
             if (priority == null)
             {
                 return NotFound();
@@ -51,8 +49,7 @@ namespace GestorTareas.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(priority);
-                await _context.SaveChangesAsync();
+                await _repository.CreateAsync(priority);
                 return RedirectToAction(nameof(Index));
             }
             return View(priority);
@@ -65,7 +62,7 @@ namespace GestorTareas.Web.Controllers
                 return NotFound();
             }
 
-            var priority = await _context.Priorities.FindAsync(id);
+            var priority = await _repository.GetByIdAsync(id.Value);
             if (priority == null)
             {
                 return NotFound();
@@ -86,12 +83,11 @@ namespace GestorTareas.Web.Controllers
             {
                 try
                 {
-                    _context.Update(priority);
-                    await _context.SaveChangesAsync();
+                    await _repository.UpdateAsync(priority);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PriorityExists(priority.Id))
+                    if (!await _repository.ExistAsync(priority.Id))
                     {
                         return NotFound();
                     }
@@ -112,8 +108,7 @@ namespace GestorTareas.Web.Controllers
                 return NotFound();
             }
 
-            var priority = await _context.Priorities
-                .FirstOrDefaultAsync(p => p.Id == id);
+            var priority = await _repository.GetByIdAsync(id.Value);
             if (priority == null)
             {
                 return NotFound();
@@ -126,15 +121,9 @@ namespace GestorTareas.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var priority = await _context.Priorities.FindAsync(id);
-            _context.Priorities.Remove(priority);
-            await _context.SaveChangesAsync();
+            var priority = await _repository.GetByIdAsync(id);
+            await _repository.DeleteAsync(priority);
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool PriorityExists(int id)
-        {
-            return _context.Priorities.Any(p => p.Id == id);
         }
     }
 }
