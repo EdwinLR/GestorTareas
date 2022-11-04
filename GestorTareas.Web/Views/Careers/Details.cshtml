@@ -8,12 +8,20 @@
 <link rel="stylesheet" href="~/css/style-icon.css" />
 
 <h1>Alumnos Inscritos</h1>
-
+<div>
+    <a asp-action="Index" class="btn btn-outline-secondary">
+        <span class="icon-undo2"></span>  Regresar a la lista
+    </a>
+</div>
+<br />
 <table class="table" style="text-align:center;">
     <thead>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.User.FullName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StudentId)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.User.Email)
@@ -26,6 +34,9 @@
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.User.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StudentId)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.User.Email)
