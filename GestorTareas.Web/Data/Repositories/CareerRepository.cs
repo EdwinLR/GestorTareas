@@ -1,6 +1,7 @@
 ﻿using GestorTareas.Web.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace GestorTareas.Web.Data.Repositories
 {
@@ -12,12 +13,6 @@ namespace GestorTareas.Web.Data.Repositories
         public CareerRepository(DataContext context) : base(context)
         {
             this.context = context;
-        }
-        public IQueryable GetCareersWithStudents()
-        {
-            return this.context.Careers
-                .Include(c => c.Students)
-                .OrderBy(c => c.Name);
         }
     }
 }

@@ -11,10 +11,12 @@ namespace GestorTareas.Web.Controllers
     public class CareersController : Controller
     {
         private readonly ICareerRepository repository;
+        public readonly IStudentRepository studentRepository;
 
-        public CareersController(ICareerRepository repository)
+        public CareersController(ICareerRepository repository, IStudentRepository studentRepository)
         {
             this.repository = repository;
+            this.studentRepository = studentRepository;
         }
 
         public IActionResult Index()
@@ -22,20 +24,16 @@ namespace GestorTareas.Web.Controllers
             return View(this.repository.GetAll());
         }
 
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var career = await this.repository.GetByIdAsync(id.Value);
-            if (career == null)
-            {
-                return NotFound();
-            }
+            var careerStudents = this.studentRepository.GetStudentsByCareer(id.Value);
 
-            return View(career);
+            return View(careerStudents);
         }
 
         public IActionResult Create()

@@ -6,6 +6,6 @@ namespace GestorTareas.Web.Data.Repositories
 {
     public interface IStudentRepository : IGenericRepository<Student>
     {
-        //Metodos unicos de la entidad
+        IQueryable GetStudentsByCareer(int id);
     }
 }

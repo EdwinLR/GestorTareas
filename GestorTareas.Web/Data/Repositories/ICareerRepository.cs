@@ -8,6 +8,5 @@ namespace GestorTareas.Web.Data.Repositories
     {
         //Task<Career> GetCareerByIdWithProjects(int id);
 
-        IQueryable GetCareersWithStudents();
     }
 }

@@ -29,6 +29,9 @@
                     <a>Editar</a>
                 </th>
                 <th scope="col">
+                    <a>Detalles</a>
+                </th>
+                <th scope="col">
                     <a>Eliminar</a>
                 </th>
             }
@@ -49,6 +52,11 @@
                     <td>
                         <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-primary">
                         <span class="icon-pencil"></span>
+                        </a>
+                    </td>
+                    <td>
+                         <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-dark">
+                            <span class="icon-list"></span>
                         </a>
                     </td>
                     <td>
