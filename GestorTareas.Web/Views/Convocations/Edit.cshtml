@@ -1,0 +1,70 @@
+﻿@model GestorTareas.Web.Models.ConvocationViewModel
+
+@{
+    ViewData["Title"] = "Editar convocatoria";
+}
+
+<link rel="stylesheet" href="~/css/style-icon.css" />
+<link href="~/css/estilo-home.css" type="text/css" rel="stylesheet" />
+
+<h1>Editar convocatoria</h1>
+
+<h4>Convocatoria</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+
+            <div class="form-group">
+                <label asp-for="StartingDate" class="control-label"></label>
+                <input asp-for="StartingDate" class="form-control" />
+                <span asp-validation-for="StartingDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EndingDate" class="control-label"></label>
+                <input asp-for="EndingDate" class="form-control" />
+                <span asp-validation-for="EndingDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Summary" class="control-label"></label>
+                <input asp-for="Summary" class="form-control" />
+                <span asp-validation-for="Summary" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Requirements" class="control-label"></label>
+                <input asp-for="Requirements" class="form-control" />
+                <span asp-validation-for="Requirements" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Prizes" class="control-label"></label>
+                <input asp-for="Prizes" class="form-control" type="text" />
+                <span asp-validation-for="Prizes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ConvocationUrl" class="control-label"></label>
+                <input asp-for="ConvocationUrl" class="form-control" type="text" />
+                <span asp-validation-for="ConvocationUrl" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Institute" class="control-label"></label>
+                <select asp-for="InstituteId" asp-items="Model.Insitutes" class="form-control"></select>
+                <span asp-validation-for="Institute" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Guardar" class="btn btn-outline-primary" />
+                <a asp-action="Index" class="btn btn-outline-secondary">
+                    <span class="icon-undo2"></span>  Regresar a la Lista
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }

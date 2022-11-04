@@ -21,7 +21,7 @@
         }
 
         //[HttpPost]
-        //public async Task<IActionResult> PostCareer()
+        //public async Task<IActionResult> PostCareer([FromBody ])
         //{
 
         //}

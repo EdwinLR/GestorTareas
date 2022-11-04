@@ -44,12 +44,13 @@ namespace GestorTareas.Web
             });
 
             services.AddTransient<Seeder>();
-            services.AddScoped<IUserHelper, UserHelper>();
-            services.AddScoped<ICombosHelper, CombosHelper>();
-            services.AddScoped<IImageHelper, ImageHelper>();
-            services.AddScoped<ICareerRepository, CareerRepository>();
-            services.AddScoped<ICategoryRepository,CategoryRepository>();
+            services.AddScoped <IUserHelper, UserHelper>();
+            services.AddScoped <ICombosHelper, CombosHelper>();
+            services.AddScoped <IImageHelper, ImageHelper>();
+            services.AddScoped <ICareerRepository, CareerRepository>();
+            services.AddScoped <ICategoryRepository,CategoryRepository>();
             services.AddScoped <IContactPersonRepository,ContactPersonRepository>();
+            services.AddScoped <IConvocationRepository, ConvocationRepository>();
             services.AddScoped <ICountryRepository,CountryRepository>();
             services.AddScoped <IGenderRepository,GenderRepository>();
             services.AddScoped <IInstituteRepository,InstituteRepository>();

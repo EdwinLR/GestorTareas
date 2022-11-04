@@ -134,7 +134,20 @@ namespace GestorTareas.Web.Helpers
             return list;
         }
 
-        
-        
+
+        public IEnumerable<SelectListItem> GetComboInstitutes()
+        {
+            var list = this.dataContext.Institutes.Select(f => new SelectListItem
+            {
+                Text = $"{f.Name}",
+                Value = $"{f.Id}"
+            }).ToList();
+            list.Insert(0, new SelectListItem
+            {
+                Text = "(Selecciona un instituto)",
+                Value = "0"
+            });
+            return list;
+        }
     }
 }

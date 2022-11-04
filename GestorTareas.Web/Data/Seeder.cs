@@ -43,7 +43,9 @@ namespace GestorTareas.Web.Data
 
             if (!this.dataContext.ContactPeople.Any())
             {
-                await CheckContactPerson("Rodrigo", "Flores", "Reyes", "rodFR@ieee.com", 2224596532);
+                await CheckContactPerson("Gilberto", "Flores", "Reyes", "gilFR@ieee.com", 2224596532);
+                await CheckContactPerson("Sandra", "Sanchez", "Serrano", "sanSS@cisco.com", 2498756229);
+                await CheckContactPerson("Oscar", "Gonzalez", "Rodriguez", "oscGR@mexabat.com", 2481568765);
             }
 
             if (!this.dataContext.Countries.Any())
@@ -80,6 +82,28 @@ namespace GestorTareas.Web.Data
                 await CheckPosition("Maestro Medio Tiempo");
                 await CheckPosition("Maestro Hora-Clase");
                 await CheckPosition("Coordinador");
+            }
+
+            if (!this.dataContext.Institutes.Any())
+            {
+                var country = this.dataContext.Countries.FirstOrDefault(c => c.Id == 1);
+                var contact = this.dataContext.ContactPeople.FirstOrDefault(c => c.Id == 1);
+                await CheckInstitutes("Santander", "7564581597", "Independencia", "11A", "Centro Historico", "Monterrey", country, contact);
+                contact = this.dataContext.ContactPeople.FirstOrDefault(c => c.Id == 2);
+                await CheckInstitutes("IEEE", "5248157684", "Reforma", "456", "Venustiano Carranza", "Cuidad de México", country, contact);
+                country = this.dataContext.Countries.FirstOrDefault(c => c.Id == 2);
+                contact = this.dataContext.ContactPeople.FirstOrDefault(c => c.Id == 3);
+                await CheckInstitutes("Microsoft", "6745981642", "Patriotism", "78G", "St. Patrick", "Seattle", country, contact);
+            }
+
+            if (!this.dataContext.Convocations.Any())
+            {
+                var institute = this.dataContext.Institutes.FirstOrDefault(c => c.Id == 1);
+                await CheckConvocations(new DateTime(2022, 5, 1), new DateTime(2022, 11, 30), "Beca Santander Estudios", "Requisitos: ", "Premios: ", "https://app.becas-santander.com/es/program/becas-santander-estudios-apoyo-a-la-manutencion-2022", institute);
+                institute = this.dataContext.Institutes.FirstOrDefault(c => c.Id == 2);
+                await CheckConvocations(new DateTime(2022, 8, 1), new DateTime(2022, 9, 30), "World Championship 2022", "Requisitos: ", "Premios: ", "https://www.google.com.mx", institute);
+                institute = this.dataContext.Institutes.FirstOrDefault(c => c.Id == 3);
+                await CheckConvocations(new DateTime(2022, 10, 1), new DateTime(2023, 1, 27), "Imagine Cup 2022", "Requisitos: ", "Premios: ", "https://imaginecup.microsoft.com/es-es/Events", institute);
             }
 
             if (!this.dataContext.Students.Any())
@@ -191,6 +215,39 @@ namespace GestorTareas.Web.Data
             this.dataContext.Statuses.Add(new Status
             {
                 StatusName = name
+            }
+            );
+            await this.dataContext.SaveChangesAsync();
+        }
+
+        private async Task CheckInstitutes(string name, string contactPhone, string streetName, string streetNumber, string district, string city, Country country, ContactPerson contact)
+        {
+            this.dataContext.Institutes.Add(new Institute
+            {
+                Name = name,
+                ContactPhone = contactPhone,
+                StreetName = streetName,
+                StreetNumber = streetNumber,
+                District = district,
+                City = city,
+                Country = country,
+                ContactPerson = contact
+            }
+            );
+            await this.dataContext.SaveChangesAsync();
+        }
+
+        private async Task CheckConvocations(DateTime startDate, DateTime endDate, string summary, string requirements, string prizes, string convocationURL, Institute institute)
+        {
+            this.dataContext.Convocations.Add(new Convocation
+            {
+                StartingDate = startDate,
+                EndingDate = endDate,
+                Summary = summary,
+                Requirements = requirements,
+                Prizes = prizes,
+                ConvocationUrl = convocationURL,
+                Institute = institute
             }
             );
             await this.dataContext.SaveChangesAsync();
