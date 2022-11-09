@@ -1,6 +1,7 @@
 ﻿using GestorTareas.Web.Data.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace GestorTareas.Web.Data
 {
@@ -27,6 +28,19 @@ namespace GestorTareas.Web.Data
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
 
+        }
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            var cascadeFKs = builder.Model
+           .G­etEntityTypes()
+           .SelectMany(t => t.GetForeignKeys())
+           .Where(fk => !fk.IsOwnership && fk.DeleteBehavior == DeleteBehavior.Casca­de);
+            foreach (var fk in cascadeFKs)
+            {
+                fk.DeleteBehavior = DeleteBehavior.Restr­ict;
+            }
+
+            base.OnModelCreating(builder);
         }
     }
 }
