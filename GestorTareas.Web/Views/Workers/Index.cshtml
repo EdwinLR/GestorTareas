@@ -128,22 +128,3 @@
 }
     </tbody>
 </table>
-
-<script>
-    function ChangeView()
-    {
-        $.ajax(
-            {
-                url: "@Url.Action("Index", "Workers")",
-                type: "GET",
-                data: { order: $('#orderBy').val() 
-            },
-            success: function(data) 
-            {
-                var order ={"order":$('#orderBy').val() }
-                location.href = '/Workers/Index';
-                $(this).r(location.href, {"order":order});
-            }
-        });
-    }
-</script>

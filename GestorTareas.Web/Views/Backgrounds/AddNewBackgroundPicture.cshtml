@@ -1,0 +1,38 @@
+﻿@model GestorTareas.Web.Models.BackgroundViewModel
+
+@{
+    ViewData["Title"] = "Establecer Fondo de Pantalla";
+}
+<link href="~/css/estilo-home.css" type="text/css" rel="stylesheet" />
+<link rel="stylesheet" href="~/css/style-icon.css" />
+
+<h1>Establecer Fondo de Pantalla</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddNewBackgroundPicture">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" type="text"/>
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ImageFile" class="control-label"></label>
+                <input asp-for="ImageFile" class="form-control" type="file" accept="image/*" />
+                <span asp-validation-for="ImageFile" class="text-danger"></span>
+            </div>
+             <div class="form-group">
+                <input type="submit" value="Agregar Imagen" class="btn btn-outline-success" /> |
+                <a asp-action="Index" class="btn btn-outline-secondary">
+                    <span class="icon-undo2"></span> Regresar a la Página Principal</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }

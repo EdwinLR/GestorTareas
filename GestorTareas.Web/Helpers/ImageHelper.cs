@@ -49,5 +49,18 @@ namespace GestorTareas.Web.Helpers
                 return url;
             }
         }
+
+        public async Task<string> AddImageAsync(IFormFile imageFile, string nameFile, string folder)
+        {
+                var guid = Guid.NewGuid().ToString();
+                var file = $"{nameFile}-{guid}";
+                var path = Path.Combine(Directory.GetCurrentDirectory(),
+                    $"wwwroot\\images\\{folder}", file);
+                using (var stream = new FileStream(path, FileMode.Create))
+                {
+                    await imageFile.CopyToAsync(stream);
+                }
+                return $"/images/{folder}/{file}";
+        }
     }
 }

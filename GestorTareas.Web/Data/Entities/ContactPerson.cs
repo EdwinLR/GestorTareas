@@ -27,9 +27,9 @@ namespace GestorTareas.Web.Data.Entities
         [Display(Name = "Teléfono")]
         public long PhoneNumber { get; set; }
 
-        [Required(ErrorMessage = "Correo electronico requerido")]
+        [Required(ErrorMessage = "Correo electrónico requerido")]
         [MaxLength(80)]
-        [Display(Name = "Correo electronico")]
+        [Display(Name = "Correo electrónico")]
         public string Email { get; set; }
 
         [Display(Name = "Nombre Completo")]

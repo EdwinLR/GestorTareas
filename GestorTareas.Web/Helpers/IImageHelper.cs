@@ -7,5 +7,8 @@ namespace GestorTareas.Web.Helpers
     {
         Task<string> UploadImageAsync(IFormFile imageFile, string nameFile, string folder);
         Task<string> UpdateImageAsync(IFormFile imageFile, string url);
+
+        Task<string> AddImageAsync(IFormFile imageFile, string nameFile, string folder);
+
     }
 }

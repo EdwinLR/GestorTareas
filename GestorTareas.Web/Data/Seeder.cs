@@ -26,6 +26,11 @@ namespace GestorTareas.Web.Data
             await userHelper.CheckRoleAsync("Student");
             await userHelper.CheckRoleAsync("Teacher");
 
+            if(!this.dataContext.Backgrounds.Any())
+            {
+                await CheckBackground("Fondo UMAD 40 Aniversario", "/images/BackgroundPictures/bannerweb_40aniv.jpg", true);
+            }
+
             if (!this.dataContext.Careers.Any())
             {
                 await CheckCareer("Ingeniería de Software", "ISF");
@@ -133,6 +138,18 @@ namespace GestorTareas.Web.Data
                 await CheckAdmin(user, "Admin");
             }
 
+        }
+
+        private async Task CheckBackground(string name, string photoUrl, bool establishedAsBackground)
+        {
+            this.dataContext.Backgrounds.Add(new Background
+            {
+                Name = name,
+                PhotoUrl = photoUrl,
+                EstablishedPicture = establishedAsBackground
+            });
+
+            await this.dataContext.SaveChangesAsync();
         }
 
         private async Task CheckPosition(string description)

@@ -42,6 +42,6 @@ namespace GestorTareas.Web.Data.Entities
 
         [Display(Name = "Persona de contacto")]
         public ContactPerson ContactPerson { get; set; }
-        public ICollection<Convocation> Annoucements { get; set; }
+        public ICollection<Convocation> Convocations { get; set; }
     }
 }
