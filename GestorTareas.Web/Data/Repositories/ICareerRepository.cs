@@ -6,7 +6,7 @@ namespace GestorTareas.Web.Data.Repositories
 {
     public interface ICareerRepository : IGenericRepository<Career>
     {
-        //Task<Career> GetCareerByIdWithProjects(int id);
+        //Task<Career> GetCareerWithStudentsById(int id);
 
     }
 }

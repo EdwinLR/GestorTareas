@@ -18,7 +18,6 @@ namespace GestorTareas.Web.Data.Repositories
         public async Task<T> CreateAsync(T entity)
         {
             await this.context.Set<T>().AddAsync(entity);
-            //En la llamada del controlador de Worker genera error.
             await this.context.SaveChangesAsync();
             return entity;
         }
