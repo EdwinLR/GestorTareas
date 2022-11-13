@@ -4,7 +4,7 @@ using System.ComponentModel;
 
 namespace GestorTareas.Web.Models
 {
-    public class BackgroundViewModel:Background
+    public class BackgroundViewModel : Background
     {
 
         [DisplayName("Imagen de Fondo")]

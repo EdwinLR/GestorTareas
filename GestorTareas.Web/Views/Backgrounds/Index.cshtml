@@ -4,7 +4,6 @@
     ViewData["Title"] = "Imágenes de Fondo";
 }
 
-<link href="~/css/estilo-home.css" type="text/css" rel="stylesheet" />
 <link rel="stylesheet" href="~/css/style-icon.css" />
 
 <h1>Imágenes de Fondo</h1>
@@ -27,14 +26,11 @@
                 <a>Establecer como fondo</a>
             </th>
             <th>
-                <a>Editar</a>
-            </th>
-            <th>
                 <a>Eliminar</a>
             </th>
         </tr>
     </thead>
-    <tbody>
+    <tbody style="text-align:center;">
         @foreach (var item in Model)
         {
             <tr>
@@ -49,25 +45,50 @@
                 </td>
                     @if(item.EstablishedPicture)
                     {
-                        <td>
-                            <input class="form-check-input" type="radio" checked/>
+                    <td>
+                        <input class="form-check-input" type="radio" name="picture" value="@item.Id" checked/>
                         </td>
                     }
                     else
                     { 
                         <td>
-                            <input class="form-control" type="radio"/>
+                            <input class="form-check-input" type="radio" name="picture" value="@item.Id"/>
                         </td>
                     }
-                    <td> 
-                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-primary">
-                        <span class="icon-pencil"></span></a>
-                    </td>
                     <td>
                         <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger">
                         <span class="icon-cancel-circle"></span></a>
-                </td>
+                    </td>
             </tr>
         }
     </tbody>
 </table>
+
+@section Scripts
+{
+    <script>
+
+    $('input[type=radio]').on("change",function() 
+    {
+            var list = document.getElementsByName("picture");
+
+            for (i = 0; i < list.length; i++) 
+            {
+                if (list[i].checked) 
+                {
+                    $.ajax(
+                        {
+                            url: '@Url.Action("ChangeStatus","Backgrounds")',
+                            data: { id: list[i].value },
+                        }).done
+                        ( function()
+                        {
+                            window.location.href = '@Url.Action("Index", "Home")';
+                        });
+
+                }
+            }
+    });
+           
+    </script>
+}

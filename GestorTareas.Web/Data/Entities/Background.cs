@@ -10,7 +10,7 @@ namespace GestorTareas.Web.Data.Entities
         [Display(Name="Nombre de la Imagen")]
         public string Name { get; set; }
 
-        [Required]
+        [Display(Name="Imagen")]
         public string PhotoUrl { get; set; }
 
         public bool EstablishedPicture { get; set; }

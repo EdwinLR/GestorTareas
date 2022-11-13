@@ -5,6 +5,7 @@ using GestorTareas.Web.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace GestorTareas.Web.Controllers
@@ -43,10 +44,78 @@ namespace GestorTareas.Web.Controllers
                 var background = new Background
                 {
                     Name = backgroundViewModel.Name,
-                    PhotoUrl = await imageHelper.UploadImageAsync(backgroundViewModel.ImageFile, backgroundViewModel.Name, "BackgroundPictures")
+                    PhotoUrl = await imageHelper.AddImageAsync(backgroundViewModel.ImageFile, backgroundViewModel.Name, "BackgroundPictures"),
+                    EstablishedPicture = false
                 };
+
+                this.dataContext.Backgrounds.Add(background);
+                await this.dataContext.SaveChangesAsync();
+                return RedirectToAction("Index", "Backgrounds");
             }
-            return View();
+            return View(backgroundViewModel);
+        }
+
+        [Authorize(Roles = "Admin")]
+        public void ChangeStatus(int? id)
+        {
+            var background = this.dataContext.Backgrounds.Where(nsb => nsb.Id == id.Value).First();
+
+            background.EstablishedPicture = true;
+
+            this.dataContext.Backgrounds.Update(background);
+
+            var notSelectedBackgrounds = this.dataContext.Backgrounds.Where(nsb => nsb.Id != id.Value).ToList();
+            foreach (var nsb in notSelectedBackgrounds)
+            {
+                nsb.EstablishedPicture = false;
+                this.dataContext.Backgrounds.Update(nsb);
+            }
+
+            this.dataContext.SaveChanges();
+        }
+
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var background = await dataContext.Backgrounds.FirstOrDefaultAsync(b=>b.Id==id.Value);
+            if (background == null)
+            {
+                return NotFound();
+            }
+
+            return View(background);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken, ActionName("Delete")]
+        public async Task<IActionResult> DeleteConfirmed(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var background = await dataContext.Backgrounds.FindAsync(id);
+
+            if (background.EstablishedPicture)
+            {
+                var newBackground = await this.dataContext.Backgrounds.FirstOrDefaultAsync(nb => nb.Id != id);
+                if (newBackground != null)
+                {
+                    newBackground.EstablishedPicture = true;
+                    this.dataContext.Backgrounds.Update(newBackground);
+                }
+            }
+
+            imageHelper.DeleteImage(background.PhotoUrl);
+            dataContext.Backgrounds.Remove(background);
+            await dataContext.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }

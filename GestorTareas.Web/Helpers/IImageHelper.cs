@@ -10,5 +10,7 @@ namespace GestorTareas.Web.Helpers
 
         Task<string> AddImageAsync(IFormFile imageFile, string nameFile, string folder);
 
+        void DeleteImage(string filePath);
+
     }
 }

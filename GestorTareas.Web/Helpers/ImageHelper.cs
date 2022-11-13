@@ -52,8 +52,9 @@ namespace GestorTareas.Web.Helpers
 
         public async Task<string> AddImageAsync(IFormFile imageFile, string nameFile, string folder)
         {
+                var extension = Path.GetExtension(imageFile.FileName);
                 var guid = Guid.NewGuid().ToString();
-                var file = $"{nameFile}-{guid}";
+                var file = $"{nameFile}-{guid}{extension}";
                 var path = Path.Combine(Directory.GetCurrentDirectory(),
                     $"wwwroot\\images\\{folder}", file);
                 using (var stream = new FileStream(path, FileMode.Create))
@@ -61,6 +62,12 @@ namespace GestorTareas.Web.Helpers
                     await imageFile.CopyToAsync(stream);
                 }
                 return $"/images/{folder}/{file}";
+        }
+
+        public void DeleteImage(string filePath)
+        {
+            var fileName = Path.GetFileName(filePath);
+            File.Delete($"wwwroot\\images\\BackgroundPictures\\{fileName}");
         }
     }
 }

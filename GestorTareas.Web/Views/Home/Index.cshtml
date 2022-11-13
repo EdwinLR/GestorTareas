@@ -1,6 +1,5 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
-    ViewBag.BackgroundImage = "/images/BackgroundPictures/bannerweb_40aniv.jpg";
 }
 
 <body id="homePage">
@@ -9,11 +8,12 @@
 @section Scripts
 {
     <script>
-    var imagen = document.getElementById('homePage');
-    imagen.style.backgroundImage = "url('@ViewBag.BackgroundImage')";
-    imagen.style.backgroundPosition = 'center';
-    imagen.style.backgroundRepeat = 'no-repeat';
-    imagen.style.backgroundSize = 'cover';
+
+                  var imagen = document.getElementById('homePage');
+                  imagen.style.backgroundImage = "url('@ViewBag.BackgroundImage')";
+                  imagen.style.backgroundPosition = 'center';
+                  imagen.style.backgroundRepeat = 'no-repeat';
+                  imagen.style.backgroundSize = 'cover';
    </script>
 }
 

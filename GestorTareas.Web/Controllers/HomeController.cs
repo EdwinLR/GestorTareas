@@ -1,22 +1,40 @@
-﻿using GestorTareas.Web.Models;
+﻿using GestorTareas.Web.Data;
+using GestorTareas.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
+using System.Linq;
 
 namespace GestorTareas.Web.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly DataContext dataContext;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, DataContext dataContext)
         {
             _logger = logger;
+            this.dataContext = dataContext;
         }
 
         public IActionResult Index()
         {
-            return View();
+            try
+            {
+                var background = this.dataContext.Backgrounds.Where(nsb => nsb.EstablishedPicture == true).First();
+
+                if (background != null)
+                {
+                    ViewBag.BackgroundImage = background.PhotoUrl;
+                }
+
+                return View();
+            }
+            catch
+            {
+                return View();
+            }
         }
 
         public IActionResult Privacy()
