@@ -9,6 +9,6 @@ namespace GestorTareas.Web.Data.Repositories
         //Metodos unicos de la entidad
         IQueryable GetAllWorkersWithUserAndPositionOrderByPosition();
         IQueryable GetAllWorkersWithUserAndPositionOrderByFatherLastname();
-        Task<Worker> GetWorkerWithUserGenderAndPositionByIdAsync(int id);
+        Task<Worker> GetWorkerWithUserAndPositionByIdAsync(int id);
     }
 }

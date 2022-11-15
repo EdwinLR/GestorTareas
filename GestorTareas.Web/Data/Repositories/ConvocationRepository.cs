@@ -21,7 +21,7 @@ namespace GestorTareas.Web.Data.Repositories
                 .Include(c => c.Institute)
                 .ThenInclude(c => c.Country)
                 .Include(c => c.Institute)
-                .ThenInclude(c => c.ContactPerson)
+                .ThenInclude(c => c.ContactPeople)
                 .OrderBy(c => c.StartingDate);
         }
 
@@ -31,7 +31,7 @@ namespace GestorTareas.Web.Data.Repositories
                 .Include(c => c.Institute)
                 .ThenInclude(c => c.Country)
                 .Include(c => c.Institute)
-                .ThenInclude(c => c.ContactPerson)
+                .ThenInclude(c => c.ContactPeople)
                 .FirstOrDefaultAsync(c => c.Id == id);
         }
     }

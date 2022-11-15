@@ -35,6 +35,6 @@ namespace GestorTareas.Web.Data.Entities
         [Display(Name = "Nombre Completo")]
         public string FullName => $"{FatherLastName} {MotherLastName} {FirstName}";
 
-        public ICollection<Institute> Institutes { get; set; }
+        public Institute Institute { get; set; }
     }
 }

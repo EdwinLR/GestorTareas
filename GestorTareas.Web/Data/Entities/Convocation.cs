@@ -35,7 +35,6 @@ namespace GestorTareas.Web.Data.Entities
         [Display(Name = "URL de la Convocatoria")]
         public string ConvocationUrl { get; set; }
         public Institute Institute { get; set; }
-        public ICollection<Project> Projects { get; set; }
 
     }
 }

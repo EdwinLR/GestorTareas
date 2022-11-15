@@ -55,17 +55,43 @@
             @Html.DisplayFor(model => model.Country.CountryName)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ContactPerson.FullName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ContactPerson.FullName)
-        </dd>
-        <dt class="col-sm-2">
         </dt>
         <dd class="col-sm-10">
         </dd>
     </dl>
 </div>
+<h4>Personas Asignadas</h4>
+<table class="table" style="text-align:center;">
+    <thead>
+        <tr>
+            <th scope="col">
+                @Html.DisplayNameFor(model => model.ContactPeople)
+            </th>
+            <th scope="col">
+                Correo
+            </th>
+            <th scope="col">
+                Número Telefónico
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.ContactPeople)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PhoneNumber)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
 <div>
     <a asp-action="Index" class="btn btn-outline-secondary">
         <span class="icon-undo2"></span>  Regresar a la lista

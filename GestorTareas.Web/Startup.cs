@@ -49,7 +49,6 @@ namespace GestorTareas.Web
             services.AddScoped <IImageHelper, ImageHelper>();
             services.AddScoped <ICareerRepository, CareerRepository>();
             services.AddScoped <ICategoryRepository,CategoryRepository>();
-            services.AddScoped <IContactPersonRepository,ContactPersonRepository>();
             services.AddScoped <IConvocationRepository, ConvocationRepository>();
             services.AddScoped <ICountryRepository,CountryRepository>();
             services.AddScoped <IGenderRepository,GenderRepository>();

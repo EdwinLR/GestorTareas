@@ -31,11 +31,10 @@ namespace GestorTareas.Web.Data.Repositories
                         .OrderBy(u => u.User.FatherLastName);
         }
 
-        public async Task<Worker> GetWorkerWithUserGenderAndPositionByIdAsync(int id)
+        public async Task<Worker> GetWorkerWithUserAndPositionByIdAsync(int id)
         {
             return await context.Workers
                 .Include(u => u.User)
-                .Include(g => g.Gender)
                 .Include(p => p.Position)
                 .FirstOrDefaultAsync(w => w.Id == id);
         }

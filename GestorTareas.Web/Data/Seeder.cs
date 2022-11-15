@@ -122,14 +122,12 @@ namespace GestorTareas.Web.Data
             if (!this.dataContext.Workers.Any())
             {
                 var user = await CheckUser("Carlos", "Zapata", "Bretón", "carloszb@umad.edu.mx", "12345C");
-                var gender = this.dataContext.Genders.FirstOrDefault(g => g.Id == 1);
                 var position = this.dataContext.Positions.FirstOrDefault(p => p.Id == 4);
-                await CheckWorker(user, "Coordinator", "1414", gender, position);
+                await CheckWorker(user, "Coordinator", "1414", position);
 
                 user = await CheckUser("Edwin", "Lozada", "Ramos", "edwinlr@umad.edu.mx", "12345B");
-                gender = this.dataContext.Genders.FirstOrDefault(g => g.Id == 1);
                 position = this.dataContext.Positions.FirstOrDefault(p => p.Id == 1);
-                await CheckWorker(user, "Teacher", "1417", gender, position);
+                await CheckWorker(user, "Teacher", "1417", position);
             }
 
             if (!this.dataContext.Admins.Any())
@@ -247,8 +245,7 @@ namespace GestorTareas.Web.Data
                 StreetNumber = streetNumber,
                 District = district,
                 City = city,
-                Country = country,
-                ContactPerson = contact
+                Country = country
             }
             );
             await this.dataContext.SaveChangesAsync();
@@ -283,13 +280,12 @@ namespace GestorTareas.Web.Data
             await userHelper.AddUserToRoleAsync(user, role);
         }
 
-        private async Task CheckWorker(User user, string role, string workerId, Gender gender, Position position)
+        private async Task CheckWorker(User user, string role, string workerId, Position position)
         {
             this.dataContext.Workers.Add(new Worker
             {
                 User = user,
                 WorkerId = workerId,
-                Gender = gender,
                 Position = position
             });
             await this.dataContext.SaveChangesAsync();

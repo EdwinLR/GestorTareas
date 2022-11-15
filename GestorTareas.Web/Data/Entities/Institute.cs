@@ -41,7 +41,7 @@ namespace GestorTareas.Web.Data.Entities
         public Country Country { get; set; }
 
         [Display(Name = "Persona de contacto")]
-        public ContactPerson ContactPerson { get; set; }
+        public ICollection<ContactPerson> ContactPeople { get; set; }
         public ICollection<Convocation> Convocations { get; set; }
     }
 }

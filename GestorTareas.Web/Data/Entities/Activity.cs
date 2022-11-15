@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System;
+using System.Collections.Generic;
 
 namespace GestorTareas.Web.Data.Entities
 {
@@ -31,7 +32,8 @@ namespace GestorTareas.Web.Data.Entities
         public Category Category { get; set; }
         public Priority Priority { get; set; }
         public Status Status { get; set; }
-        public Worker Teacher { get; set; }
+        public Project Project { get; set; }
+        public ICollection<AssignedActivity> AssignedActivities { get; set; }
 
     }
 }

@@ -8,7 +8,5 @@ namespace GestorTareas.Web.Models
     {
         public int CountryId { get; set; }
         public IEnumerable<SelectListItem> Countries { get; set; }
-        public int ContactPersonId { get; set; }
-        public IEnumerable<SelectListItem> ContactPeople { get; set; }
     }
 }

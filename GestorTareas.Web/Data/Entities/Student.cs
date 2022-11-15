@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System;
+using System.Collections.Generic;
 
 namespace GestorTareas.Web.Data.Entities
 {
@@ -13,6 +14,7 @@ namespace GestorTareas.Web.Data.Entities
         public string StudentId { get; set; }
         public Career Career { get; set; }
         public Gender Gender { get; set; }
+        public ICollection<AssignedActivity> AssignedActivities { get; set; }
         public User User { get; set; }
     }
 }

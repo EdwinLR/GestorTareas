@@ -11,7 +11,5 @@ namespace GestorTareas.Web.Data.Entities
         [StringLength(30)]
         [Display(Name = "Estado")]
         public string StatusName { get; set; }
-
-        public ICollection<Activity> Activities { get; set; }
     }
 }

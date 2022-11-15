@@ -11,7 +11,5 @@ namespace GestorTareas.Web.Data.Entities
         [StringLength(30)]
         [Display(Name = "Categoría")]
         public string CategoryName { get; set; }
-
-        public ICollection<Activity> Activities { get; set; }
     }
 }

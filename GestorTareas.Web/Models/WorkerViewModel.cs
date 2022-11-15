@@ -10,8 +10,6 @@ namespace GestorTareas.Web.Models
     {
         [DisplayName("Foto del Trabajador")]
         public IFormFile ImageFile { get; set; }
-        public int GenderId { get; set; }
-        public IEnumerable<SelectListItem> Genders { get; set; }
         public int PositionId { get; set; }
         public IEnumerable<SelectListItem> Positions { get; set; }
     }

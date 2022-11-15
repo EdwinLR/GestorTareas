@@ -15,19 +15,17 @@ namespace GestorTareas.Web.Controllers
     {
         private readonly DataContext context;
         private readonly IWorkerRepository repository;
-        private readonly IGenderRepository genderRepository;
         private readonly IPositionRepository positionRepository;
         private readonly IImageHelper imageHelper;
         private readonly IUserHelper userHelper;
         private readonly ICombosHelper combosHelper;
 
         public WorkersController(DataContext context, IWorkerRepository repository,
-           IGenderRepository genderRepository, IPositionRepository positionRepository, 
-           IImageHelper imageHelper, IUserHelper userHelper, ICombosHelper combosHelper)
+           IPositionRepository positionRepository, IImageHelper imageHelper, 
+           IUserHelper userHelper, ICombosHelper combosHelper)
         {
             this.context = context;
             this.repository = repository;
-            this.genderRepository = genderRepository;
             this.positionRepository = positionRepository;
             this.imageHelper = imageHelper;
             this.userHelper = userHelper;
@@ -67,7 +65,7 @@ namespace GestorTareas.Web.Controllers
                 return NotFound();
             }
 
-            var worker = await repository.GetWorkerWithUserGenderAndPositionByIdAsync(id.Value);
+            var worker = await repository.GetWorkerWithUserAndPositionByIdAsync(id.Value);
 
             if (worker == null)
             {
@@ -83,7 +81,6 @@ namespace GestorTareas.Web.Controllers
         {
             var model = new WorkerViewModel
             {
-                Genders = this.combosHelper.GetComboGenders(),
                 Positions = this.combosHelper.GetComboPositions()
             };
             return View(model);
@@ -118,7 +115,6 @@ namespace GestorTareas.Web.Controllers
                 var worker = new Worker
                 {
                     WorkerId = model.WorkerId,
-                    Gender = await this.genderRepository.GetByIdAsync(model.GenderId),
                     Position = await this.positionRepository.GetByIdAsync(model.PositionId),
                     User = await this.context.Users.FindAsync(user.Id)
                 };
@@ -128,7 +124,6 @@ namespace GestorTareas.Web.Controllers
                 else
                     await userHelper.AddUserToRoleAsync(user, "Coordinator");
 
-                //En este metodo hay error
                 await repository.CreateAsync(worker);
                 return RedirectToAction(nameof(Index));
             }
@@ -144,7 +139,7 @@ namespace GestorTareas.Web.Controllers
                 return NotFound();
             }
 
-            var worker = await repository.GetWorkerWithUserGenderAndPositionByIdAsync(id.Value);
+            var worker = await repository.GetWorkerWithUserAndPositionByIdAsync(id.Value);
 
             if (worker == null)
             {
@@ -156,9 +151,6 @@ namespace GestorTareas.Web.Controllers
                 Id = worker.Id,
                 WorkerId = worker.WorkerId,
                 User = worker.User,
-                Gender = worker.Gender,
-                GenderId = worker.Gender.Id,
-                Genders = this.combosHelper.GetComboGenders(),
                 PositionId = worker.Position.Id,
                 Positions = this.combosHelper.GetComboPositions()
             };
@@ -191,7 +183,6 @@ namespace GestorTareas.Web.Controllers
                 {
                     Id = model.Id,
                     WorkerId = model.WorkerId,
-                    Gender = await this.genderRepository.GetByIdAsync(model.GenderId),
                     Position = await this.positionRepository.GetByIdAsync(model.PositionId),
                     User = await this.context.Users.FindAsync(user.Id)
                 };
@@ -216,7 +207,7 @@ namespace GestorTareas.Web.Controllers
                 return NotFound();
             }
 
-            var worker = await repository.GetWorkerWithUserGenderAndPositionByIdAsync(id.Value);
+            var worker = await repository.GetWorkerWithUserAndPositionByIdAsync(id.Value);
 
             if (worker == null)
             {
@@ -230,7 +221,7 @@ namespace GestorTareas.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var worker = await repository.GetWorkerWithUserGenderAndPositionByIdAsync(id);
+            var worker = await repository.GetWorkerWithUserAndPositionByIdAsync(id);
             await repository.DeleteAsync(worker);
 
             var user = await context.Users.FindAsync(worker.User.Id);

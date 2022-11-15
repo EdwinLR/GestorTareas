@@ -18,10 +18,11 @@ namespace GestorTareas.Web.Data
         public DbSet<Country> Countries { get; set; }
         public DbSet<Gender> Genders { get; set; }
         public DbSet<Institute> Institutes { get; set; }
+        public DbSet<InstituteDetailTemp> InstituteDetailTemps { get; set; }
         public DbSet<Priority> Priorities { get; set; }
         public DbSet<Project> Projects { get; set; }
         public DbSet<Position> Positions { get; set; }
-        public DbSet<ProjectCollaborator> ProjectCollaborators { get; set; }
+        public DbSet<ProjectAssigment> ProjectCollaborators { get; set; }
         public DbSet<Status> Statuses { get; set; }
         public DbSet<Student> Students { get; set; }
         public DbSet<Worker> Workers { get; set; }

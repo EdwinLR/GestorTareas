@@ -10,26 +10,26 @@ namespace GestorTareas.Web.Controllers
     [Authorize(Roles = "Coordinator,Admin")]
     public class ContactPeopleController : Controller
     {
-        private readonly IContactPersonRepository repository;
+        private readonly IInstituteRepository repository;
 
-        public ContactPeopleController(IContactPersonRepository context)
+        public ContactPeopleController(IInstituteRepository context)
         {
             repository = context;
         }
 
         public IActionResult Index()
         {
-            return View(repository.GetAll());
+            return View(repository.GetAllContactPeople());
         }
 
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var contactPerson = await repository.GetByIdAsync(id.Value);
+            var contactPerson = repository.GetContactPersonById(id.Value);
             if (contactPerson == null)
             {
                 return NotFound();
@@ -49,20 +49,20 @@ namespace GestorTareas.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                await repository.CreateAsync(contactPerson);
+                await repository.AddContactPersonAsync(contactPerson);
                 return RedirectToAction(nameof(Index));
             }
             return View(contactPerson);
         }
 
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var contactPerson = await repository.GetByIdAsync(id.Value);
+            var contactPerson = repository.GetContactPersonById(id.Value);
             if (contactPerson == null)
             {
                 return NotFound();
@@ -83,11 +83,11 @@ namespace GestorTareas.Web.Controllers
             {
                 try
                 {
-                    await repository.UpdateAsync(contactPerson);
+                    await repository.UpdateContactPersonAsync(contactPerson);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!await repository.ExistAsync(contactPerson.Id))
+                    if (!await repository.ExistContactPersonAsync(contactPerson.Id))
                     {
                         return NotFound();
                     }
@@ -101,14 +101,14 @@ namespace GestorTareas.Web.Controllers
             return View(contactPerson);
         }
 
-        public async Task<IActionResult> Delete(int? id)
+        public IActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var contactPerson = await repository.GetByIdAsync(id.Value);
+            var contactPerson = repository.GetContactPersonById(id.Value);
             if (contactPerson == null)
             {
                 return NotFound();
@@ -121,8 +121,8 @@ namespace GestorTareas.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var contactPerson = await repository.GetByIdAsync(id);
-            await repository.DeleteAsync(contactPerson);
+            var contactPerson = repository.GetContactPersonById(id);
+            await repository.DeleteContactPersonAsync(contactPerson);
             return RedirectToAction(nameof(Index));
         }
     }

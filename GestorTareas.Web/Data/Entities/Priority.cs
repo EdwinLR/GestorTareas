@@ -11,7 +11,5 @@ namespace GestorTareas.Web.Data.Entities
         [StringLength(30)]
         [Display(Name = "Prioridad")]
         public string PriorityName { get; set; }
-
-        public ICollection<Activity> Activities { get; set; }
     }
 }

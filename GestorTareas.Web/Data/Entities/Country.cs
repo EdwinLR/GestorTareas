@@ -11,6 +11,5 @@ namespace GestorTareas.Web.Data.Entities
         [StringLength(30)]
         [Display(Name = "País")]
         public string CountryName { get; set; }
-        public ICollection<Institute> Institutes { get; set; }
     }
 }

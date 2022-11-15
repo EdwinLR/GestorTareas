@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace GestorTareas.Web.Data.Repositories
@@ -12,6 +13,5 @@ namespace GestorTareas.Web.Data.Repositories
         Task<T> UpdateAsync(T entity);
         Task DeleteAsync(T entity);
         Task<bool> ExistAsync(int id);
-
     }
 }

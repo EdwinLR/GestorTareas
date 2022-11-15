@@ -1,10 +1,12 @@
-﻿using GestorTareas.Web.Data.Entities;
+﻿using GestorTareas.Web.Data;
+using GestorTareas.Web.Data.Entities;
 using GestorTareas.Web.Data.Repositories;
 using GestorTareas.Web.Helpers;
 using GestorTareas.Web.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace GestorTareas.Web.Controllers
@@ -13,18 +15,18 @@ namespace GestorTareas.Web.Controllers
     {
         private readonly IInstituteRepository _repository;
         private readonly ICountryRepository _countryRepository;
-        private readonly IContactPersonRepository _contactPersonRepository;
         private readonly ICombosHelper combosHelper;
+        private readonly DataContext context;
 
         public InstitutesController(IInstituteRepository repository,
             ICountryRepository countryRepository,
-            IContactPersonRepository contactPersonRepository,
-            ICombosHelper combosHelper)
+            ICombosHelper combosHelper,
+            DataContext context)
         {
             _repository = repository;
             _countryRepository = countryRepository;
-            _contactPersonRepository = contactPersonRepository;
             this.combosHelper = combosHelper;
+            this.context = context;
         }
 
         [Authorize(Roles = "Coordinator,Admin")]
@@ -55,8 +57,7 @@ namespace GestorTareas.Web.Controllers
         {
             var model = new InstituteViewModel
             {
-                Countries = this.combosHelper.GetComboCountries(),
-                ContactPeople = this.combosHelper.GetComboContacts()
+                Countries = this.combosHelper.GetComboCountries()
             };
             return View(model);
         }
@@ -67,6 +68,12 @@ namespace GestorTareas.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                var instituteDetailTemps = await _repository.GetAllInstituteDetailTemps().ToListAsync();
+                if (instituteDetailTemps == null || instituteDetailTemps.Count() == 0)
+                    return NotFound();
+                var details = instituteDetailTemps.Select(idt => 
+                _repository.GetContactPersonById(idt.ContactPerson.Id)).ToList();
+
                 var institute = new Institute
                 {
                     Name = model.Name,
@@ -75,11 +82,11 @@ namespace GestorTareas.Web.Controllers
                     StreetNumber = model.StreetNumber,
                     District = model.District,
                     City = model.City,
-                    Country = await this._countryRepository.GetByIdAsync(model.CountryId),
-                    ContactPerson = await this._contactPersonRepository.GetByIdAsync(model.ContactPersonId)
+                    Country = await this._countryRepository.GetDetailByIdAsync(model.CountryId),
+                    ContactPeople = details
                 };
 
-                await _repository.CreateAsync(institute);
+                await _repository.CreateInstituteAsync(institute, instituteDetailTemps);
                 return RedirectToAction(nameof(Index));
             }
             return View(model);
@@ -109,10 +116,7 @@ namespace GestorTareas.Web.Controllers
                 City = institute.City,
                 Country = institute.Country,
                 CountryId = institute.Country.Id,
-                Countries = this.combosHelper.GetComboCountries(),
-                ContactPerson = institute.ContactPerson,
-                ContactPersonId = institute.ContactPerson.Id,
-                ContactPeople = this.combosHelper.GetComboContacts()
+                Countries = this.combosHelper.GetComboCountries()
             };
 
             return View(model);
@@ -169,6 +173,54 @@ namespace GestorTareas.Web.Controllers
             var institute = await _repository.GetInstituteWithCountryAndContactPersonAsync(id);
             await _repository.DeleteAsync(institute);
             return RedirectToAction(nameof(Index));
+        }
+
+
+        //ContactPerson Methods
+        public IActionResult AddContactPerson()
+        {
+            var model = new AddContactPersonViewModel
+            {
+                ContactPersonId = -1,
+                ContactPeopleList = combosHelper.GetComboContacts(),
+                AssignedContactPeople = _repository.GetAllInstituteDetailTemps()
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult AddContactPerson(AddContactPersonViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var contactPerson = _repository.GetContactPersonById(model.ContactPersonId);
+                if (contactPerson == null)
+                    NotFound();
+                var instituteDetailTemp = _repository.GetInstituteDetailTempByContactId(contactPerson.Id);
+                if (instituteDetailTemp == null)
+                {
+                    instituteDetailTemp = new InstituteDetailTemp
+                    {
+                        ContactPerson = contactPerson
+                    };
+                    _repository.AddInstituteDetailTemp(instituteDetailTemp);
+                }
+                return RedirectToAction("Create");
+            }
+            return View(model);
+        }
+
+        public IActionResult DeleteContactPerson(int? id)
+        {
+            if (id == null)
+                return NotFound();
+
+            var instituteDetailTemp = _repository.GetInstituteDetailTempById(id.Value);
+            if (instituteDetailTemp == null)
+                return NotFound();
+
+            _repository.DeleteInstituteDetailTemp(instituteDetailTemp);
+            return RedirectToAction("AddContactPerson");
         }
     }
 }
