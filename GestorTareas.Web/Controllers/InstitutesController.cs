@@ -16,17 +16,14 @@ namespace GestorTareas.Web.Controllers
         private readonly IInstituteRepository _repository;
         private readonly ICountryRepository _countryRepository;
         private readonly ICombosHelper combosHelper;
-        private readonly DataContext context;
 
         public InstitutesController(IInstituteRepository repository,
             ICountryRepository countryRepository,
-            ICombosHelper combosHelper,
-            DataContext context)
+            ICombosHelper combosHelper)
         {
             _repository = repository;
             _countryRepository = countryRepository;
             this.combosHelper = combosHelper;
-            this.context = context;
         }
 
         [Authorize(Roles = "Coordinator,Admin")]

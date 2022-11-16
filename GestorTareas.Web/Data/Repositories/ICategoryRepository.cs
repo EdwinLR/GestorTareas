@@ -7,5 +7,6 @@ namespace GestorTareas.Web.Data.Repositories
     public interface ICategoryRepository : IGenericRepository<Category>
     {
         //Metodos unicos de la entidad
+        Task<Category> GetDetailByIdAsync(int id);
     }
 }

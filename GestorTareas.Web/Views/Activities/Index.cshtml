@@ -1,0 +1,118 @@
+﻿@model IEnumerable<GestorTareas.Web.Data.Entities.Activity>
+
+@{
+    ViewData["Title"] = "Actividades";
+}
+<link rel="stylesheet" href="~/css/style-icon.css" />
+<link href="~/css/estilo-home.css" type="text/css" rel="stylesheet" />
+
+<h1>Actividades</h1>
+
+<p>
+    @if (User.IsInRole("Admin"))
+    {
+        <a asp-action="Create" class="btn btn-outline-success">
+            <span class="icon-plus"></span> Nueva Actividad
+        </a>
+    }
+    else if (User.IsInRole("Coordinator"))
+    {
+
+    }
+</p>
+<table class="table" style="text-align:center;">
+    <thead>
+        <tr>
+            <th scope="col">
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(model => model.Deadline)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(model => model.Priority)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(model => model.Progress)
+            </th>
+            @if (User.IsInRole("Admin"))
+            {
+                <th scope="col">
+                    <a>Editar</a>
+                </th>
+                <th scope="col">
+                    <a>Detalles</a>
+                </th>
+                <th scope="col">
+                    <a>Eliminar</a>
+                </th>
+            }
+            else if (User.IsInRole("Coordinator"))
+            {
+                <th scope="col">
+                    <a>Editar</a>
+                </th>
+                <th scope="col">
+                    <a>Detalles</a>
+                </th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Deadline)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Priority.PriorityName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status.StatusName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Progress)
+                </td>
+                @if (User.IsInRole("Admin"))
+                {
+
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-primary">
+                            <span class="icon-pencil"></span>
+                        </a>
+                    </td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn btn-outline-dark">
+                            <span class="icon-list"></span>
+                        </a>
+                    </td>
+                    <td>
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger">
+                            <span class="icon-cancel-circle"></span>
+                        </a>
+                    </td>
+                }
+                else if (User.IsInRole("Coordinator"))
+                {
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-primary">
+                            <span class="icon-pencil"></span>
+                        </a>
+                    </td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn btn-outline-dark">
+                            <span class="icon-list"></span>
+                        </a>
+                    </td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>

@@ -20,8 +20,8 @@ namespace GestorTareas.Web.Controllers
         private readonly IUserHelper userHelper;
         private readonly ICombosHelper combosHelper;
 
-        public WorkersController(DataContext context, IWorkerRepository repository,
-           IPositionRepository positionRepository, IImageHelper imageHelper, 
+        public WorkersController(DataContext context, IWorkerRepository repository, 
+           IPositionRepository positionRepository, IImageHelper imageHelper,
            IUserHelper userHelper, ICombosHelper combosHelper)
         {
             this.context = context;
@@ -104,7 +104,8 @@ namespace GestorTareas.Web.Controllers
                         UserName = model.User.Email,
                         PhotoUrl = await imageHelper.UploadImageAsync(model.ImageFile, model.User.FullName, "Workers"),
                     };
-                    var result = await userHelper.AddUserAsync(user, model.WorkerId.ToString() + model.User.FatherLastName[0] + model.User.MotherLastName[0] + model.User.FirstName[0] + model.User.FirstName[1]);
+                    string password = model.WorkerId.ToString() + model.User.FatherLastName[0] + model.User.MotherLastName[0] + model.User.FirstName[0] + model.User.FirstName[1];
+                    var result = await userHelper.AddUserAsync(user, password.ToUpper());
                     if (result != IdentityResult.Success)
                     {
                         throw new InvalidOperationException("ERROR. No se pudo crear el usuario.");
@@ -115,7 +116,7 @@ namespace GestorTareas.Web.Controllers
                 var worker = new Worker
                 {
                     WorkerId = model.WorkerId,
-                    Position = await this.positionRepository.GetByIdAsync(model.PositionId),
+                    Position = this.positionRepository.GetPositionById(model.PositionId),
                     User = await this.context.Users.FindAsync(user.Id)
                 };
 
@@ -183,7 +184,7 @@ namespace GestorTareas.Web.Controllers
                 {
                     Id = model.Id,
                     WorkerId = model.WorkerId,
-                    Position = await this.positionRepository.GetByIdAsync(model.PositionId),
+                    Position =  this.positionRepository.GetPositionById(model.PositionId),
                     User = await this.context.Users.FindAsync(user.Id)
                 };
 

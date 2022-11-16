@@ -13,5 +13,10 @@ namespace GestorTareas.Web.Data.Repositories
         {
             this.context = context;
         }
+
+        public Position GetPositionById(int id)
+        {
+            return this.context.Positions.Find(id);
+        }
     }
 }

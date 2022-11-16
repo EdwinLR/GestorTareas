@@ -24,7 +24,7 @@ namespace GestorTareas.Web.Data.Repositories
             return this.context.Institutes
                 .Include(i => i.Country)
                 .Include(i => i.ContactPeople)
-                .Include(c=>c.Convocations)
+                .Include(c => c.Convocations)
                 .OrderBy(i => i.Name);
         }
 

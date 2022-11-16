@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace GestorTareas.Web.Data.Entities
 {
-    public class Activity
+    public class Activity : IEntity
     {
         public int Id { get; set; }
 
@@ -18,22 +18,27 @@ namespace GestorTareas.Web.Data.Entities
         [Display(Name = "Descripción corta")]
         public string Description { get; set; }
 
-        [Required(ErrorMessage = "La fecha límite requerida")]
-        [Display(Name = "Fecha limíte")]
-        [DisplayFormat(ApplyFormatInEditMode = false, DataFormatString = "{0:dd/MM/yyyy}")]
-        public DateTime DeadlineDate { get; set; }
+        [Required(ErrorMessage = "La fecha y hora límite requeridos")]
+        [Display(Name = "Fecha y hora limíte")]
+        [DisplayFormat(ApplyFormatInEditMode = false, DataFormatString = "{0:dd/MM/yyyy hh:mm:ss}")]
+        public DateTime Deadline { get; set; }
 
-        [Required(ErrorMessage = "La hora límite es requerida")]
-        [Display(Name = "Hora límite")]
-        [DisplayFormat(ApplyFormatInEditMode = false, DataFormatString = "{0:hh:mm:ss}")]
-        public DateTime DeadlineTime { get; set; }
+        [Display(Name = "Progreso")]
         public int Progress { get; set; }
+
+        [DisplayFormat(ApplyFormatInEditMode = false, DataFormatString = "{0:dd/MM/yyyy hh:mm:ss}")]
+        [Display(Name = "Fecha de Creación")]
         public DateTime CreationDate { get; set; }
+        [Display(Name = "Categoría")]
         public Category Category { get; set; }
+        [Display(Name = "Prioridad")]
         public Priority Priority { get; set; }
+        [Display(Name = "Estado")]
         public Status Status { get; set; }
+        [Display(Name = "Proyecto")]
         public Project Project { get; set; }
-        public ICollection<AssignedActivity> AssignedActivities { get; set; }
+        [Display(Name = "Estudiente Asignado")]
+        public ICollection<Student> AssignedActivities { get; set; }
 
     }
 }

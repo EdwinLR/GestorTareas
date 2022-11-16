@@ -17,7 +17,7 @@
         [HttpGet]
         public IActionResult GetCareers()
         {
-            return Ok(this.repository.GetAll());
+            return Ok(this.repository.GetAllICareerWithStudents());
         }
 
         //[HttpPost]

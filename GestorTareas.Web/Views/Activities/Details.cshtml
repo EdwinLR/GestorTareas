@@ -1,0 +1,111 @@
+﻿@model GestorTareas.Web.Data.Entities.Activity
+
+@{
+    ViewData["Title"] = "Detalles de la actividad";
+}
+
+<link rel="stylesheet" href="~/css/style-icon.css" />
+
+<h1>Detalles de la actividad</h1>
+
+<div>
+    <h4>Actividad</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.Deadline)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Deadline)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.Project)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Project.ProjectName)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.Category)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Category.CategoryName)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.Priority)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Priority.PriorityName)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Status.StatusName)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.Progress)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Progress)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.CreationDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CreationDate)
+        </dd>
+        <dt class="col-sm-4">
+        </dt>
+        <dd class="col-sm-10">
+        </dd>
+    </dl>
+</div>
+<h4>Personas Asignadas</h4>
+<table class="table" style="text-align:center;">
+    <thead>
+        <tr>
+            <th scope="col">
+                Matricula del Estudiante
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(model => model.AssignedActivities)
+            </th>
+            <th scope="col">
+                Carrera
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.AssignedActivities)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StudentId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Career.Name)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div>
+    <a asp-action="Index" class="btn btn-outline-secondary">
+        <span class="icon-undo2"></span>  Regresar a la lista
+    </a>
+</div>

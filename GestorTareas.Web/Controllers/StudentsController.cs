@@ -1,11 +1,11 @@
 ﻿using GestorTareas.Web.Data;
 using GestorTareas.Web.Data.Entities;
+using GestorTareas.Web.Data.Repositories;
 using GestorTareas.Web.Helpers;
 using GestorTareas.Web.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Threading.Tasks;
 
@@ -13,14 +13,21 @@ namespace GestorTareas.Web.Controllers
 {
     public class StudentsController : Controller
     {
+        private readonly IStudentRepository repository;
+        private readonly ICareerRepository careerRepository;
+        private readonly IGenderRepository genderRepository;
         private readonly DataContext dataContext;
         private readonly IImageHelper imageHelper;
         private readonly IUserHelper userHelper;
         private readonly ICombosHelper combosHelper;
 
-        public StudentsController(DataContext dataContext,
+        public StudentsController(IStudentRepository repository, DataContext dataContext,
+            ICareerRepository careerRepository, IGenderRepository genderRepository,
             IImageHelper imageHelper, IUserHelper userHelper, ICombosHelper combosHelper)
         {
+            this.repository = repository;
+            this.careerRepository = careerRepository;
+            this.genderRepository = genderRepository;
             this.dataContext = dataContext;
             this.imageHelper = imageHelper;
             this.userHelper = userHelper;
@@ -28,11 +35,9 @@ namespace GestorTareas.Web.Controllers
         }
 
         [Authorize(Roles = "Coordinator,Admin,Teacher")]
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await dataContext.Students
-                .Include(u => u.User)
-                .ToListAsync());
+            return View(repository.GetAllStudentsWithUserAndCareerOrderByFatherLastname());
         }
 
         [Authorize(Roles = "Coordinator,Admin,Teacher")]
@@ -43,11 +48,7 @@ namespace GestorTareas.Web.Controllers
                 return NotFound();
             }
 
-            var student = await dataContext.Students
-                .Include(u => u.User)
-                .Include(c=>c.Career)
-                .Include(g=>g.Gender)
-                .FirstOrDefaultAsync(t => t.Id == id);
+            var student = repository.GetStudentWithUserAndCareerById(id.Value);
 
             if (student == null)
             {
@@ -86,9 +87,10 @@ namespace GestorTareas.Web.Controllers
                         PhoneNumber = model.User.PhoneNumber,
                         Email = model.User.Email,
                         UserName = model.User.Email,
-                        PhotoUrl = await imageHelper.UploadImageAsync(model.ImageFile, model.User.FullName,"Students"),
+                        PhotoUrl = await imageHelper.UploadImageAsync(model.ImageFile, model.User.FullName, "Students"),
                     };
-                    var result = await userHelper.AddUserAsync(user, model.StudentId.ToString() + model.User.FatherLastName[0] + model.User.MotherLastName[0] + model.User.FirstName[0]+ model.User.FirstName[1]);
+                    string password = model.StudentId.ToString() + model.User.FatherLastName[0] + model.User.MotherLastName[0] + model.User.FirstName[0] + model.User.FirstName[1];
+                    var result = await userHelper.AddUserAsync(user, password.ToUpper());
                     if (result != IdentityResult.Success)
                     {
                         throw new InvalidOperationException("ERROR. No se pudo crear el usuario.");
@@ -99,12 +101,11 @@ namespace GestorTareas.Web.Controllers
                 var student = new Student
                 {
                     StudentId = model.StudentId,
-                    Career = await this.dataContext.Careers.FindAsync(model.CareerId),
-                    Gender = await this.dataContext.Genders.FindAsync(model.GenderId),
+                    Career = this.careerRepository.GetCareerById(model.CareerId),
+                    Gender = this.genderRepository.GetGenderById(model.GenderId),
                     User = await this.dataContext.Users.FindAsync(user.Id)
                 };
-                dataContext.Add(student);
-                await dataContext.SaveChangesAsync();
+                await repository.CreateAsync(student);
                 return RedirectToAction(nameof(Index));
             }
             return View(model);
@@ -119,11 +120,7 @@ namespace GestorTareas.Web.Controllers
                 return NotFound();
             }
 
-            var student = await dataContext.Students
-                .Include(u => u.User)
-                .Include(c => c.Career)
-                .Include(g=>g.Gender)
-                .FirstOrDefaultAsync(t => t.Id == id);
+            var student = repository.GetStudentWithUserAndCareerById(id.Value);
 
             if (student == null)
             {
@@ -172,13 +169,12 @@ namespace GestorTareas.Web.Controllers
                 {
                     Id = model.Id,
                     StudentId = model.StudentId,
-                    Career = await this.dataContext.Careers.FindAsync(model.CareerId),
-                    Gender = await this.dataContext.Genders.FindAsync(model.GenderId),
+                    Career = this.careerRepository.GetCareerById(model.CareerId),
+                    Gender = this.genderRepository.GetGenderById(model.GenderId),
                     User = await this.dataContext.Users.FindAsync(user.Id)
                 };
 
-                this.dataContext.Update(student);
-                await dataContext.SaveChangesAsync();
+                await repository.UpdateAsync(student);
                 return RedirectToAction(nameof(Index));
             }
             return View(model);
@@ -193,9 +189,7 @@ namespace GestorTareas.Web.Controllers
                 return NotFound();
             }
 
-            var student = await dataContext.Students
-                .Include(u => u.User)
-                .FirstOrDefaultAsync(t => t.Id == id);
+            var student = repository.GetStudentWithUserAndCareerById(id.Value);
             if (student == null)
             {
                 return NotFound();
@@ -209,20 +203,9 @@ namespace GestorTareas.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var student = await dataContext.Students
-                .Include(u => u.User)
-                .FirstOrDefaultAsync(t => t.Id == id);
-
-
-            dataContext.Students.Remove(student);
-
-            var user = await dataContext.Users
-                .FindAsync(student.User.Id);
-            dataContext.Users.Remove(user);
-
-            await dataContext.SaveChangesAsync();
+            var student = repository.GetStudentWithUserAndCareerById(id);
+            await repository.DeleteStudentAndUserAsync(student);
             return RedirectToAction(nameof(Index));
-
         }
     }
 }

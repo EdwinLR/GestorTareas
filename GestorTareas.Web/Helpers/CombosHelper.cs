@@ -194,5 +194,20 @@ namespace GestorTareas.Web.Helpers
             });
             return list;
         }
+
+        public IEnumerable<SelectListItem> GetComboStudents()
+        {
+            var list = this.dataContext.Students.Select(f => new SelectListItem
+            {
+                Text = $"{f.User.FullName}",
+                Value = $"{f.Id}"
+            }).ToList();
+            list.Insert(0, new SelectListItem
+            {
+                Text = "(Selecciona un estudiante)",
+                Value = "0"
+            });
+            return list;
+        }
     }
 }

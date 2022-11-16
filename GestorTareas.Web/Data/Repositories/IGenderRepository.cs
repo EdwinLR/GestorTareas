@@ -7,5 +7,6 @@ namespace GestorTareas.Web.Data.Repositories
     public interface IGenderRepository : IGenericRepository<Gender>
     {
         //Metodos unicos de la entidad
+        Gender GetGenderById(int id);
     }
 }

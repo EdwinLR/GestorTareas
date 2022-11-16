@@ -14,5 +14,16 @@ namespace GestorTareas.Web.Data.Repositories
         {
             this.context = context;
         }
+
+        public IQueryable<Career> GetAllICareerWithStudents()
+        {
+            return this.context.Careers
+                .Include(c => c.Students);
+        }
+
+        public Career GetCareerById(int id)
+        {
+            return this.context.Careers.Find(id);
+        }
     }
 }

@@ -7,5 +7,6 @@ namespace GestorTareas.Web.Data.Repositories
     public interface IPositionRepository : IGenericRepository<Position>
     {
         //Metodos unicos de la entidad
+        Position GetPositionById(int id);
     }
 }

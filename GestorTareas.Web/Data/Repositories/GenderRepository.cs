@@ -13,5 +13,10 @@ namespace GestorTareas.Web.Data.Repositories
         {
             this.context = context;
         }
+
+        public Gender GetGenderById(int id)
+        {
+            return this.context.Genders.Find(id);
+        }
     }
 }

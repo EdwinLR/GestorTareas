@@ -12,6 +12,5 @@ namespace GestorTareas.Web.Data.Entities
         public string ProjectName { get; set; }
         public Convocation Convocation { get; set; }
         public ICollection<ProjectAssigment> ProjectAssigments { get; set; }
-        public ICollection<Activity> Activities { get; set; }
     }
 }

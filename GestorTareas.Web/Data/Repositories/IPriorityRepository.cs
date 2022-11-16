@@ -7,5 +7,6 @@ namespace GestorTareas.Web.Data.Repositories
     public interface IPriorityRepository : IGenericRepository<Priority>
     {
         //Metodos unicos de la entidad
+        Task<Priority> GetDetailByIdAsync(int id);
     }
 }

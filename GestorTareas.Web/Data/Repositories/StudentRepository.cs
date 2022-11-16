@@ -15,13 +15,49 @@ namespace GestorTareas.Web.Data.Repositories
             this.context = context;
         }
 
-        public IQueryable GetStudentsByCareer(int id)
+        public IQueryable GetAllStudentsWithUserAndCareerOrderByCareer()
         {
             return this.context.Students
+                        .Include(u => u.User)
+                        .Include(s => s.Career)
+                        .OrderBy(s => s.Career.Name);
+        }
+
+        public IQueryable GetAllStudentsWithUserAndCareerOrderByFatherLastname()
+        {
+            return this.context.Students
+                        .Include(u => u.User)
+                        .Include(s => s.Career)
+                        .OrderBy(u => u.User.FatherLastName);
+        }
+
+        public IQueryable GetAllStudentsWithUserAndCareerOrderByCareerId(int id)
+        {
+            return this.context.Students
+                        .Include(u => u.User)
+                        .Include(s => s.Career)
+                        .Where(s => s.Career.Id == id)
+                        .OrderBy(s => s.Career.Name);
+        }
+
+        public Student GetStudentWithUserAndCareerById(int id)
+        {
+            return context.Students
                 .Include(u => u.User)
-                .Where(c => c.Career.Id == id);
+                .Include(s => s.Career)
+                .Include(g => g.Gender)
+                .FirstOrDefault(s => s.Id == id);
+        }
 
+        public async Task DeleteStudentAndUserAsync(Student student)
+        {
+            context.Students.Remove(student);
 
+            var user = await context.Users
+                .FindAsync(student.User.Id);
+            context.Users.Remove(user);
+
+            await context.SaveChangesAsync();
         }
     }
 }

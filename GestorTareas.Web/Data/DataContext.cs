@@ -8,8 +8,8 @@ namespace GestorTareas.Web.Data
     public class DataContext: IdentityDbContext<User>
     {
         public DbSet<Activity> Activities { get; set; }
+        public DbSet<ActivityDetailTemp> ActivityDetailTemps { get; set; }
         public DbSet<Admin> Admins { get; set; }
-        public DbSet<AssignedActivity> AssignedActivities { get; set; }
         public DbSet<Background> Backgrounds { get; set; }
         public DbSet<ConvocationDetailTemp> ConvocationDetailTemps { get; set; }
         public DbSet<Career> Careers { get; set; }

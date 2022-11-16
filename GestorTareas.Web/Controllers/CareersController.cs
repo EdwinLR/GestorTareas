@@ -31,7 +31,7 @@ namespace GestorTareas.Web.Controllers
                 return NotFound();
             }
 
-            var careerStudents = this.studentRepository.GetStudentsByCareer(id.Value);
+            var careerStudents = this.studentRepository.GetAllStudentsWithUserAndCareerOrderByCareerId(id.Value);
 
             return View(careerStudents);
         }

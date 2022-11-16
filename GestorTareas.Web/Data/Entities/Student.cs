@@ -14,7 +14,7 @@ namespace GestorTareas.Web.Data.Entities
         public string StudentId { get; set; }
         public Career Career { get; set; }
         public Gender Gender { get; set; }
-        public ICollection<AssignedActivity> AssignedActivities { get; set; }
+        public Activity AssignedActivities { get; set; }
         public User User { get; set; }
     }
 }
