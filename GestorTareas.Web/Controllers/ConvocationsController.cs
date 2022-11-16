@@ -1,8 +1,6 @@
 ﻿using GestorTareas.Web.Data.Entities;
 using GestorTareas.Web.Data.Repositories;
 using GestorTareas.Web.Helpers;
-using GestorTareas.Web.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
@@ -11,34 +9,30 @@ namespace GestorTareas.Web.Controllers
 {
     public class ConvocationsController : Controller
     {
-        private readonly IConvocationRepository _repository;
-        private readonly IInstituteRepository _instituteRepository;
+        private readonly IInstituteRepository instituteRepository;
         private readonly ICombosHelper combosHelper;
 
-        public ConvocationsController(IConvocationRepository repository,
+        public ConvocationsController(
             IInstituteRepository instituteRepository,
             ICombosHelper combosHelper)
         {
-            _repository = repository;
-            _instituteRepository = instituteRepository;
+            this.instituteRepository = instituteRepository;
             this.combosHelper = combosHelper;
         }
 
-        [Authorize(Roles = "Coordinator,Admin")]
         public IActionResult Index()
         {
-            return View(_repository.GetAllConvocationsWithInstitutesCountriesAndContactPeople());
+            return View(instituteRepository.GetAllConvocations());
         }
 
-        [Authorize(Roles = "Coordinator,Admin")]
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var convocation = await _repository.GetConvocationWithInstituteCountryAndContactPersonAsync(id.Value);
+            var convocation = instituteRepository.GetConvocationById(id.Value);
             if (convocation == null)
             {
                 return NotFound();
@@ -47,83 +41,56 @@ namespace GestorTareas.Web.Controllers
             return View(convocation);
         }
 
-        [Authorize(Roles = "Coordinator,Admin")]
         public IActionResult Create()
         {
-            var model = new ConvocationViewModel
-            {
-                Insitutes = this.combosHelper.GetComboInstitutes()
-            };
-            return View(model);
+            return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(ConvocationViewModel model)
+        public async Task<IActionResult> Create(Convocation convocation)
         {
             if (ModelState.IsValid)
             {
-                var convocation = new Convocation
-                {
-                    StartingDate = model.StartingDate,
-                    EndingDate = model.EndingDate,
-                    Summary = model.Summary,
-                    Requirements = model.Requirements,
-                    Prizes = model.Prizes,
-                    ConvocationUrl = model.ConvocationUrl,
-                    Institute = await this._instituteRepository.GetByIdAsync(model.InstituteId),
-                };
-
-                await _repository.CreateAsync(convocation);
+                await instituteRepository.AddConvocationAsync(convocation);
                 return RedirectToAction(nameof(Index));
             }
-            return View(model);
+            return View(convocation);
         }
 
-        [Authorize(Roles = "Coordinator,Admin")]
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var convocation = await _repository.GetConvocationWithInstituteCountryAndContactPersonAsync(id.Value);
+            var convocation = instituteRepository.GetConvocationById(id.Value);
             if (convocation == null)
             {
                 return NotFound();
             }
-            var model = new ConvocationViewModel
-            {
-                Id = convocation.Id,
-                StartingDate = convocation.StartingDate,
-                EndingDate = convocation.EndingDate,
-                Summary = convocation.Summary,
-                Requirements = convocation.Requirements,
-                Prizes = convocation.Prizes,
-                ConvocationUrl = convocation.ConvocationUrl,
-                Institute = convocation.Institute,
-                InstituteId = convocation.Institute.Id,
-                Insitutes = this.combosHelper.GetComboInstitutes()
-            };
-
-            return View(model);
+            return View(convocation);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(ConvocationViewModel model)
+        public async Task<IActionResult> Edit(int id, Convocation convocation)
         {
+            if (id != convocation.Id)
+            {
+                return NotFound();
+            }
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    await _repository.UpdateAsync(model);
+                    await instituteRepository.UpdateConvocationAsync(convocation);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!await _repository.ExistAsync(model.Id))
+                    if (!await instituteRepository.ExistConvocationAsync(convocation.Id))
                     {
                         return NotFound();
                     }
@@ -134,18 +101,17 @@ namespace GestorTareas.Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(model);
+            return View(convocation);
         }
 
-        [Authorize(Roles = "Coordinator,Admin")]
-        public async Task<IActionResult> Delete(int? id)
+        public IActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var convocation = await _repository.GetConvocationWithInstituteCountryAndContactPersonAsync(id.Value);
+            var convocation = instituteRepository.GetConvocationById(id.Value);
             if (convocation == null)
             {
                 return NotFound();
@@ -158,8 +124,8 @@ namespace GestorTareas.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var convocation = await _repository.GetConvocationWithInstituteCountryAndContactPersonAsync(id);
-            await _repository.DeleteAsync(convocation);
+            var convocation = instituteRepository.GetConvocationById(id);
+            await instituteRepository.DeleteConvocationAsync(convocation);
             return RedirectToAction(nameof(Index));
         }
     }

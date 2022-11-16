@@ -1,0 +1,38 @@
+﻿@model GestorTareas.Web.Models.ProjectViewModel
+
+@{
+    ViewData["Title"] = "Editar Proyecto";
+}
+
+<link rel="stylesheet" href="~/css/style-icon.css" />
+<link href="~/css/estilo-home.css" type="text/css" rel="stylesheet" />
+
+<h1>Editar Proyecto</h1>
+
+<h4>Proyecto</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="ProjectName" class="control-label"></label>
+                <input asp-for="ProjectName" class="form-control" />
+                <span asp-validation-for="ProjectName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Convocation.Summary" class="control-label"></label>
+                <select asp-for="ConvocationId" asp-items="Model.Convocations" class="form-control"></select>
+                <span asp-validation-for="Convocation" class="text-danger"></span>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

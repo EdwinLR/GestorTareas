@@ -10,7 +10,7 @@ namespace GestorTareas.Web.Data.Repositories
         //Metodos unicos de la entidad
         IQueryable<Institute> GetAllInstitutesWithCountriesAndContactPeople();
         Task<Institute> GetInstituteWithCountryAndContactPersonAsync(int id);
-        Task<Institute> CreateInstituteAsync(Institute institute, List<InstituteDetailTemp> institutesDetails);
+        Task<Institute> CreateInstituteAsync(Institute institute, List<ContactDetailTemp> institutesDetails, List<ConvocationDetailTemp> convocationDetails);
 
         IQueryable<ContactPerson> GetAllContactPeople();
         ContactPerson GetContactPersonById(int id);
@@ -19,10 +19,28 @@ namespace GestorTareas.Web.Data.Repositories
         Task DeleteContactPersonAsync(ContactPerson contactPerson);
         Task<bool> ExistContactPersonAsync(int id);
 
-        IQueryable<InstituteDetailTemp> GetAllInstituteDetailTemps();
-        InstituteDetailTemp GetInstituteDetailTempById(int id);
-        InstituteDetailTemp GetInstituteDetailTempByContactId(int id);
-        void AddInstituteDetailTemp(InstituteDetailTemp instituteDetail);
-        void DeleteInstituteDetailTemp(InstituteDetailTemp instituteDetail);
+        IQueryable<ContactDetailTemp> GetAllInstituteDetailTemps();
+        ContactDetailTemp GetInstituteDetailTempById(int id);
+        ContactDetailTemp GetInstituteDetailTempByContactId(int id);
+        void AddInstituteDetailTemp(ContactDetailTemp instituteDetail);
+        void DeleteInstituteDetailTemp(ContactDetailTemp instituteDetail);
+
+
+        //Métodos de Convocations
+        IQueryable<Convocation> GetAllConvocations();
+        Convocation GetConvocationById(int id);
+        Task<Convocation> AddConvocationAsync(Convocation convocation);
+        Task<Convocation> UpdateConvocationAsync(Convocation convocation);
+        Task DeleteConvocationAsync(Convocation convocation);
+        Task<bool> ExistConvocationAsync(int id);
+
+
+        IQueryable<ConvocationDetailTemp> GetAllConvocationDetailTemps();
+        ConvocationDetailTemp GetConvocationDetailTempById(int id);
+        ConvocationDetailTemp GetInstituteDetailTempByConvocationId(int id);
+        void AddConvocationDetailTemp(ConvocationDetailTemp convocationDetail);
+        void DeleteConvocationDetailTemp(ConvocationDetailTemp convocationDetail);
+
+
     }
 }

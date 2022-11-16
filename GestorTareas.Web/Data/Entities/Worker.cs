@@ -13,6 +13,5 @@ namespace GestorTareas.Web.Data.Entities
         public string WorkerId { get; set; }
         public Position Position { get; set; }
         public User User { get; set; }
-        public ICollection<ProjectAssigment> ProjectAssigments { get; set; }
     }
 }

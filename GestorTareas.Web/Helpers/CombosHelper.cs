@@ -149,5 +149,50 @@ namespace GestorTareas.Web.Helpers
             });
             return list;
         }
+
+        public IEnumerable<SelectListItem> GetComboConvocations()
+        {
+            var list = this.dataContext.Convocations.Select(c => new SelectListItem
+            {
+                Text = $"{c.Summary}",
+                Value = $"{c.Id}"
+            }).ToList();
+            list.Insert(0, new SelectListItem
+            {
+                Text = "(Selecciona una convocatoria)",
+                Value = "0"
+            });
+            return list;
+        }
+
+        public IEnumerable<SelectListItem> GetComboUsers()
+        {
+            var list = this.dataContext.Users.Select(c => new SelectListItem
+            {
+                Text = $"{c.FullName}",
+                Value = $"{c.Id}"
+            }).ToList();
+            list.Insert(0, new SelectListItem
+            {
+                Text = "(Selecciona a un usuario)",
+                Value = "0"
+            });
+            return list;
+        }
+
+        public IEnumerable<SelectListItem> GetComboProjects()
+        {
+            var list = this.dataContext.Projects.Select(c => new SelectListItem
+            {
+                Text = $"{c.ProjectName}",
+                Value = $"{c.Id}"
+            }).ToList();
+            list.Insert(0, new SelectListItem
+            {
+                Text = "(Selecciona un proyecto)",
+                Value = "0"
+            });
+            return list;
+        }
     }
 }

@@ -18,12 +18,12 @@
 
             <div class="form-group">
                 <label asp-for="StartingDate" class="control-label"></label>
-                <input asp-for="StartingDate" class="form-control" />
+                <input asp-for="StartingDate" class="form-control" type="date"/>
                 <span asp-validation-for="StartingDate" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="EndingDate" class="control-label"></label>
-                <input asp-for="EndingDate" class="form-control" />
+                <input asp-for="EndingDate" class="form-control" type="date" />
                 <span asp-validation-for="EndingDate" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -45,11 +45,6 @@
                 <label asp-for="ConvocationUrl" class="control-label"></label>
                 <input asp-for="ConvocationUrl" class="form-control" type="text" />
                 <span asp-validation-for="ConvocationUrl" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Institute" class="control-label"></label>
-                <select asp-for="InstituteId" asp-items="Model.Insitutes" class="form-control"></select>
-                <span asp-validation-for="Institute" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Crear" class="btn btn-outline-success" /> |

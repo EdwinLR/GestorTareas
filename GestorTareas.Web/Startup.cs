@@ -2,7 +2,6 @@ using GestorTareas.Web.Data;
 using GestorTareas.Web.Data.Entities;
 using GestorTareas.Web.Data.Repositories;
 using GestorTareas.Web.Helpers;
-using GestorTareas.Web.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -44,20 +43,21 @@ namespace GestorTareas.Web
             });
 
             services.AddTransient<Seeder>();
-            services.AddScoped <IUserHelper, UserHelper>();
-            services.AddScoped <ICombosHelper, CombosHelper>();
-            services.AddScoped <IImageHelper, ImageHelper>();
-            services.AddScoped <ICareerRepository, CareerRepository>();
-            services.AddScoped <ICategoryRepository,CategoryRepository>();
-            services.AddScoped <IConvocationRepository, ConvocationRepository>();
-            services.AddScoped <ICountryRepository,CountryRepository>();
-            services.AddScoped <IGenderRepository,GenderRepository>();
-            services.AddScoped <IInstituteRepository,InstituteRepository>();
-            services.AddScoped <IPositionRepository,PositionRepository>();
-            services.AddScoped <IPriorityRepository,PriorityRepository>();
-            services.AddScoped <IStatusRepository,StatusRepository>();
-            services.AddScoped <IStudentRepository,StudentRepository>();
-            services.AddScoped <IWorkerRepository,WorkerRepository>();
+            services.AddScoped<IUserHelper, UserHelper>();
+            services.AddScoped<ICombosHelper, CombosHelper>();
+            services.AddScoped<IImageHelper, ImageHelper>();
+            services.AddScoped<ICareerRepository, CareerRepository>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<IConvocationRepository, ConvocationRepository>();
+            services.AddScoped<ICountryRepository, CountryRepository>();
+            services.AddScoped<IGenderRepository, GenderRepository>();
+            services.AddScoped<IInstituteRepository, InstituteRepository>();
+            services.AddScoped<IPositionRepository, PositionRepository>();
+            services.AddScoped<IProjectRepository, ProjectRepository>();
+            services.AddScoped<IPriorityRepository, PriorityRepository>();
+            services.AddScoped<IStatusRepository, StatusRepository>();
+            services.AddScoped<IStudentRepository, StudentRepository>();
+            services.AddScoped<IWorkerRepository, WorkerRepository>();
 
             services.AddControllersWithViews();
 

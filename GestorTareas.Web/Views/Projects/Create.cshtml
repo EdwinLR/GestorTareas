@@ -1,0 +1,43 @@
+﻿@model GestorTareas.Web.Models.ProjectViewModel
+
+@{
+    ViewData["Title"] = "Crear";
+}
+
+<link rel="stylesheet" href="~/css/style-icon.css" />
+<link rel="stylesheet" href="~/css/estiloPaginas.css" />
+
+<h1>Crear nuevo proyecto</h1>
+
+<h4>Proyecto</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="ProjectName" class="control-label"></label>
+                <input asp-for="ProjectName" class="form-control" type="text" />
+                <span asp-validation-for="ProjectName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Convocatoria Relacionada</label>
+                <select asp-for="ConvocationId" asp-items="Model.Convocations" class="form-control"></select>
+                <span asp-validation-for="Convocation" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Crear" class="btn btn-outline-success" /> |
+                <a asp-action="Index" class="btn btn-outline-secondary">
+                    <span class="icon-undo2"></span> Regresar a la Lista</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+

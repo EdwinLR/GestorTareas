@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace GestorTareas.Web.Data.Entities
@@ -28,5 +29,7 @@ namespace GestorTareas.Web.Data.Entities
 
         [Display(Name = "Celular")]
         public override string PhoneNumber { get; set; }
+
+        public ICollection<ProjectAssigment> ProjectAssigments { get; set; }
     }
 }

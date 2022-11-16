@@ -71,8 +71,18 @@ namespace GestorTareas.Web.Controllers
                 var instituteDetailTemps = await _repository.GetAllInstituteDetailTemps().ToListAsync();
                 if (instituteDetailTemps == null || instituteDetailTemps.Count() == 0)
                     return NotFound();
+
                 var details = instituteDetailTemps.Select(idt => 
                 _repository.GetContactPersonById(idt.ContactPerson.Id)).ToList();
+
+                var convocationDetailTemps = await _repository.GetAllConvocationDetailTemps().ToListAsync();
+                if (convocationDetailTemps == null || convocationDetailTemps.Count() == 0)
+                    return NotFound();
+
+                var convocationDetails = convocationDetailTemps.Select(idt =>
+                _repository.GetConvocationById(idt.Convocation.Id)).ToList();
+
+
 
                 var institute = new Institute
                 {
@@ -83,10 +93,11 @@ namespace GestorTareas.Web.Controllers
                     District = model.District,
                     City = model.City,
                     Country = await this._countryRepository.GetDetailByIdAsync(model.CountryId),
-                    ContactPeople = details
+                    ContactPeople = details,
+                    Convocations = convocationDetails
                 };
 
-                await _repository.CreateInstituteAsync(institute, instituteDetailTemps);
+                await _repository.CreateInstituteAsync(institute, instituteDetailTemps, convocationDetailTemps);
                 return RedirectToAction(nameof(Index));
             }
             return View(model);
@@ -199,16 +210,17 @@ namespace GestorTareas.Web.Controllers
                 var instituteDetailTemp = _repository.GetInstituteDetailTempByContactId(contactPerson.Id);
                 if (instituteDetailTemp == null)
                 {
-                    instituteDetailTemp = new InstituteDetailTemp
+                    instituteDetailTemp = new ContactDetailTemp
                     {
                         ContactPerson = contactPerson
                     };
                     _repository.AddInstituteDetailTemp(instituteDetailTemp);
                 }
-                return RedirectToAction("Create");
+                return RedirectToAction("AddContactPerson");
             }
             return View(model);
         }
+
 
         public IActionResult DeleteContactPerson(int? id)
         {
@@ -221,6 +233,53 @@ namespace GestorTareas.Web.Controllers
 
             _repository.DeleteInstituteDetailTemp(instituteDetailTemp);
             return RedirectToAction("AddContactPerson");
+        }
+
+        //Métodos para Convocation
+        public IActionResult AddConvocations(int? id)
+        {
+            var model = new AddConvocationViewModel
+            {
+                ConvocationId = -1,
+                ConvocationList = combosHelper.GetComboConvocations(),
+                convocationDetails = _repository.GetAllConvocationDetailTemps()
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult AddConvocations(AddConvocationViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var convocation = _repository.GetConvocationById(model.ConvocationId);
+                if (convocation == null)
+                    NotFound();
+                var convocationDetailTemp = _repository.GetInstituteDetailTempByConvocationId(convocation.Id);
+                if (convocationDetailTemp == null)
+                {
+                    convocationDetailTemp = new ConvocationDetailTemp
+                    {
+                        Convocation = convocation
+                    };
+                    _repository.AddConvocationDetailTemp(convocationDetailTemp);
+                }
+                return RedirectToAction("AddConvocations");
+            }
+            return View(model);
+        }
+
+        public IActionResult DeleteConvocation(int? id)
+        {
+            if (id == null)
+                return NotFound();
+
+            var convocationDetailTemp = _repository.GetInstituteDetailTempByConvocationId(id.Value);
+            if (convocationDetailTemp == null)
+                return NotFound();
+
+            _repository.DeleteConvocationDetailTemp(convocationDetailTemp);
+            return RedirectToAction("AddConvocations");
         }
     }
 }

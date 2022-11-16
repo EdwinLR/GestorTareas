@@ -1,0 +1,70 @@
+﻿@model IEnumerable<GestorTareas.Web.Data.Entities.Project>
+
+@{
+    ViewData["Title"] = "Proyectos";
+}
+
+<link href="~/css/estilo-home.css" type="text/css" rel="stylesheet" />
+<link rel="stylesheet" href="~/css/style-icon.css" />
+
+<h1>Proyectos</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-outline-success">
+        <span class="icon-plus"></span>Añadir Nuevo Proyecto
+    </a>
+</p>
+<table class="table" style="text-align:center;">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ProjectName)
+            </th>
+             <th>
+                Convocatoria Relacionada
+            </th>
+            @if (User.IsInRole("Admin"))
+            {
+                <th scope="col">
+                    <a>Editar</a>
+                </th>
+                <th scope="col">
+                    <a>Detalles</a>
+                </th>
+                <th scope="col">
+                    <a>Eliminar</a>
+                </th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProjectName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Convocation.Summary)
+                </td>
+                @if (User.IsInRole("Admin"))
+                {
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-primary">
+                        <span class="icon-pencil"></span>
+                        </a>
+                    </td>
+                    <td>
+                 <a asp-action="Details" asp-route-id="@item.Id" class="btn btn btn-outline-dark">
+                    <span class="icon-list"></span></a>
+                    </td>
+                    <td>
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger">
+                            <span class="icon-cancel-circle"></span>
+                        </a>
+                    </td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>

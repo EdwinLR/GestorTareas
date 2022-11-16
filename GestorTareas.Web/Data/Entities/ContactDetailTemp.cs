@@ -2,7 +2,7 @@
 
 namespace GestorTareas.Web.Data.Entities
 {
-    public class InstituteDetailTemp : IEntity
+    public class ContactDetailTemp : IEntity
     {
         public int Id { get; set; }
 

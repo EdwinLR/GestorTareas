@@ -92,6 +92,33 @@
         }
     </tbody>
 </table>
+<br />
+<h4>Convocatorias Publicadas</h4>
+<table class="table" style="text-align:center;">
+    <thead>
+        <tr>
+            <th scope="col">
+                Resumen
+            </th>
+            <th scope="col">
+                URL de la convocatoria
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Convocations)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Summary)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ConvocationUrl)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
 <div>
     <a asp-action="Index" class="btn btn-outline-secondary">
         <span class="icon-undo2"></span>  Regresar a la lista

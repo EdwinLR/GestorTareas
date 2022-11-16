@@ -11,6 +11,7 @@ namespace GestorTareas.Web.Data
         public DbSet<Admin> Admins { get; set; }
         public DbSet<AssignedActivity> AssignedActivities { get; set; }
         public DbSet<Background> Backgrounds { get; set; }
+        public DbSet<ConvocationDetailTemp> ConvocationDetailTemps { get; set; }
         public DbSet<Career> Careers { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<ContactPerson> ContactPeople { get; set; }
@@ -18,11 +19,12 @@ namespace GestorTareas.Web.Data
         public DbSet<Country> Countries { get; set; }
         public DbSet<Gender> Genders { get; set; }
         public DbSet<Institute> Institutes { get; set; }
-        public DbSet<InstituteDetailTemp> InstituteDetailTemps { get; set; }
+        public DbSet<ContactDetailTemp> ContactDetailTemps { get; set; }
         public DbSet<Priority> Priorities { get; set; }
         public DbSet<Project> Projects { get; set; }
         public DbSet<Position> Positions { get; set; }
         public DbSet<ProjectAssigment> ProjectCollaborators { get; set; }
+        public DbSet<ProjectCollaboratorsDetailTemp> ProjectCollaboratorsDetailTemps { get; set; }
         public DbSet<Status> Statuses { get; set; }
         public DbSet<Student> Students { get; set; }
         public DbSet<Worker> Workers { get; set; }

@@ -3,7 +3,7 @@
     public class ProjectAssigment:IEntity
     {
         public int Id { get; set; }
-        public Worker Worker { get; set; }
+        public User User { get; set; }
         public Project Project { get; set; }
 
     }
