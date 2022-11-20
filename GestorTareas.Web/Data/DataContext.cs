@@ -23,7 +23,7 @@ namespace GestorTareas.Web.Data
         public DbSet<Priority> Priorities { get; set; }
         public DbSet<Project> Projects { get; set; }
         public DbSet<Position> Positions { get; set; }
-        public DbSet<ProjectAssigment> ProjectCollaborators { get; set; }
+        public DbSet<ProjectCollaborator> ProjectCollaborators { get; set; }
         public DbSet<ProjectCollaboratorsDetailTemp> ProjectCollaboratorsDetailTemps { get; set; }
         public DbSet<Status> Statuses { get; set; }
         public DbSet<Student> Students { get; set; }

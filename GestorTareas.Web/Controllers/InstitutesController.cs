@@ -233,13 +233,13 @@ namespace GestorTareas.Web.Controllers
         }
 
         //Métodos para Convocation
-        public IActionResult AddConvocations(int? id)
+        public IActionResult AddConvocations()
         {
             var model = new AddConvocationViewModel
             {
                 ConvocationId = -1,
                 ConvocationList = combosHelper.GetComboConvocations(),
-                convocationDetails = _repository.GetAllConvocationDetailTemps()
+                ConvocationDetails = _repository.GetAllConvocationDetailTemps()
             };
             return View(model);
         }

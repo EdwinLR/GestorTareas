@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace GestorTareas.Web.Helpers
 {
-    public class CombosHelper:ICombosHelper
+    public class CombosHelper : ICombosHelper
     {
         private readonly DataContext dataContext;
 
@@ -167,16 +167,19 @@ namespace GestorTareas.Web.Helpers
 
         public IEnumerable<SelectListItem> GetComboUsers()
         {
-            var list = this.dataContext.Users.Select(c => new SelectListItem
-            {
-                Text = $"{c.FullName}",
-                Value = $"{c.Id}"
-            }).ToList();
+            var list = this.dataContext.Users.Where(u => u.FirstName != "Admin")
+                .Select(c => new SelectListItem
+                {
+                    Text = $"{c.FullName}",
+                    Value = $"{c.Id}"
+                }).ToList();
+
             list.Insert(0, new SelectListItem
             {
                 Text = "(Selecciona a un usuario)",
                 Value = "0"
             });
+
             return list;
         }
 

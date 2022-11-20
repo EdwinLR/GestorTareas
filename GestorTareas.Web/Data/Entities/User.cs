@@ -30,6 +30,6 @@ namespace GestorTareas.Web.Data.Entities
         [Display(Name = "Celular")]
         public override string PhoneNumber { get; set; }
 
-        public ICollection<ProjectAssigment> ProjectAssigments { get; set; }
+        public ICollection<ProjectCollaborator> ProjectAssigments { get; set; }
     }
 }

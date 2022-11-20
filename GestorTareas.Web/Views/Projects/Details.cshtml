@@ -2,7 +2,6 @@
 
 @{
     ViewData["Title"] = "Detalles del Proyecto";
-    ViewBag.ProjectId = Model.Id;
 }
 
 <link rel="stylesheet" href="~/css/style-icon.css" />
@@ -11,7 +10,7 @@
 
 <div>
     <h4>Proyecto</h4>
-    <a asp-action="CreateCollaboratorsDetails" asp-route-id="@Model.Id" class="btn btn btn-outline-success">
+    <a asp-action="AddCollaborator" asp-route-id="@Model.Id" class="btn btn btn-outline-success">
                     <span class="icon-plus"></span> Añadir Colaboradores al Proyecto</a>
     <hr />
     <dl class="row">
@@ -34,18 +33,18 @@
     <thead>
         <tr>
             <th scope="col">
-                @Html.DisplayNameFor(model => model.ProjectAssigments)
-            </th>
-            <th scope="col">
                 Nombre completo
             </th>
             <th scope="col">
                 Correo Electrónico
             </th>
+            <th scope="col">
+                Eliminar
+            </th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.ProjectAssigments)
+        @foreach (var item in Model.ProjectCollaborators)
         {
             <tr>
                 <td>
@@ -53,6 +52,11 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.User.Email)
+                </td>
+                <td> 
+                    <a asp-action="DeleteCollaboratorFromList" asp-route-projectId="@item.Project.Id" asp-route-userId="@item.User.Id" class="btn btn-outline-danger">
+                        <span class="icon-cancel-circle"></span>
+                    </a>
                 </td>
             </tr>
         }

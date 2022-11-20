@@ -5,6 +5,8 @@ using GestorTareas.Web.Helpers;
 using GestorTareas.Web.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace GestorTareas.Web.Controllers
@@ -63,7 +65,7 @@ namespace GestorTareas.Web.Controllers
                 return NotFound();
             }
 
-            var project = await projectRepository.GetProjectWithConvocationByIdAsync(id.Value);
+            var project = await projectRepository.GetProjectWithConvocationAndCollaboratorsByIdAsync(id.Value);
 
             var model = new ProjectViewModel
             {
@@ -103,7 +105,7 @@ namespace GestorTareas.Web.Controllers
                 return NotFound();
             }
 
-            var project = await projectRepository.GetProjectWithConvocationByIdAsync(id.Value);
+            var project = await projectRepository.GetProjectWithConvocationAndCollaboratorsByIdAsync(id.Value);
 
             if (project == null)
             {
@@ -134,7 +136,7 @@ namespace GestorTareas.Web.Controllers
                 return NotFound();
             }
 
-            var project = await projectRepository.GetProjectWithConvocationByIdAsync(id.Value);
+            var project = await projectRepository.GetProjectWithConvocationAndCollaboratorsByIdAsync(id.Value);
 
             if (project == null)
             {
@@ -144,10 +146,106 @@ namespace GestorTareas.Web.Controllers
             return View(project);
         }
 
-        public IActionResult CreateCollaboratorsDetails(int id)
+
+        //Métodos para agregar colaboradores
+        public IActionResult AddCollaborator(int id)
         {
-            return RedirectToAction("AddCollaborator", "ProjectAssignations", new {id = id });
+            var model = new AddCollaboratorViewModel
+            {
+                UserId = "",
+                Users = combosHelper.GetComboUsers(),
+                AssignedUsers = projectRepository.GetAllProjectCollaboratorsDetailTemps(),
+                ProjectId = id
+            };
+
+            return View(model);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> AddCollaborator(AddCollaboratorViewModel model)
+        {
+            if (this.ModelState.IsValid)
+            {
+
+                var user = await this.context.Users.FindAsync(model.UserId);
+                var project = await this.projectRepository.GetProjectWithConvocationAndCollaboratorsByIdAsync(model.ProjectId);
+
+                if (user == null)
+                {
+                    return NotFound();
+                }
+
+                var projectCollaboratorsTemp = await this.context.ProjectCollaboratorsDetailTemps
+                    .Where(odt => odt.User == user && odt.Project == project).FirstOrDefaultAsync();
+
+                if (projectCollaboratorsTemp == null)
+                {
+                    var projectCollaborator = this.projectRepository.GetProjectCollaboratorsById(model.ProjectId, model.UserId);
+
+                    if (projectCollaborator == null)
+                    {
+                        projectCollaboratorsTemp = new ProjectCollaboratorsDetailTemp
+                        {
+                            Project = project,
+                            User = user
+                        };
+
+                        await this.projectRepository.AddProjectCollaboratorDetailTemp(projectCollaboratorsTemp);
+                    }
+                    else
+                    {
+                        return RedirectToAction("AddCollaborator");
+                    }
+                }
+                return RedirectToAction("AddCollaborator");
+            }
+            return View(model);
+        }
+
+        public async Task<IActionResult> ConfirmCollaborators(int id)
+        {
+            var projectCollaboratorsTemp = await this.projectRepository.GetAllProjectCollaboratorsDetailTemps().ToListAsync();
+
+            if (projectCollaboratorsTemp == null || projectCollaboratorsTemp.Count == 0)
+                return NotFound();
+
+            var details = projectCollaboratorsTemp.Select(pct => new ProjectCollaborator
+            {
+                Project = pct.Project,
+                User = pct.User
+
+            }).ToList();
+
+            await this.projectRepository.AddCollaboratorsAsync(id, details, projectCollaboratorsTemp);
+
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult DeleteCollaborator(int? id)
+        {
+            if (id == null)
+                return NotFound();
+
+            var collaboratorDetailTemp = projectRepository.GetProjectCollaboratorsDetailTempsById(id.Value);
+            if (collaboratorDetailTemp == null)
+                return NotFound();
+
+            this.projectRepository.DeleteCollaboratorDetailTemp(collaboratorDetailTemp);
+            return RedirectToAction("AddCollaborator");
+        }
+
+        public IActionResult DeleteCollaboratorFromList(int projectId, string userId)
+        {
+            var projectCollaborators = this.projectRepository.GetProjectCollaboratorsById(projectId, userId);
+
+            if (projectCollaborators == null)
+                return NotFound();
+
+            this.projectRepository.DeleteCollaboratorFromList(projectCollaborators);
+
+            return RedirectToAction("Details", new { id = projectId });
+        }
+
 
     }
 }

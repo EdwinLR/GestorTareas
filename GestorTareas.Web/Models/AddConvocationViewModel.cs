@@ -11,6 +11,6 @@ namespace GestorTareas.Web.Models
         [Display(Name = "Convocatoria")]
         public int ConvocationId { get; set; }
         public IEnumerable<SelectListItem> ConvocationList { get; set; }
-        public IQueryable<ConvocationDetailTemp> convocationDetails { get; set; }
+        public IQueryable<ConvocationDetailTemp> ConvocationDetails { get; set; }
     }
 }
