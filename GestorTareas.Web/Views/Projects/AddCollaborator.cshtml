@@ -1,0 +1,75 @@
+﻿@model GestorTareas.Web.Models.AddCollaboratorViewModel
+
+@{
+    ViewData["Title"] = "Agregar colaborador del proyecto";
+}
+
+<link rel="stylesheet" href="~/css/style-icon.css" />
+
+<h1>Agregar colaborador del proyecto</h1>
+<br />
+
+<h4>Colaborador</h4>
+
+<br />
+<a asp-action="ConfirmCollaborators" asp-route-id="@Model.ProjectId" class="btn btn-outline-success">
+    <span class="icon-user-check"></span> Confirmar </a>
+<hr />
+<table class="table" style="text-align:center;">
+    <thead>
+        <tr>
+            <th scope="col">
+                Usuario
+            </th>
+            <th scope="col">
+                <a>Eliminar</a>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.AssignedUsers)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.FullName)
+                </td>
+                <td>
+                    <a asp-action="DeleteCollaborator" asp-route-id="@item.Id" class="btn btn-outline-danger">
+                        <span class="icon-cancel-circle"></span>
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<hr />
+<br />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddCollaborator" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <input type="hidden" asp-for="ProjectId" />
+
+            <div class="form-group">
+                <label asp-for="UserId" class="control-label"></label>
+                <select asp-for="UserId" asp-items="Model.Users" class="form-control"></select>
+                <span asp-validation-for="UserId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Agregar" class="btn btn-outline-success" /> |
+                <a asp-action="Details" class="btn btn-outline-secondary">
+                    <span class="icon-undo2"></span> Regresar
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }
