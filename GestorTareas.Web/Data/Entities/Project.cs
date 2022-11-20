@@ -11,6 +11,6 @@ namespace GestorTareas.Web.Data.Entities
         [Display(Name ="Nombre del Proyecto")]
         public string ProjectName { get; set; }
         public Convocation Convocation { get; set; }
-        public ICollection<ProjectAssigment> ProjectAssigments { get; set; }
+        public ICollection<ProjectCollaborator> ProjectCollaborators { get; set; }
     }
 }
