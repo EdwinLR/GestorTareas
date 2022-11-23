@@ -91,7 +91,7 @@ namespace GestorTareas.Web.Controllers
                     Deadline = model.Deadline,
                     Progress = 0,
                     CreationDate = DateTime.Now,
-                    Project = await this.projectRepository.GetProjectWithConvocationAndCollaboratorsByIdAsync(model.ProjectId),
+                    Project = await this.projectRepository.GetProjectWithConvocationByIdAsync(model.ProjectId),
                     Category = await this.categoryRepository.GetDetailByIdAsync(model.CategoryId),
                     Priority = await this.priorityRepository.GetDetailByIdAsync(model.PriorityId),
                     Status = await this.statusRepository.GetDetailByIdAsync(model.StatusId),
