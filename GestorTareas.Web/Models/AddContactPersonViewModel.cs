@@ -10,6 +10,7 @@ namespace GestorTareas.Web.Models
     {
         [Display(Name = "Persona de Contacto")]
         public int ContactPersonId { get; set; }
+        public int InstituteId { get; set; }
         public IEnumerable<SelectListItem> ContactPeopleList { get; set; }
         public IQueryable<ContactDetailTemp> AssignedContactPeople { get; set; }
     }
