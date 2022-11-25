@@ -1,5 +1,7 @@
 ﻿using GestorTareas.Web.Data.Entities;
 using GestorTareas.Web.Data.Repositories;
+using GestorTareas.Web.Helpers;
+using GestorTareas.Web.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -10,105 +12,108 @@ namespace GestorTareas.Web.Controllers
     [Authorize(Roles = "Coordinator,Admin")]
     public class ContactPeopleController : Controller
     {
-        private readonly IInstituteRepository repository;
+        private readonly IContactPersonRepository contactPersonRepository;
+        private readonly ICombosHelper combosHelper;
+        private readonly IInstituteRepository instituteRepository;
 
-        public ContactPeopleController(IInstituteRepository context)
+        public ContactPeopleController(IContactPersonRepository contactPersonRepository, ICombosHelper combosHelper, IInstituteRepository instituteRepository)
         {
-            repository = context;
+            this.contactPersonRepository = contactPersonRepository;
+            this.combosHelper = combosHelper;
+            this.instituteRepository = instituteRepository;
         }
 
         public IActionResult Index()
         {
-            return View(repository.GetAllContactPeople());
-        }
-
-        public IActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var contactPerson = repository.GetContactPersonById(id.Value);
-            if (contactPerson == null)
-            {
-                return NotFound();
-            }
-
-            return View(contactPerson);
+            return View(contactPersonRepository.GetAllContactPeopleWithInstitutes());
         }
 
         public IActionResult Create()
         {
-            return View();
+            var contactPerson = new ContactPersonViewModel
+            {
+                Institutes = this.combosHelper.GetComboInstitutes()
+            };
+
+            return View(contactPerson);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(ContactPerson contactPerson)
+        public async Task<IActionResult> Create(ContactPersonViewModel contactPersonViewModel)
         {
             if (ModelState.IsValid)
             {
-                await repository.AddContactPersonAsync(contactPerson);
+                var contactPerson = new ContactPerson
+                {
+                    FirstName = contactPersonViewModel.FirstName,
+                    FatherLastName = contactPersonViewModel.FatherLastName,
+                    MotherLastName = contactPersonViewModel.MotherLastName,
+                    Email = contactPersonViewModel.Email,
+                    PhoneNumber = contactPersonViewModel.PhoneNumber,
+                    Institute = this.instituteRepository.GetInstituteById(contactPersonViewModel.InstituteId)
+                };
+
+                await contactPersonRepository.CreateAsync(contactPerson);
                 return RedirectToAction(nameof(Index));
             }
-            return View(contactPerson);
+            return View(contactPersonViewModel);
         }
 
-        public IActionResult Edit(int? id)
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var contactPerson = repository.GetContactPersonById(id.Value);
-            if (contactPerson == null)
+            var contactPerson = await contactPersonRepository.GetContactPersonWithInstituteByIdAsync(id.Value);
+
+            var model = new ContactPersonViewModel
             {
-                return NotFound();
-            }
-            return View(contactPerson);
+                FirstName = contactPerson.FirstName,
+                FatherLastName = contactPerson.FatherLastName,
+                MotherLastName = contactPerson.MotherLastName,
+                Email = contactPerson.Email,
+                PhoneNumber = contactPerson.PhoneNumber,
+                InstituteId = contactPerson.Institute.Id,
+                Institutes = this.combosHelper.GetComboInstitutes()
+            };
+
+            return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, ContactPerson contactPerson)
+        public async Task<IActionResult> Edit(ContactPersonViewModel contactPersonViewModel)
         {
-            if (id != contactPerson.Id)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
-                try
+                var contactPerson = new ContactPerson
                 {
-                    await repository.UpdateContactPersonAsync(contactPerson);
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!await repository.ExistContactPersonAsync(contactPerson.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                    Id = contactPersonViewModel.Id,
+                    FirstName = contactPersonViewModel.FirstName,
+                    FatherLastName = contactPersonViewModel.FatherLastName,
+                    MotherLastName = contactPersonViewModel.MotherLastName,
+                    Email = contactPersonViewModel.Email,
+                    PhoneNumber = contactPersonViewModel.PhoneNumber,
+                    Institute = this.instituteRepository.GetInstituteById(contactPersonViewModel.InstituteId)
+                };
+
+                await this.contactPersonRepository.UpdateAsync(contactPerson);
                 return RedirectToAction(nameof(Index));
             }
-            return View(contactPerson);
+            return View(contactPersonViewModel);
         }
 
-        public IActionResult Delete(int? id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var contactPerson = repository.GetContactPersonById(id.Value);
+            var contactPerson = await contactPersonRepository.GetContactPersonWithInstituteByIdAsync(id.Value);
             if (contactPerson == null)
             {
                 return NotFound();
@@ -121,8 +126,8 @@ namespace GestorTareas.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var contactPerson = repository.GetContactPersonById(id);
-            await repository.DeleteContactPersonAsync(contactPerson);
+            var contactPerson = await contactPersonRepository.GetByIdAsync(id);
+            await contactPersonRepository.DeleteAsync(contactPerson);
             return RedirectToAction(nameof(Index));
         }
     }

@@ -26,19 +26,18 @@ namespace GestorTareas.Web.Data.Repositories
                 .OrderBy(i => i.Name);
         }
 
-        public async Task<Institute> GetInstituteWithCountryAndContactPersonAsync(int id)
+        public async Task<Institute> GetInstituteWithCountryAndContactPersonByIdAsync(int id)
         {
             return await this.context.Institutes
                 .Include(i => i.Country)
                 .Include(i=>i.Convocations)
+                .Include(i=>i.ContactPeople)
                 .FirstOrDefaultAsync(i => i.Id == id);
         }
 
-        public async Task<Institute> CreateInstituteAsync(Institute institute, List<ContactDetailTemp> institutesDetails, List<ConvocationDetailTemp> convocationDetails)
+        public async Task<Institute> CreateInstituteAsync(Institute institute)
         {
             await this.context.Institutes.AddAsync(institute);
-            this.context.ContactDetailTemps.RemoveRange(institutesDetails);
-            this.context.ConvocationDetailTemps.RemoveRange(convocationDetails);
             await this.context.SaveChangesAsync();
             return institute;
         }
@@ -46,70 +45,6 @@ namespace GestorTareas.Web.Data.Repositories
         public Institute GetInstituteById(int id)
         {
             return this.context.Institutes.Find(id);
-        }
-
-
-        //ContactPerson Methods
-        public IQueryable<ContactPerson> GetAllContactPeople()
-        {
-            return this.context.ContactPeople
-                .Include(cp => cp.Institute);
-        }
-
-        public ContactPerson GetContactPersonById(int id)
-        {
-            return this.context.ContactPeople.Find(id);
-        }
-
-        public async Task<ContactPerson> AddContactPersonAsync(ContactPerson contactPerson)
-        {
-            await this.context.ContactPeople.AddAsync(contactPerson);
-            await this.context.SaveChangesAsync();
-            return contactPerson;
-        }
-
-        public async Task<ContactPerson> UpdateContactPersonAsync(ContactPerson contactPerson)
-        {
-            this.context.ContactPeople.Update(contactPerson);
-            await this.context.SaveChangesAsync();
-            return contactPerson;
-        }
-
-        public async Task DeleteContactPersonAsync(ContactPerson contactPerson)
-        {
-            this.context.ContactPeople.Remove(contactPerson);
-            await this.context.SaveChangesAsync();
-        }
-
-        public async Task<bool> ExistContactPersonAsync(int id)
-        {
-            return await this.context.ContactPeople.AnyAsync(cp => cp.Id == id);
-        }
-
-
-        //InstituteDetailTemp Methods
-        public IQueryable<ContactDetailTemp> GetAllInstituteDetailTemps()
-        {
-            return this.context.ContactDetailTemps
-                .Include(idt => idt.ContactPerson);
-        }
-        public ContactDetailTemp GetInstituteDetailTempById(int id)
-        {
-            return this.context.ContactDetailTemps.Find(id);
-        }
-        public ContactDetailTemp GetInstituteDetailTempByContactId(int id)
-        {
-            return this.context.ContactDetailTemps.FirstOrDefault(idt => idt.ContactPerson.Id == id);
-        }
-        public void AddInstituteDetailTemp(ContactDetailTemp instituteDetail)
-        {
-            this.context.ContactDetailTemps.Add(instituteDetail);
-            this.context.SaveChanges();
-        }
-        public void DeleteInstituteDetailTemp(ContactDetailTemp instituteDetail)
-        {
-            this.context.ContactDetailTemps.Remove(instituteDetail);
-            this.context.SaveChanges();
         }
 
     }

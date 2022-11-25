@@ -40,7 +40,7 @@ namespace GestorTareas.Web.Controllers
                 return NotFound();
             }
 
-            var institute = await _repository.GetInstituteWithCountryAndContactPersonAsync(id.Value);
+            var institute = await _repository.GetInstituteWithCountryAndContactPersonByIdAsync(id.Value);
             if (institute == null)
             {
                 return NotFound();
@@ -65,14 +65,6 @@ namespace GestorTareas.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var instituteDetailTemps = await _repository.GetAllInstituteDetailTemps().ToListAsync();
-                if (instituteDetailTemps == null || instituteDetailTemps.Count() == 0)
-                    return NotFound();
-
-                var details = instituteDetailTemps.Select(idt => 
-                _repository.GetContactPersonById(idt.ContactPerson.Id)).ToList();
-
-
                 var institute = new Institute
                 {
                     Name = model.Name,
@@ -97,7 +89,7 @@ namespace GestorTareas.Web.Controllers
                 return NotFound();
             }
 
-            var institute = await _repository.GetInstituteWithCountryAndContactPersonAsync(id.Value);
+            var institute = await _repository.GetInstituteWithCountryAndContactPersonByIdAsync(id.Value);
             if (institute == null)
             {
                 return NotFound();
@@ -154,7 +146,7 @@ namespace GestorTareas.Web.Controllers
                 return NotFound();
             }
 
-            var institute = await _repository.GetInstituteWithCountryAndContactPersonAsync(id.Value);
+            var institute = await _repository.GetInstituteWithCountryAndContactPersonByIdAsync(id.Value);
             if (institute == null)
             {
                 return NotFound();
@@ -167,57 +159,10 @@ namespace GestorTareas.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var institute = await _repository.GetInstituteWithCountryAndContactPersonAsync(id);
+            var institute = await _repository.GetInstituteWithCountryAndContactPersonByIdAsync(id);
             await _repository.DeleteAsync(institute);
             return RedirectToAction(nameof(Index));
         }
 
-
-        //ContactPerson Methods
-        public IActionResult AddContactPerson()
-        {
-            var model = new AddContactPersonViewModel
-            {
-                ContactPersonId = -1,
-                ContactPeopleList = combosHelper.GetComboContacts(),
-                AssignedContactPeople = _repository.GetAllInstituteDetailTemps()
-            };
-            return View(model);
-        }
-
-        [HttpPost]
-        public IActionResult AddContactPerson(AddContactPersonViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                var contactPerson = _repository.GetContactPersonById(model.ContactPersonId);
-                if (contactPerson == null)
-                    NotFound();
-                var instituteDetailTemp = _repository.GetInstituteDetailTempByContactId(contactPerson.Id);
-                if (instituteDetailTemp == null)
-                {
-                    instituteDetailTemp = new ContactDetailTemp
-                    {
-                        ContactPerson = contactPerson
-                    };
-                    _repository.AddInstituteDetailTemp(instituteDetailTemp);
-                }
-                return RedirectToAction("AddContactPerson");
-            }
-            return View(model);
-        }
-
-        public IActionResult DeleteContactPerson(int? id)
-        {
-            if (id == null)
-                return NotFound();
-
-            var instituteDetailTemp = _repository.GetInstituteDetailTempById(id.Value);
-            if (instituteDetailTemp == null)
-                return NotFound();
-
-            _repository.DeleteInstituteDetailTemp(instituteDetailTemp);
-            return RedirectToAction("AddContactPerson");
-        }
     }
 }

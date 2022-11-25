@@ -1,4 +1,4 @@
-﻿@model GestorTareas.Web.Data.Entities.ContactPerson
+﻿@model GestorTareas.Web.Models.ContactPersonViewModel
 
 @{
     ViewData["Title"] = "Crear";
@@ -38,6 +38,11 @@
                 <label asp-for="PhoneNumber" class="control-label"></label>
                 <input asp-for="PhoneNumber" class="form-control" />
                 <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Instituto</label>
+                <select asp-for="InstituteId" asp-items="Model.Institutes" class="form-control"></select>
+                <span asp-validation-for="Institute" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Crear" class="btn btn-outline-success" /> |

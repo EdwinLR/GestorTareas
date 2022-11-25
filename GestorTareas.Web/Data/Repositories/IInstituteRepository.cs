@@ -9,22 +9,9 @@ namespace GestorTareas.Web.Data.Repositories
     {
         //Metodos unicos de la entidad
         IQueryable<Institute> GetAllInstitutesWithCountriesAndContactPeople();
-        Task<Institute> GetInstituteWithCountryAndContactPersonAsync(int id);
-        Task<Institute> CreateInstituteAsync(Institute institute, List<ContactDetailTemp> institutesDetails, List<ConvocationDetailTemp> convocationDetails);
+        Task<Institute> GetInstituteWithCountryAndContactPersonByIdAsync(int id);
+        Task<Institute> CreateInstituteAsync(Institute institute);
         Institute GetInstituteById(int id);
-
-        IQueryable<ContactPerson> GetAllContactPeople();
-        ContactPerson GetContactPersonById(int id);
-        Task<ContactPerson> AddContactPersonAsync(ContactPerson contactPerson);
-        Task<ContactPerson> UpdateContactPersonAsync(ContactPerson contactPerson);
-        Task DeleteContactPersonAsync(ContactPerson contactPerson);
-        Task<bool> ExistContactPersonAsync(int id);
-
-        IQueryable<ContactDetailTemp> GetAllInstituteDetailTemps();
-        ContactDetailTemp GetInstituteDetailTempById(int id);
-        ContactDetailTemp GetInstituteDetailTempByContactId(int id);
-        void AddInstituteDetailTemp(ContactDetailTemp instituteDetail);
-        void DeleteInstituteDetailTemp(ContactDetailTemp instituteDetail);
 
     }
 }
