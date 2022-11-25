@@ -23,8 +23,6 @@ namespace GestorTareas.Web.Data.Repositories
         {
             return this.context.Institutes
                 .Include(i => i.Country)
-                .Include(i => i.ContactPeople)
-                .Include(c => c.Convocations)
                 .OrderBy(i => i.Name);
         }
 
@@ -32,8 +30,7 @@ namespace GestorTareas.Web.Data.Repositories
         {
             return await this.context.Institutes
                 .Include(i => i.Country)
-                .Include(i => i.ContactPeople)
-                .Include(c => c.Convocations)
+                .Include(i=>i.Convocations)
                 .FirstOrDefaultAsync(i => i.Id == id);
         }
 
@@ -44,6 +41,11 @@ namespace GestorTareas.Web.Data.Repositories
             this.context.ConvocationDetailTemps.RemoveRange(convocationDetails);
             await this.context.SaveChangesAsync();
             return institute;
+        }
+
+        public Institute GetInstituteById(int id)
+        {
+            return this.context.Institutes.Find(id);
         }
 
 
@@ -110,71 +112,5 @@ namespace GestorTareas.Web.Data.Repositories
             this.context.SaveChanges();
         }
 
-
-        //Convocation Methods
-        public IQueryable<Convocation> GetAllConvocations()
-        {
-            return this.context.Convocations
-                .Include(n=>n.Institute)
-                .OrderBy(i => i.Institute);
-        }
-
-        public Convocation GetConvocationById(int id)
-        {
-            return this.context.Convocations.Find(id);
-        }
-
-        public async Task<Convocation> AddConvocationAsync(Convocation convocation)
-        {
-            await this.context.Convocations.AddAsync(convocation);
-            await this.context.SaveChangesAsync();
-            return convocation;
-        }
-
-        public async Task<Convocation> UpdateConvocationAsync(Convocation convocation)
-        {
-            this.context.Convocations.Update(convocation);
-            await this.context.SaveChangesAsync();
-            return convocation;
-        }
-
-        public async Task DeleteConvocationAsync(Convocation convocation)
-        {
-            this.context.Convocations.Remove(convocation);
-            await this.context.SaveChangesAsync();
-        }
-
-        public async Task<bool> ExistConvocationAsync(int id)
-        {
-            return await this.context.Convocations.AnyAsync(cp => cp.Id == id);
-        }
-
-        public IQueryable<ConvocationDetailTemp> GetAllConvocationDetailTemps()
-        {
-            return this.context.ConvocationDetailTemps
-                 .Include(idt => idt.Convocation);
-        }
-
-        public ConvocationDetailTemp GetConvocationDetailTempById(int id)
-        {
-            return this.context.ConvocationDetailTemps.Find(id);
-        }
-
-        public ConvocationDetailTemp GetInstituteDetailTempByConvocationId(int id)
-        {
-            return this.context.ConvocationDetailTemps.FirstOrDefault(idt => idt.Convocation.Id == id);
-        }
-
-        public void AddConvocationDetailTemp(ConvocationDetailTemp convocationDetail)
-        {
-            this.context.ConvocationDetailTemps.Add(convocationDetail);
-            this.context.SaveChanges();
-        }
-
-        public void DeleteConvocationDetailTemp(ConvocationDetailTemp convocationDetail)
-        {
-            this.context.ConvocationDetailTemps.Remove(convocationDetail);
-            this.context.SaveChanges();
-        }
     }
 }

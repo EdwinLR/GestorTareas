@@ -11,6 +11,7 @@ namespace GestorTareas.Web.Data.Repositories
         IQueryable<Institute> GetAllInstitutesWithCountriesAndContactPeople();
         Task<Institute> GetInstituteWithCountryAndContactPersonAsync(int id);
         Task<Institute> CreateInstituteAsync(Institute institute, List<ContactDetailTemp> institutesDetails, List<ConvocationDetailTemp> convocationDetails);
+        Institute GetInstituteById(int id);
 
         IQueryable<ContactPerson> GetAllContactPeople();
         ContactPerson GetContactPersonById(int id);
@@ -24,23 +25,6 @@ namespace GestorTareas.Web.Data.Repositories
         ContactDetailTemp GetInstituteDetailTempByContactId(int id);
         void AddInstituteDetailTemp(ContactDetailTemp instituteDetail);
         void DeleteInstituteDetailTemp(ContactDetailTemp instituteDetail);
-
-
-        //Métodos de Convocations
-        IQueryable<Convocation> GetAllConvocations();
-        Convocation GetConvocationById(int id);
-        Task<Convocation> AddConvocationAsync(Convocation convocation);
-        Task<Convocation> UpdateConvocationAsync(Convocation convocation);
-        Task DeleteConvocationAsync(Convocation convocation);
-        Task<bool> ExistConvocationAsync(int id);
-
-
-        IQueryable<ConvocationDetailTemp> GetAllConvocationDetailTemps();
-        ConvocationDetailTemp GetConvocationDetailTempById(int id);
-        ConvocationDetailTemp GetInstituteDetailTempByConvocationId(int id);
-        void AddConvocationDetailTemp(ConvocationDetailTemp convocationDetail);
-        void DeleteConvocationDetailTemp(ConvocationDetailTemp convocationDetail);
-
 
     }
 }

@@ -47,6 +47,11 @@
                 <span asp-validation-for="ConvocationUrl" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label class="control-label">Instituto que la genera</label>
+                <select asp-for="InstituteId" asp-items="Model.Institutes" class="form-control"></select>
+                <span asp-validation-for="Institute" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Crear" class="btn btn-outline-success" /> |
                 <a asp-action="Index" class="btn btn-outline-secondary">
                     <span class="icon-undo2"></span> Regresar a la Lista

@@ -16,14 +16,14 @@ namespace GestorTareas.Web.Controllers
         private readonly ICombosHelper combosHelper;
         private readonly DataContext context;
         private readonly IProjectRepository projectRepository;
-        private readonly IInstituteRepository instituteRepository;
+        private readonly IConvocationRepository convocationRepository;
 
-        public ProjectsController(ICombosHelper combosHelper, DataContext context, IProjectRepository projectRepository, IInstituteRepository instituteRepository)
+        public ProjectsController(ICombosHelper combosHelper, DataContext context, IProjectRepository projectRepository, IConvocationRepository convocationRepository)
         {
             this.combosHelper = combosHelper;
             this.context = context;
             this.projectRepository = projectRepository;
-            this.instituteRepository = instituteRepository;
+            this.convocationRepository = convocationRepository;
         }
 
         public IActionResult Index()
@@ -48,7 +48,7 @@ namespace GestorTareas.Web.Controllers
                 var project = new Project
                 {
                     ProjectName = model.ProjectName,
-                    Convocation = this.instituteRepository.GetConvocationById(model.ConvocationId)
+                    Convocation = this.convocationRepository.GetConvocationById(model.ConvocationId)
                 };
 
                 await this.projectRepository.CreateAsync(project);
@@ -87,7 +87,7 @@ namespace GestorTareas.Web.Controllers
                 {
                     Id = model.Id,
                     ProjectName = model.ProjectName,
-                    Convocation = this.instituteRepository.GetConvocationById(model.ConvocationId),
+                    Convocation = this.convocationRepository.GetConvocationById(model.ConvocationId),
                 };
 
                 await projectRepository.UpdateAsync(project);

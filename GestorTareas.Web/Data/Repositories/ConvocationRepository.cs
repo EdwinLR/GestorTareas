@@ -15,23 +15,24 @@ namespace GestorTareas.Web.Data.Repositories
             this.context = context;
         }
 
-        public IQueryable GetAllConvocationsWithInstitutesCountriesAndContactPeople()
+        public Convocation GetConvocationById(int id)
+        {
+            return this.context.Convocations.Find(id);
+        }
+
+        public IQueryable GetAllConvocationsWithInstitutes()
         {
             return this.context.Convocations
                 .Include(c => c.Institute)
                 .ThenInclude(c => c.Country)
                 .Include(c => c.Institute)
-                .ThenInclude(c => c.ContactPeople)
                 .OrderBy(c => c.StartingDate);
         }
 
-        public async Task<Convocation> GetConvocationWithInstituteCountryAndContactPersonAsync(int id)
+        public async Task<Convocation> GetConvocationWithInstituteByIdAsync(int id)
         {
             return await this.context.Convocations
                 .Include(c => c.Institute)
-                .ThenInclude(c => c.Country)
-                .Include(c => c.Institute)
-                .ThenInclude(c => c.ContactPeople)
                 .FirstOrDefaultAsync(c => c.Id == id);
         }
     }

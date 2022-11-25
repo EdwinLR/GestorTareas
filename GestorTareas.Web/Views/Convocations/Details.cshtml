@@ -2,6 +2,8 @@
 
 @{
     ViewData["Title"] = "Detalles de la convocatoria";
+    string startingDate = Model.StartingDate.ToShortDateString();
+    string endingDate = Model.EndingDate.ToShortDateString();
 }
 
 <link rel="stylesheet" href="~/css/style-icon.css" />
@@ -16,13 +18,13 @@
             @Html.DisplayNameFor(model => model.StartingDate)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.StartingDate)
+            @Html.DisplayFor(model => startingDate)
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.EndingDate)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.EndingDate)
+            @Html.DisplayFor(model => endingDate)
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Summary)

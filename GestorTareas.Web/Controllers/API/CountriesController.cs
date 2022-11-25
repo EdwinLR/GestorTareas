@@ -1,8 +1,7 @@
-﻿using GestorTareas.Web.Data;
+﻿using GestorTareas.Common.Models;
 using GestorTareas.Web.Data.Entities;
+using GestorTareas.Web.Data.Repositories;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace GestorTareas.Web.Controllers.API
@@ -11,30 +10,49 @@ namespace GestorTareas.Web.Controllers.API
     [ApiController]
     public class CountriesController : ControllerBase
     {
-        private readonly DataContext _context;
+        private readonly ICountryRepository countryRepository;
 
-        public CountriesController(DataContext context)
+        public CountriesController(ICountryRepository countryRepository)
         {
-            _context = context;
+            this.countryRepository = countryRepository;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Country>>> GetCountries()
+        public IActionResult GetCountries()
         {
-            return await _context.Countries.ToListAsync();
+            return Ok(countryRepository.GetAll());
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Country>> GetCountry(int id)
+        public IActionResult GetCountry(int id)
         {
-            var country = await _context.Countries.FindAsync(id);
+            var country = countryRepository.GetDetailByIdAsync(id);
 
             if (country == null)
             {
                 return NotFound();
             }
 
-            return country;
+            return Ok(country);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> PostCountry([FromBody] CountryResponse countryResponse)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var country = new Country
+            {
+                Id = countryResponse.Id,
+                CountryName = countryResponse.CountryName
+            };
+
+            var newCountry = await this.countryRepository.CreateAsync(country);
+
+            return Ok(newCountry);
         }
     }
 }

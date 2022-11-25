@@ -7,6 +7,6 @@ namespace GestorTareas.Web.Models
     public class ConvocationViewModel : Convocation
     {
         public int InstituteId { get; set; }
-        public IEnumerable<SelectListItem> Insitutes { get; set; }
+        public IEnumerable<SelectListItem> Institutes { get; set; }
     }
 }

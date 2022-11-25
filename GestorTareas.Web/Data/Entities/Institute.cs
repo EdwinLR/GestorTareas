@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace GestorTareas.Web.Data.Entities
 {
-    public class Institute:IEntity
+    public class Institute : IEntity
     {
         public int Id { get; set; }
 

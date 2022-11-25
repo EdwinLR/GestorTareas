@@ -58,12 +58,14 @@
     <tbody>
         @foreach (var item in Model)
         {
+            string startingDate = item.StartingDate.ToShortDateString();
+            string endingDate = item.EndingDate.ToShortDateString();
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.StartingDate.Date)
+                    @Html.DisplayFor(modelItem => startingDate)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.EndingDate.Date)
+                    @Html.DisplayFor(modelItem => endingDate)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Summary)
