@@ -92,9 +92,9 @@ namespace GestorTareas.Web.Controllers
                     Progress = 0,
                     CreationDate = DateTime.Now,
                     Project = await this.projectRepository.GetProjectWithConvocationAndCollaboratorsByIdAsync(model.ProjectId),
-                    Category = await this.categoryRepository.GetDetailByIdAsync(model.CategoryId),
-                    Priority = await this.priorityRepository.GetDetailByIdAsync(model.PriorityId),
-                    Status = await this.statusRepository.GetDetailByIdAsync(model.StatusId),
+                    Category = this.categoryRepository.GetDetailById(model.CategoryId),
+                    Priority = await this.priorityRepository.GetMasterByIdAsync(model.PriorityId),
+                    Status = await this.statusRepository.GetMasterByIdAsync(model.StatusId),
                     AssignedActivities = details
                 };
 

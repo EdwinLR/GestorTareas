@@ -68,6 +68,10 @@ namespace GestorTareas.Web
                 options.LoginPath = "/Accounts/NotAutorized";
                 options.AccessDeniedPath = "/Accounts/NotAutorized";
             });
+
+            services.AddControllers().AddNewtonsoftJson(x =>
+            x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

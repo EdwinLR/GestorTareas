@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace GestorTareas.Web.Controllers.API
 {
     [Route("api/[Controller]")]
-    public class WorkersController : Controller
+    public class WorkersController : ControllerBase
     {
         private readonly IWorkerRepository repository;
 
@@ -16,7 +16,20 @@ namespace GestorTareas.Web.Controllers.API
         [HttpGet]
         public IActionResult GetWorkers()
         {
-            return Ok(this.repository.GetAllWorkersWithUserAndPositionOrderByPosition());
+            return Ok(this.repository.GetAllWorkersWithUserAndPositionOrderByFatherLastname());
+        }
+
+        [HttpGet("{id}")]
+        public IActionResult GetWorker(int id)
+        {
+            var worker = this.repository.GetWorkerWithUserAndPositionByIdAsync(id);
+
+            if (worker == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(worker);
         }
     }
 }

@@ -15,9 +15,9 @@ namespace GestorTareas.Web.Data.Repositories
             this.context = context;
         }
 
-        public async Task<Category> GetDetailByIdAsync(int id)
+        public Category GetDetailById(int id)
         {
-            return await this.context.Categories.FindAsync(id);
+            return this.context.Categories.Find(id);
         }
     }
 }

@@ -15,7 +15,7 @@ namespace GestorTareas.Web.Data.Repositories
             this.context = context;
         }
 
-        public async Task<Priority> GetDetailByIdAsync(int id)
+        public async Task<Priority> GetMasterByIdAsync(int id)
         {
             return await this.context.Priorities.FindAsync(id);
         }

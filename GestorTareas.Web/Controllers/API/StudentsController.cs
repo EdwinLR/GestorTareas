@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace GestorTareas.Web.Controllers.API
 {
     [Route("api/[Controller]")]
-    public class StudentsController : Controller
+    public class StudentsController : ControllerBase
     {
         private readonly IStudentRepository repository;
 
@@ -16,7 +16,20 @@ namespace GestorTareas.Web.Controllers.API
         [HttpGet]
         public IActionResult GetStudents()
         {
-            return Ok(this.repository.GetAll());
+            return Ok(this.repository.GetAllStudentsWithUserAndCareerOrderByFatherLastname());
+        }
+
+        [HttpGet("{id}")]
+        public IActionResult GetStudent(int id)
+        {
+            var student = this.repository.GetStudentWithUserAndCareerById(id);
+
+            if (student == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(student);
         }
     }
 }
