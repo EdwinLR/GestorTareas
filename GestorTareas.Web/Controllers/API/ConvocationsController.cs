@@ -18,13 +18,13 @@ namespace GestorTareas.Web.Controllers.API
         [HttpGet]
         public IActionResult GetConvocations()
         {
-            return Ok(this.repository.GetAllConvocationsWithInstitutesCountriesAndContactPeople());
+            return Ok(this.repository.GetAllConvocationsWithInstitutes());
         }
 
         [HttpGet("{id}")]
         public IActionResult GetConvocation(int id)
         {
-            var convocation = this.repository.GetConvocationWithInstituteCountryAndContactPersonAsync(id);
+            var convocation = this.repository.GetConvocationWithInstituteById(id);
 
             if (convocation == null)
             {

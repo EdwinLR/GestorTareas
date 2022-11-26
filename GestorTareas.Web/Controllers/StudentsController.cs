@@ -48,7 +48,7 @@ namespace GestorTareas.Web.Controllers
                 return NotFound();
             }
 
-            var student = repository.GetStudentWithUserAndCareerById(id.Value);
+            var student = repository.GetStudentWithUserGenderAndCareerById(id.Value);
 
             if (student == null)
             {
@@ -120,7 +120,7 @@ namespace GestorTareas.Web.Controllers
                 return NotFound();
             }
 
-            var student = repository.GetStudentWithUserAndCareerById(id.Value);
+            var student = repository.GetStudentWithUserGenderAndCareerById(id.Value);
 
             if (student == null)
             {
@@ -189,7 +189,7 @@ namespace GestorTareas.Web.Controllers
                 return NotFound();
             }
 
-            var student = repository.GetStudentWithUserAndCareerById(id.Value);
+            var student = repository.GetStudentWithUserGenderAndCareerById(id.Value);
             if (student == null)
             {
                 return NotFound();
@@ -203,7 +203,7 @@ namespace GestorTareas.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var student = repository.GetStudentWithUserAndCareerById(id);
+            var student = repository.GetStudentWithUserGenderAndCareerById(id);
             await repository.DeleteStudentAndUserAsync(student);
             return RedirectToAction(nameof(Index));
         }

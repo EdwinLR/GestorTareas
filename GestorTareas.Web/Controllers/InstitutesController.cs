@@ -40,7 +40,7 @@ namespace GestorTareas.Web.Controllers
                 return NotFound();
             }
 
-            var institute = await _repository.GetInstituteWithCountryAndContactPersonByIdAsync(id.Value);
+            var institute = _repository.GetInstituteWithCountryAndContactPersonById(id.Value);
             if (institute == null)
             {
                 return NotFound();
@@ -73,7 +73,7 @@ namespace GestorTareas.Web.Controllers
                     StreetNumber = model.StreetNumber,
                     District = model.District,
                     City = model.City,
-                    Country = await this._countryRepository.GetMasterByIdAsync(model.CountryId)
+                    Country = this._countryRepository.GetMasterById(model.CountryId)
                 };
 
                 return RedirectToAction(nameof(Index));
@@ -89,7 +89,7 @@ namespace GestorTareas.Web.Controllers
                 return NotFound();
             }
 
-            var institute = await _repository.GetInstituteWithCountryAndContactPersonByIdAsync(id.Value);
+            var institute = _repository.GetInstituteWithCountryAndContactPersonById(id.Value);
             if (institute == null)
             {
                 return NotFound();
@@ -146,7 +146,7 @@ namespace GestorTareas.Web.Controllers
                 return NotFound();
             }
 
-            var institute = await _repository.GetInstituteWithCountryAndContactPersonByIdAsync(id.Value);
+            var institute = _repository.GetInstituteWithCountryAndContactPersonById(id.Value);
             if (institute == null)
             {
                 return NotFound();
@@ -159,7 +159,7 @@ namespace GestorTareas.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var institute = await _repository.GetInstituteWithCountryAndContactPersonByIdAsync(id);
+            var institute = _repository.GetInstituteWithCountryAndContactPersonById(id);
             await _repository.DeleteAsync(institute);
             return RedirectToAction(nameof(Index));
         }

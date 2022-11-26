@@ -65,7 +65,7 @@ namespace GestorTareas.Web.Controllers
                 return NotFound();
             }
 
-            var project = await projectRepository.GetProjectWithConvocationAndCollaboratorsByIdAsync(id.Value);
+            var project = projectRepository.GetProjectWithConvocationAndCollaboratorsById(id.Value);
 
             var model = new ProjectViewModel
             {
@@ -105,7 +105,7 @@ namespace GestorTareas.Web.Controllers
                 return NotFound();
             }
 
-            var project = await projectRepository.GetProjectWithConvocationAndCollaboratorsByIdAsync(id.Value);
+            var project = projectRepository.GetProjectWithConvocationAndCollaboratorsById(id.Value);
 
             if (project == null)
             {
@@ -136,7 +136,7 @@ namespace GestorTareas.Web.Controllers
                 return NotFound();
             }
 
-            var project = await projectRepository.GetProjectWithConvocationAndCollaboratorsByIdAsync(id.Value);
+            var project = projectRepository.GetProjectWithConvocationAndCollaboratorsById(id.Value);
 
             if (project == null)
             {
@@ -168,7 +168,7 @@ namespace GestorTareas.Web.Controllers
             {
 
                 var user = await this.context.Users.FindAsync(model.UserId);
-                var project = await this.projectRepository.GetProjectWithConvocationAndCollaboratorsByIdAsync(model.ProjectId);
+                var project = this.projectRepository.GetProjectWithConvocationAndCollaboratorsById(model.ProjectId);
 
                 if (user == null)
                 {

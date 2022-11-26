@@ -24,7 +24,7 @@ namespace GestorTareas.Web.Controllers.API
         [HttpGet("{id}")]
         public IActionResult GetStatus(int id)
         {
-            var status = this.repository.GetMasterByIdAsync(id);
+            var status = this.repository.GetMasterById(id);
 
             if (status == null)
             {

@@ -7,6 +7,6 @@ namespace GestorTareas.Web.Data.Repositories
     public interface IStatusRepository : IGenericRepository<Status>
     {
         //Metodos unicos de la entidad
-        Task<Status> GetMasterByIdAsync(int id);
+        Status GetMasterById(int id);
     }
 }

@@ -23,16 +23,18 @@ namespace GestorTareas.Web.Data.Repositories
         {
             return this.context.Institutes
                 .Include(i => i.Country)
+                .Include(i => i.ContactPeople)
+                .Include(i => i.Convocations)
                 .OrderBy(i => i.Name);
         }
 
-        public async Task<Institute> GetInstituteWithCountryAndContactPersonByIdAsync(int id)
+        public Institute GetInstituteWithCountryAndContactPersonById(int id)
         {
-            return await this.context.Institutes
+            return this.context.Institutes
                 .Include(i => i.Country)
                 .Include(i=>i.Convocations)
                 .Include(i=>i.ContactPeople)
-                .FirstOrDefaultAsync(i => i.Id == id);
+                .FirstOrDefault(i => i.Id == id);
         }
 
         public async Task<Institute> CreateInstituteAsync(Institute institute)

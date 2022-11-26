@@ -25,7 +25,7 @@ namespace GestorTareas.Web.Controllers.API
         [HttpGet("{id}")]
         public IActionResult GetProject(int id)
         {
-            var project = this.repository.GetProjectWithConvocationAndCollaboratorsByIdAsync(id);
+            var project = this.repository.GetProjectWithConvocationAndCollaboratorsById(id);
 
             if (project == null)
             {

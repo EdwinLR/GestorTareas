@@ -17,16 +17,19 @@ namespace GestorTareas.Web.Data.Repositories
 
         public IQueryable GetProjectsWithConvocation()
         {
-            return this.context.Projects.Include(c => c.Convocation);
+            return this.context.Projects
+                .Include(c => c.Convocation)
+                .Include(pc => pc.ProjectCollaborators)
+                .ThenInclude(u => u.User);
         }
 
-        public async Task<Project> GetProjectWithConvocationAndCollaboratorsByIdAsync(int id)
+        public Project GetProjectWithConvocationAndCollaboratorsById(int id)
         {
-            return await this.context.Projects
+            return this.context.Projects
                 .Include(c => c.Convocation)
                 .Include(p => p.ProjectCollaborators)
                 .ThenInclude(u => u.User)
-                .FirstOrDefaultAsync(p => p.Id == id);
+                .FirstOrDefault(p => p.Id == id);
         }
 
         public async Task<ProjectCollaboratorsDetailTemp> AddProjectCollaboratorDetailTemp(ProjectCollaboratorsDetailTemp projectCollaboratorsDetailTemp)

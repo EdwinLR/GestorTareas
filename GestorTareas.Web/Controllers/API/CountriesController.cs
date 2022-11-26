@@ -26,7 +26,7 @@ namespace GestorTareas.Web.Controllers.API
         [HttpGet("{id}")]
         public IActionResult GetCountry(int id)
         {
-            var country = this.repository.GetMasterByIdAsync(id);
+            var country = this.repository.GetMasterById(id);
 
             if (country == null)
             {

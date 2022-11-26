@@ -7,6 +7,6 @@ namespace GestorTareas.Web.Data.Repositories
     public interface ICountryRepository : IGenericRepository<Country>
     {
         //Metodos unicos de la entidad
-        Task<Country> GetMasterByIdAsync(int id);
+        Country GetMasterById(int id);
     }
 }

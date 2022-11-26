@@ -65,7 +65,7 @@ namespace GestorTareas.Web.Controllers
                 return NotFound();
             }
 
-            var worker = await repository.GetWorkerWithUserAndPositionByIdAsync(id.Value);
+            var worker = repository.GetWorkerWithUserAndPositionById(id.Value);
 
             if (worker == null)
             {
@@ -116,7 +116,7 @@ namespace GestorTareas.Web.Controllers
                 var worker = new Worker
                 {
                     WorkerId = model.WorkerId,
-                    Position = this.positionRepository.GetPositionById(model.PositionId),
+                    Position = this.positionRepository.GetPositionWithWorkersById(model.PositionId),
                     User = await this.context.Users.FindAsync(user.Id)
                 };
 
@@ -140,7 +140,7 @@ namespace GestorTareas.Web.Controllers
                 return NotFound();
             }
 
-            var worker = await repository.GetWorkerWithUserAndPositionByIdAsync(id.Value);
+            var worker =  repository.GetWorkerWithUserAndPositionById(id.Value);
 
             if (worker == null)
             {
@@ -184,7 +184,7 @@ namespace GestorTareas.Web.Controllers
                 {
                     Id = model.Id,
                     WorkerId = model.WorkerId,
-                    Position =  this.positionRepository.GetPositionById(model.PositionId),
+                    Position =  this.positionRepository.GetPositionWithWorkersById(model.PositionId),
                     User = await this.context.Users.FindAsync(user.Id)
                 };
 
@@ -208,7 +208,7 @@ namespace GestorTareas.Web.Controllers
                 return NotFound();
             }
 
-            var worker = await repository.GetWorkerWithUserAndPositionByIdAsync(id.Value);
+            var worker = repository.GetWorkerWithUserAndPositionById(id.Value);
 
             if (worker == null)
             {
@@ -222,7 +222,7 @@ namespace GestorTareas.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var worker = await repository.GetWorkerWithUserAndPositionByIdAsync(id);
+            var worker = repository.GetWorkerWithUserAndPositionById(id);
             await repository.DeleteAsync(worker);
 
             var user = await context.Users.FindAsync(worker.User.Id);

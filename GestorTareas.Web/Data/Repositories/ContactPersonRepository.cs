@@ -19,12 +19,16 @@ namespace GestorTareas.Web.Data.Repositories
         public IQueryable GetAllContactPeopleWithInstitutes()
         {
             return this.dataContext.ContactPeople
-                .Include(cp => cp.Institute);
+                .Include(cp => cp.Institute)
+                .ThenInclude(c => c.Country);
         }
 
         public ContactPerson GetContactPersonById(int id)
         {
-            return this.dataContext.ContactPeople.Find(id);
+            return this.dataContext.ContactPeople
+                .Include(cp => cp.Institute)
+                .ThenInclude(c => c.Country)
+                .FirstOrDefault(cp => cp.Id == id);
         }
 
         public async Task<ContactPerson> GetContactPersonWithInstituteByIdAsync(int id)

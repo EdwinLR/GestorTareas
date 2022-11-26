@@ -29,6 +29,8 @@ namespace GestorTareas.Web.Data.Repositories
             return this.context.Careers
                 .Include(s => s.Students)
                 .ThenInclude(u => u.User)
+                .Include(s => s.Students)
+                .ThenInclude(u => u.Gender)
                 .FirstOrDefault(c => c.Id == id);
         }
 

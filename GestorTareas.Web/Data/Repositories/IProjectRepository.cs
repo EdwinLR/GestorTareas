@@ -8,7 +8,7 @@ namespace GestorTareas.Web.Data.Repositories
     public interface IProjectRepository : IGenericRepository<Project>
     {
         IQueryable GetProjectsWithConvocation();
-        Task<Project> GetProjectWithConvocationAndCollaboratorsByIdAsync(int id);
+        Project GetProjectWithConvocationAndCollaboratorsById(int id);
         Task<ProjectCollaboratorsDetailTemp> AddProjectCollaboratorDetailTemp(ProjectCollaboratorsDetailTemp projectCollaboratorsDetailTemp);
         IQueryable<ProjectCollaboratorsDetailTemp> GetAllProjectCollaboratorsDetailTemps();
         ProjectCollaboratorsDetailTemp GetProjectCollaboratorsDetailTempsById(int id);

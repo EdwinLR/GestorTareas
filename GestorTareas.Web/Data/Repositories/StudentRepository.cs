@@ -41,12 +41,22 @@ namespace GestorTareas.Web.Data.Repositories
                         .OrderBy(s => s.Career.Name);
         }
 
-        public Student GetStudentWithUserAndCareerById(int id)
+        public IQueryable GetAllStudentsWithUserGenderAndCareer()
+        {
+            return this.context.Students
+                        .Include(u => u.User)
+                        .Include(s => s.Career)
+                        .Include(g => g.Gender)
+                        .Include(a => a.AssignedActivities);
+        }
+
+        public Student GetStudentWithUserGenderAndCareerById(int id)
         {
             return context.Students
                 .Include(u => u.User)
                 .Include(s => s.Career)
                 .Include(g => g.Gender)
+                .Include(a => a.AssignedActivities)
                 .FirstOrDefault(s => s.Id == id);
         }
 

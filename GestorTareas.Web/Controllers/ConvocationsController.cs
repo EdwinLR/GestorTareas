@@ -27,14 +27,14 @@ namespace GestorTareas.Web.Controllers
             return View(convocationRepository.GetAllConvocationsWithInstitutes());
         }
 
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var convocation = await convocationRepository.GetConvocationWithInstituteByIdAsync(id.Value);
+            var convocation = convocationRepository.GetConvocationWithInstituteById(id.Value);
             if (convocation == null)
             {
                 return NotFound();
@@ -76,14 +76,14 @@ namespace GestorTareas.Web.Controllers
             return View(convocationViewModel);
         }
 
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var convocation = await convocationRepository.GetConvocationWithInstituteByIdAsync(id.Value);
+            var convocation = convocationRepository.GetConvocationWithInstituteById(id.Value);
 
             var model = new ConvocationViewModel
             {
@@ -125,14 +125,14 @@ namespace GestorTareas.Web.Controllers
             return View(convocationViewModel);
         }
 
-        public async Task<IActionResult> Delete(int? id)
+        public IActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var convocation = await convocationRepository.GetConvocationWithInstituteByIdAsync(id.Value);
+            var convocation = convocationRepository.GetConvocationWithInstituteById(id.Value);
             if (convocation == null)
             {
                 return NotFound();

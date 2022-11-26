@@ -31,7 +31,7 @@ namespace GestorTareas.Web.Controllers.API
         [HttpGet("{id}")]
         public IActionResult GetPriority(int id)
         {
-            var priority = this.repository.GetMasterByIdAsync(id);
+            var priority = this.repository.GetMasterById(id);
 
             if (priority == null)
             {

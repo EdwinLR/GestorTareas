@@ -8,7 +8,7 @@ namespace GestorTareas.Web.Data.Repositories
     {
         //Metodos unicos de la entidad
         IQueryable GetAllConvocationsWithInstitutes();
-        Task<Convocation> GetConvocationWithInstituteByIdAsync(int id);
+        Convocation GetConvocationWithInstituteById(int id);
 
         Convocation GetConvocationById(int id);
     }

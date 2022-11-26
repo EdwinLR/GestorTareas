@@ -81,7 +81,7 @@ namespace GestorTareas.Web.Controllers
                     return NotFound();
 
                 var details = activityDetailTemps.Select(adt =>
-                studentRepository.GetStudentWithUserAndCareerById(adt.Student.Id)).ToList();
+                studentRepository.GetStudentWithUserGenderAndCareerById(adt.Student.Id)).ToList();
 
                 var activity = new Activity
                 {
@@ -91,10 +91,10 @@ namespace GestorTareas.Web.Controllers
                     Deadline = model.Deadline,
                     Progress = 0,
                     CreationDate = DateTime.Now,
-                    Project = await this.projectRepository.GetProjectWithConvocationAndCollaboratorsByIdAsync(model.ProjectId),
+                    Project = this.projectRepository.GetProjectWithConvocationAndCollaboratorsById(model.ProjectId),
                     Category = this.categoryRepository.GetDetailById(model.CategoryId),
-                    Priority = await this.priorityRepository.GetMasterByIdAsync(model.PriorityId),
-                    Status = await this.statusRepository.GetMasterByIdAsync(model.StatusId),
+                    Priority = this.priorityRepository.GetMasterById(model.PriorityId),
+                    Status = this.statusRepository.GetMasterById(model.StatusId),
                     AssignedActivities = details
                 };
 
@@ -213,7 +213,7 @@ namespace GestorTareas.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var student = studentRepository.GetStudentWithUserAndCareerById(model.StudentId);
+                var student = studentRepository.GetStudentWithUserGenderAndCareerById(model.StudentId);
                 if (student == null)
                     NotFound();
                 var activityDetailTemp = repository.GetActivityDetailTempByContactId(student.Id);

@@ -46,13 +46,6 @@ namespace GestorTareas.Web.Data
                 await CheckCategory("Trabajo en exterior");
             }
 
-            if (!this.dataContext.ContactPeople.Any())
-            {
-                await CheckContactPerson("Gilberto", "Flores", "Reyes", "gilFR@ieee.com", 2224596532);
-                await CheckContactPerson("Sandra", "Sanchez", "Serrano", "sanSS@cisco.com", 2498756229);
-                await CheckContactPerson("Oscar", "Gonzalez", "Rodriguez", "oscGR@mexabat.com", 2481568765);
-            }
-
             if (!this.dataContext.Countries.Any())
             {
                 await CheckCountry("México");
@@ -64,7 +57,6 @@ namespace GestorTareas.Web.Data
             {
                 await CheckGender("Masculino");
                 await CheckGender("Femenino");
-                await CheckGender("No binario");
             }
 
             if (!this.dataContext.Priorities.Any())
@@ -92,13 +84,20 @@ namespace GestorTareas.Web.Data
             if (!this.dataContext.Institutes.Any())
             {
                 var country = this.dataContext.Countries.FirstOrDefault(c => c.Id == 1);
-                var contact = this.dataContext.ContactPeople.FirstOrDefault(c => c.Id == 1);
-                await CheckInstitutes("Santander", "7564581597", "Independencia", "11A", "Centro Historico", "Monterrey", country, contact);
-                contact = this.dataContext.ContactPeople.FirstOrDefault(c => c.Id == 2);
-                await CheckInstitutes("IEEE", "5248157684", "Reforma", "456", "Venustiano Carranza", "Cuidad de México", country, contact);
+                await CheckInstitutes("Santander", "7564581597", "Independencia", "11A", "Centro Historico", "Monterrey", country);
+                await CheckInstitutes("IEEE", "5248157684", "Reforma", "456", "Venustiano Carranza", "Cuidad de México", country);
                 country = this.dataContext.Countries.FirstOrDefault(c => c.Id == 2);
-                contact = this.dataContext.ContactPeople.FirstOrDefault(c => c.Id == 3);
-                await CheckInstitutes("Microsoft", "6745981642", "Patriotism", "78G", "St. Patrick", "Seattle", country, contact);
+                await CheckInstitutes("Microsoft", "6745981642", "Patriotism", "78G", "St. Patrick", "Seattle", country);
+            }
+
+            if (!this.dataContext.ContactPeople.Any())
+            {
+                var institute = this.dataContext.Institutes.FirstOrDefault(c => c.Id == 1);
+                await CheckContactPerson("Gilberto", "Flores", "Reyes", "gilFR@ieee.com", 2224596532, institute);
+                institute = this.dataContext.Institutes.FirstOrDefault(c => c.Id == 2);
+                await CheckContactPerson("Sandra", "Sanchez", "Serrano", "sanSS@cisco.com", 2498756229, institute);
+                institute = this.dataContext.Institutes.FirstOrDefault(c => c.Id == 3);
+                await CheckContactPerson("Oscar", "Gonzalez", "Rodriguez", "oscGR@mexabat.com", 2481568765, institute);
             }
 
             if (!this.dataContext.Convocations.Any())
@@ -181,20 +180,6 @@ namespace GestorTareas.Web.Data
             await this.dataContext.SaveChangesAsync();
         }
 
-        private async Task CheckContactPerson(string firstName, string fatherName, string motherName, string email, long phone)
-        {
-            this.dataContext.ContactPeople.Add(new ContactPerson
-            {
-                FirstName = firstName,
-                FatherLastName = fatherName,
-                MotherLastName = motherName,
-                Email = email,
-                PhoneNumber = phone
-            }
-            );
-            await this.dataContext.SaveChangesAsync();
-        }
-
         private async Task CheckCountry(string name)
         {
             this.dataContext.Countries.Add(new Country
@@ -235,7 +220,7 @@ namespace GestorTareas.Web.Data
             await this.dataContext.SaveChangesAsync();
         }
 
-        private async Task CheckInstitutes(string name, string contactPhone, string streetName, string streetNumber, string district, string city, Country country, ContactPerson contact)
+        private async Task CheckInstitutes(string name, string contactPhone, string streetName, string streetNumber, string district, string city, Country country)
         {
             this.dataContext.Institutes.Add(new Institute
             {
@@ -246,6 +231,21 @@ namespace GestorTareas.Web.Data
                 District = district,
                 City = city,
                 Country = country
+            }
+            );
+            await this.dataContext.SaveChangesAsync();
+        }
+
+        private async Task CheckContactPerson(string firstName, string fatherName, string motherName, string email, long phone, Institute institute)
+        {
+            this.dataContext.ContactPeople.Add(new ContactPerson
+            {
+                FirstName = firstName,
+                FatherLastName = fatherName,
+                MotherLastName = motherName,
+                Email = email,
+                PhoneNumber = phone,
+                Institute = institute
             }
             );
             await this.dataContext.SaveChangesAsync();

@@ -9,7 +9,7 @@ namespace GestorTareas.Web.Data.Repositories
     {
         //Metodos unicos de la entidad
         IQueryable<Institute> GetAllInstitutesWithCountriesAndContactPeople();
-        Task<Institute> GetInstituteWithCountryAndContactPersonByIdAsync(int id);
+        Institute GetInstituteWithCountryAndContactPersonById(int id);
         Task<Institute> CreateInstituteAsync(Institute institute);
         Institute GetInstituteById(int id);
 

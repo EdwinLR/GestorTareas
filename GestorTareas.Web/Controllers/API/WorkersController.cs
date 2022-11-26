@@ -22,7 +22,7 @@ namespace GestorTareas.Web.Controllers.API
         [HttpGet("{id}")]
         public IActionResult GetWorker(int id)
         {
-            var worker = this.repository.GetWorkerWithUserAndPositionByIdAsync(id);
+            var worker = this.repository.GetWorkerWithUserAndPositionById(id);
 
             if (worker == null)
             {

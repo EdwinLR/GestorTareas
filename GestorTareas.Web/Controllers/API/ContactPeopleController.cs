@@ -8,9 +8,9 @@ namespace GestorTareas.Web.Controllers.API
     [ApiController]
     public class ContactPeopleController : ControllerBase
     {
-        private readonly IInstituteRepository repository;
+        private readonly IContactPersonRepository repository;
 
-        public ContactPeopleController(IInstituteRepository repository)
+        public ContactPeopleController(IContactPersonRepository repository)
         {
             this.repository = repository;
         }
@@ -18,7 +18,7 @@ namespace GestorTareas.Web.Controllers.API
         [HttpGet]
         public IActionResult GetContactPeople()
         {
-            return Ok(this.repository.GetAllContactPeople());
+            return Ok(this.repository.GetAllContactPeopleWithInstitutes());
         }
 
         [HttpGet("{id}")]

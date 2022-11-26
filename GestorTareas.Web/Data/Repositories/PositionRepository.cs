@@ -14,9 +14,19 @@ namespace GestorTareas.Web.Data.Repositories
             this.context = context;
         }
 
-        public Position GetPositionById(int id)
+        public IQueryable<Position> GetAllPositionsWithWorkers()
         {
-            return this.context.Positions.Find(id);
+            return this.context.Positions
+                .Include(c => c.Workers)
+                .ThenInclude(u => u.User);
+        }
+
+        public Position GetPositionWithWorkersById(int id)
+        {
+            return this.context.Positions
+                .Include(c => c.Workers)
+                .ThenInclude(u => u.User)
+                .FirstOrDefault(p => p.Id == id);
         }
     }
 }

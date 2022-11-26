@@ -24,7 +24,7 @@ namespace GestorTareas.Web.Controllers.API
         [HttpGet("{id}")]
         public IActionResult GetInsitute(int id)
         {
-            var insitute = this.repository.GetInstituteWithCountryAndContactPersonAsync(id);
+            var insitute = this.repository.GetInstituteWithCountryAndContactPersonById(id);
 
             if (insitute == null)
             {
