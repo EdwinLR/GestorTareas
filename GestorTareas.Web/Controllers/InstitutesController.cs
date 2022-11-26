@@ -73,7 +73,7 @@ namespace GestorTareas.Web.Controllers
                     StreetNumber = model.StreetNumber,
                     District = model.District,
                     City = model.City,
-                    Country = await this._countryRepository.GetDetailByIdAsync(model.CountryId)
+                    Country = await this._countryRepository.GetMasterByIdAsync(model.CountryId)
                 };
 
                 return RedirectToAction(nameof(Index));

@@ -1,4 +1,4 @@
-﻿using GestorTareas.Common.Models;
+using GestorTareas.Common.Models;
 using GestorTareas.Web.Data.Entities;
 using GestorTareas.Web.Data.Repositories;
 using Microsoft.AspNetCore.Mvc;
@@ -10,23 +10,23 @@ namespace GestorTareas.Web.Controllers.API
     [ApiController]
     public class CountriesController : ControllerBase
     {
-        private readonly ICountryRepository countryRepository;
+        private readonly ICountryRepository repository;
 
-        public CountriesController(ICountryRepository countryRepository)
+        public CountriesController(ICountryRepository repository)
         {
-            this.countryRepository = countryRepository;
+            this.repository = repository;
         }
 
         [HttpGet]
         public IActionResult GetCountries()
         {
-            return Ok(countryRepository.GetAll());
+            return Ok(this.repository.GetAll());
         }
 
         [HttpGet("{id}")]
         public IActionResult GetCountry(int id)
         {
-            var country = countryRepository.GetDetailByIdAsync(id);
+            var country = this.repository.GetMasterByIdAsync(id);
 
             if (country == null)
             {
@@ -50,7 +50,7 @@ namespace GestorTareas.Web.Controllers.API
                 CountryName = countryResponse.CountryName
             };
 
-            var newCountry = await this.countryRepository.CreateAsync(country);
+            var newCountry = await this.repository.CreateAsync(country);
 
             return Ok(newCountry);
         }
