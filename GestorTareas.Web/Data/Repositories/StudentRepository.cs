@@ -18,7 +18,9 @@ namespace GestorTareas.Web.Data.Repositories
 
         public IQueryable GetAllStudentsWithUserAndCareerOrderByCareer()
         {
-            return this.context.Students
+            return this.context
+                        .Set<Student>()
+                        .AsNoTracking()
                         .Include(u => u.User)
                         .Include(s => s.Career)
                         .OrderBy(s => s.Career.Name);
@@ -26,7 +28,9 @@ namespace GestorTareas.Web.Data.Repositories
 
         public IQueryable GetAllStudentsWithUserAndCareerOrderByFatherLastname()
         {
-            return this.context.Students
+            return this.context
+                        .Set<Student>()
+                        .AsNoTracking()
                         .Include(u => u.User)
                         .Include(s => s.Career)
                         .OrderBy(u => u.User.FatherLastName);
@@ -34,7 +38,9 @@ namespace GestorTareas.Web.Data.Repositories
 
         public IQueryable GetAllStudentsWithUserAndCareerOrderByCareerId(int id)
         {
-            return this.context.Students
+            return this.context
+                        .Set<Student>()
+                        .AsNoTracking()
                         .Include(u => u.User)
                         .Include(s => s.Career)
                         .Where(s => s.Career.Id == id)

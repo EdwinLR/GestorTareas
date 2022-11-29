@@ -1,12 +1,10 @@
-﻿using GestorTareas.Web.Data;
-using GestorTareas.Web.Data.Entities;
+﻿using GestorTareas.Web.Data.Entities;
 using GestorTareas.Web.Data.Repositories;
 using GestorTareas.Web.Helpers;
 using GestorTareas.Web.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace GestorTareas.Web.Controllers
@@ -33,7 +31,7 @@ namespace GestorTareas.Web.Controllers
         }
 
         [Authorize(Roles = "Coordinator,Admin")]
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(int? id)
         {
             if (id == null)
             {
@@ -61,7 +59,7 @@ namespace GestorTareas.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(InstituteViewModel model)
+        public IActionResult Create(InstituteViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -82,7 +80,7 @@ namespace GestorTareas.Web.Controllers
         }
 
         [Authorize(Roles = "Coordinator,Admin")]
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Edit(int? id)
         {
             if (id == null)
             {
@@ -139,7 +137,7 @@ namespace GestorTareas.Web.Controllers
         }
 
         [Authorize(Roles = "Coordinator,Admin")]
-        public async Task<IActionResult> Delete(int? id)
+        public IActionResult Delete(int? id)
         {
             if (id == null)
             {

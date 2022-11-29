@@ -20,7 +20,7 @@ namespace GestorTareas.Web.Controllers
         private readonly IUserHelper userHelper;
         private readonly ICombosHelper combosHelper;
 
-        public WorkersController(DataContext context, IWorkerRepository repository, 
+        public WorkersController(DataContext context, IWorkerRepository repository,
            IPositionRepository positionRepository, IImageHelper imageHelper,
            IUserHelper userHelper, ICombosHelper combosHelper)
         {
@@ -58,7 +58,7 @@ namespace GestorTareas.Web.Controllers
         }
 
         [Authorize(Roles = "Coordinator,Admin")]
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(int? id)
         {
             if (id == null)
             {
@@ -133,14 +133,14 @@ namespace GestorTareas.Web.Controllers
 
         [HttpGet]
         [Authorize(Roles = "Coordinator,Admin")]
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var worker =  repository.GetWorkerWithUserAndPositionById(id.Value);
+            var worker = repository.GetWorkerWithUserAndPositionById(id.Value);
 
             if (worker == null)
             {
@@ -184,7 +184,7 @@ namespace GestorTareas.Web.Controllers
                 {
                     Id = model.Id,
                     WorkerId = model.WorkerId,
-                    Position =  this.positionRepository.GetPositionWithWorkersById(model.PositionId),
+                    Position = await this.positionRepository.GetByIdAsync(model.PositionId),
                     User = await this.context.Users.FindAsync(user.Id)
                 };
 
@@ -201,7 +201,7 @@ namespace GestorTareas.Web.Controllers
 
         [HttpGet]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Delete(int? id)
+        public IActionResult Delete(int? id)
         {
             if (id == null)
             {

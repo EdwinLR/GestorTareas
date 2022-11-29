@@ -58,7 +58,7 @@ namespace GestorTareas.Web.Controllers
         }
 
 
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Edit(int? id)
         {
             if (id == null)
             {
@@ -98,7 +98,7 @@ namespace GestorTareas.Web.Controllers
 
         [HttpGet]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Delete(int? id)
+        public IActionResult Delete(int? id)
         {
             if (id == null)
             {
@@ -129,7 +129,7 @@ namespace GestorTareas.Web.Controllers
         }
 
         [Authorize(Roles = "Coordinator,Admin")]
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(int? id)
         {
             if (id == null)
             {

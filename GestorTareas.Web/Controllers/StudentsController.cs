@@ -169,8 +169,8 @@ namespace GestorTareas.Web.Controllers
                 {
                     Id = model.Id,
                     StudentId = model.StudentId,
-                    Career = this.careerRepository.GetCareerById(model.CareerId),
-                    Gender = this.genderRepository.GetGenderById(model.GenderId),
+                    Career = await this.careerRepository.GetByIdAsync(model.CareerId),
+                    Gender = await this.genderRepository.GetByIdAsync(model.GenderId),
                     User = await this.dataContext.Users.FindAsync(user.Id)
                 };
 
