@@ -2,12 +2,12 @@
 
 namespace GestorTareas.Common.Models
 {
-    public class CountryResponse
+    public class CategoryResponse
     {
         [JsonProperty("id")]
         public int Id { get; set; }
 
-        [JsonProperty("countryName")]
-        public string? CountryName { get; set; }
+        [JsonProperty("categoryName")]
+        public string CategoryName { get; set; }
     }
 }

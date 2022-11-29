@@ -22,9 +22,10 @@ namespace GestorTareas.Web.Data.Repositories
                 .ThenInclude(c => c.Gender)
                 .Include(c => c.Students)
                 .ThenInclude(u => u.User);
+
         }
 
-        public Career GetCareerById(int id)
+            public Career GetCareerById(int id)
         {
             return this.context.Careers
                 .Include(s => s.Students)
@@ -34,9 +35,8 @@ namespace GestorTareas.Web.Data.Repositories
                 .FirstOrDefault(c => c.Id == id);
         }
 
-        public IQueryable<CareerResponse> GetAllCareersWithStudentsResponse()
+        public IQueryable<CareerResponse> GetAllCareersResponseWithStudents()
         {
-            //var students = this.context.Students.Where(s => s.)
             return this.context.Careers
                 .Select(c => new CareerResponse
                 {
@@ -44,23 +44,43 @@ namespace GestorTareas.Web.Data.Repositories
                     Name = c.Name,
                     CareerCode = c.CareerCode,
                     Students = c
-                .Students
-                .Select(s => new StudentResponse
-                    {
-                        Id = s.Id,
-                        StudentId = s.StudentId,
-                        Gender = s.Gender.GenderName
-                    })
+                        .Students
+                        .Select(s => new StudentResponse
+                        {
+                            Id = s.Id,
+                            StudentId = s.StudentId,
+                            Gender = s.Gender.GenderName,
+                            UserId = s.User.Id,
+                            FirstName = s.User.FirstName,
+                            FatherLastName = s.User.FatherLastName,
+                            MotherLastName = s.User.MotherLastName,
+                            Email = s.User.Email
+                        }).ToList()
                 });
         }
 
-        public CareerResponse GetCareerByIdResponse(int id)
+        public CareerResponse GetCareerResponseById(int id)
         {
-            //return this.context.Careers
-            //    .Include(s => s.Students)
-            //    .ThenInclude(u => u.User)
-            //    .FirstOrDefault(c => c.Id == id);
-            return null;
+            return this.context.Careers
+                .Select(c => new CareerResponse
+                {
+                    Id = c.Id,
+                    Name = c.Name,
+                    CareerCode = c.CareerCode,
+                    Students = c
+                        .Students
+                        .Select(s => new StudentResponse
+                        {
+                            Id = s.Id,
+                            StudentId = s.StudentId,
+                            Gender = s.Gender.GenderName,
+                            UserId = s.User.Id,
+                            FirstName = s.User.FirstName,
+                            FatherLastName = s.User.FatherLastName,
+                            MotherLastName = s.User.MotherLastName,
+                            Email = s.User.Email
+                        }).ToList()
+                }).FirstOrDefault(c => c.Id == id);
         }
     }
 }

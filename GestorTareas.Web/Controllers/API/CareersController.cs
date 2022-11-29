@@ -19,13 +19,13 @@
         [HttpGet]
         public IActionResult GetCareers()
         {
-            return Ok(this.repository.GetAllCareersWithStudents());
+            return Ok(this.repository.GetAllCareersResponseWithStudents());
         }
 
         [HttpGet("{id}")]
         public IActionResult GetCareer(int id)
         {
-            var career = this.repository.GetCareerById(id);
+            var career = this.repository.GetCareerResponseById(id);
 
             if (career == null)
             {

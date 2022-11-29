@@ -47,13 +47,40 @@ namespace GestorTareas.Web.Data.Repositories
                         .OrderBy(s => s.Career.Name);
         }
 
-        public IQueryable GetAllStudentsWithUserGenderAndCareer()
+        public IQueryable<StudentResponse> GetAllStudentsResponseWithGenderAndCareer()
         {
             return this.context.Students
-                        .Include(u => u.User)
-                        .Include(s => s.Career)
-                        .Include(g => g.Gender)
-                        .Include(a => a.AssignedActivities);
+                .Select(s => new StudentResponse
+                {
+                    Id = s.Id,
+                    FirstName = s.User.FirstName,
+                    FatherLastName = s.User.FatherLastName,
+                    MotherLastName = s.User.MotherLastName,
+                    Email = s.User.Email,
+                    Gender = s.Gender.GenderName,
+                    Career = s.Career.Name,
+                    StudentId = s.StudentId,
+                    UserId = s.User.Id,
+                    AssignedActivities = s.AssignedActivities
+                });
+        }
+
+        public StudentResponse GetStudentResponseById(int id)
+        {
+            return this.context.Students
+                .Select(s => new StudentResponse
+                {
+                    Id = s.Id,
+                    FirstName = s.User.FirstName,
+                    FatherLastName = s.User.FatherLastName,
+                    MotherLastName = s.User.MotherLastName,
+                    Email = s.User.Email,
+                    Gender = s.Gender.GenderName,
+                    Career = s.Career.Name,
+                    StudentId = s.StudentId,
+                    UserId = s.User.Id,
+                    AssignedActivities = s.AssignedActivities
+                }).FirstOrDefault(s => s.Id == id);
         }
 
         public Student GetStudentWithUserGenderAndCareerById(int id)

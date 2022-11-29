@@ -16,13 +16,13 @@ namespace GestorTareas.Web.Controllers.API
         [HttpGet]
         public IActionResult GetWorkers()
         {
-            return Ok(this.repository.GetAllWorkersWithUserAndPositionOrderByFatherLastname());
+            return Ok(this.repository.GetAllWorkersResponseWithUserAndPosition());
         }
 
         [HttpGet("{id}")]
         public IActionResult GetWorker(int id)
         {
-            var worker = this.repository.GetWorkerWithUserAndPositionById(id);
+            var worker = this.repository.GetWorkerResponseById(id);
 
             if (worker == null)
             {

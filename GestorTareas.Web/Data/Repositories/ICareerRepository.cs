@@ -10,7 +10,7 @@ namespace GestorTareas.Web.Data.Repositories
         IQueryable<Career> GetAllCareersWithStudents();
         Career GetCareerById(int id);
 
-        IQueryable<CareerResponse> GetAllCareersWithStudentsResponse();
-        CareerResponse GetCareerByIdResponse(int id);
+        IQueryable<CareerResponse> GetAllCareersResponseWithStudents();
+        CareerResponse GetCareerResponseById(int id);
     }
 }

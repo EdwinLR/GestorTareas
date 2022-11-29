@@ -1,4 +1,5 @@
-﻿using GestorTareas.Web.Data.Entities;
+﻿using GestorTareas.Common.Models;
+using GestorTareas.Web.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
@@ -29,6 +30,40 @@ namespace GestorTareas.Web.Data.Repositories
                         .Include(u => u.User)
                         .Include(p => p.Position)
                         .OrderBy(u => u.User.FatherLastName);
+        }
+
+        public IQueryable<WorkerResponse> GetAllWorkersResponseWithUserAndPosition()
+        {
+            return this.context.Workers
+                .Select(w => new WorkerResponse
+                {
+                    Id = w.Id,
+                    FirstName = w.User.FirstName,
+                    FatherLastName = w.User.FatherLastName,
+                    MotherLastName = w.User.MotherLastName,
+                    Email = w.User.Email,
+                    PhoneNumber = w.User.PhoneNumber,
+                    Position = w.Position.Description,
+                    WorkerId = w.WorkerId,
+                    UserId = w.User.Id
+                });
+        }
+
+        public WorkerResponse GetWorkerResponseById(int id)
+        {
+            return this.context.Workers
+                .Select(w => new WorkerResponse
+                {
+                    Id = w.Id,
+                    FirstName = w.User.FirstName,
+                    FatherLastName = w.User.FatherLastName,
+                    MotherLastName = w.User.MotherLastName,
+                    Email = w.User.Email,
+                    PhoneNumber = w.User.PhoneNumber,
+                    Position = w.Position.Description,
+                    WorkerId = w.WorkerId,
+                    UserId = w.User.Id
+                }).FirstOrDefault(w => w.Id == id);
         }
 
         public Worker GetWorkerWithUserAndPositionById(int id)

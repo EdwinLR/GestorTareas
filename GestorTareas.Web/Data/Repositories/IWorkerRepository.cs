@@ -1,4 +1,5 @@
-﻿using GestorTareas.Web.Data.Entities;
+﻿using GestorTareas.Common.Models;
+using GestorTareas.Web.Data.Entities;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -9,6 +10,8 @@ namespace GestorTareas.Web.Data.Repositories
         //Metodos unicos de la entidad
         IQueryable GetAllWorkersWithUserAndPositionOrderByPosition();
         IQueryable GetAllWorkersWithUserAndPositionOrderByFatherLastname();
+        IQueryable<WorkerResponse> GetAllWorkersResponseWithUserAndPosition();
+        WorkerResponse GetWorkerResponseById(int id);
         Worker GetWorkerWithUserAndPositionById(int id);
     }
 }

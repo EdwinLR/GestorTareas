@@ -2,27 +2,21 @@
 
 namespace GestorTareas.Common.Models
 {
-    public class StudentResponse
+    public class WorkerResponse
     {
         [JsonProperty("id")]
         public int Id { get; set; }
 
-        [JsonProperty("studentId")]
-        public string? StudentId { get; set; }
+        [JsonProperty("workerId")]
+        public string? WorkerId { get; set; }
 
-        [JsonProperty("career")]
-        public string? Career { get; set; }
-
-        [JsonProperty("gender")]
-        public string? Gender { get; set; }
-
-        [JsonProperty("assignedActivities")]
-        public object? AssignedActivities { get; set; }
+        [JsonProperty("position")]
+        public string? Position { get; set; }
 
         [JsonProperty("firstName")]
         public string? FirstName { get; set; }
 
-        [JsonProperty("fatherLlastName")]
+        [JsonProperty("fatherLastName")]
         public string? FatherLastName { get; set; }
 
         [JsonProperty("motherLastName")]
@@ -33,6 +27,9 @@ namespace GestorTareas.Common.Models
 
         [JsonProperty("email")]
         public string? Email { get; set; }
+
+        [JsonProperty("phoneNumber")]
+        public string? PhoneNumber { get; set; }
 
         [JsonProperty("userId")]
         public string? UserId { get; set; }
