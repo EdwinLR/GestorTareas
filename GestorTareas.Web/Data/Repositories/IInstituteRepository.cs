@@ -1,4 +1,5 @@
-﻿using GestorTareas.Web.Data.Entities;
+﻿using GestorTareas.Common.Models;
+using GestorTareas.Web.Data.Entities;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,6 +13,8 @@ namespace GestorTareas.Web.Data.Repositories
         Institute GetInstituteWithCountryAndContactPersonById(int id);
         Task<Institute> CreateInstituteAsync(Institute institute);
         Institute GetInstituteById(int id);
+        IQueryable<InstituteResponse> GetAllInstitutesResponses();
+        InstituteResponse GetInstituteResponseById(int id);
 
     }
 }

@@ -5,13 +5,12 @@ using System.Linq;
 
 namespace GestorTareas.Web.Data
 {
-    public class DataContext: IdentityDbContext<User>
+    public class DataContext : IdentityDbContext<User>
     {
         public DbSet<Activity> Activities { get; set; }
         public DbSet<ActivityDetailTemp> ActivityDetailTemps { get; set; }
         public DbSet<Admin> Admins { get; set; }
         public DbSet<Background> Backgrounds { get; set; }
-        public DbSet<ConvocationDetailTemp> ConvocationDetailTemps { get; set; }
         public DbSet<Career> Careers { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<ContactPerson> ContactPeople { get; set; }
@@ -19,7 +18,6 @@ namespace GestorTareas.Web.Data
         public DbSet<Country> Countries { get; set; }
         public DbSet<Gender> Genders { get; set; }
         public DbSet<Institute> Institutes { get; set; }
-        public DbSet<ContactDetailTemp> ContactDetailTemps { get; set; }
         public DbSet<Priority> Priorities { get; set; }
         public DbSet<Project> Projects { get; set; }
         public DbSet<Position> Positions { get; set; }

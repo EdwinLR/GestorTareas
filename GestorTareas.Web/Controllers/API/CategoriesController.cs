@@ -1,6 +1,8 @@
-﻿using GestorTareas.Web.Data.Repositories;
-using Microsoft.AspNetCore.Http;
+﻿using GestorTareas.Common.Models;
+using GestorTareas.Web.Data.Entities;
+using GestorTareas.Web.Data.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace GestorTareas.Web.Controllers.API
 {
@@ -32,6 +34,26 @@ namespace GestorTareas.Web.Controllers.API
             }
 
             return Ok(career);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> PostCategory([FromBody] CategoryResponse categoryResponse)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var category = new Category
+            {
+                Id = categoryResponse.Id,
+                CategoryName = categoryResponse.CategoryName
+
+            };
+
+            var newCategory = await this.repository.CreateAsync(category);
+
+            return Ok(newCategory);
         }
     }
 }

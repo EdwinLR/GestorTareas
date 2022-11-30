@@ -1,5 +1,8 @@
+using GestorTareas.Common.Models;
+using GestorTareas.Web.Data.Entities;
 using GestorTareas.Web.Data.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace GestorTareas.Web.Controllers.API
 {
@@ -17,13 +20,13 @@ namespace GestorTareas.Web.Controllers.API
         [HttpGet]
         public IActionResult GetGenders()
         {
-            return Ok(this.repository.GetAll());
+            return Ok(this.repository.GetAllGendersResponsesWithStudents());
         }
 
         [HttpGet("{id}")]
         public IActionResult GetGender(int id)
         {
-            var gender = this.repository.GetGenderById(id);
+            var gender = this.repository.GetGenderResponseWithStudentsById(id);
 
             if (gender == null)
             {
@@ -31,6 +34,25 @@ namespace GestorTareas.Web.Controllers.API
             }
 
             return Ok(gender);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> PostGender([FromBody] GenderResponse genderResponse)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var gender = new Gender
+            {
+                Id = genderResponse.Id,
+                GenderName = genderResponse.GenderName
+            };
+
+            var newGender = await this.repository.CreateAsync(gender);
+
+            return Ok(newGender);
         }
     }
 }

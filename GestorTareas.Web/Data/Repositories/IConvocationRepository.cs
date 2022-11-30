@@ -1,4 +1,5 @@
-﻿using GestorTareas.Web.Data.Entities;
+﻿using GestorTareas.Common.Models;
+using GestorTareas.Web.Data.Entities;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -9,7 +10,8 @@ namespace GestorTareas.Web.Data.Repositories
         //Metodos unicos de la entidad
         IQueryable GetAllConvocationsWithInstitutes();
         Convocation GetConvocationWithInstituteById(int id);
-
         Convocation GetConvocationById(int id);
+        IQueryable<ConvocationResponse> GetAllConvocationsResponses();
+        ConvocationResponse GetConvocationResponseById(int id);
     }
 }

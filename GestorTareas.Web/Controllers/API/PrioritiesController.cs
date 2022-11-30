@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using GestorTareas.Web.Data;
 using GestorTareas.Web.Data.Entities;
 using GestorTareas.Web.Data.Repositories;
+using GestorTareas.Common.Models;
 
 namespace GestorTareas.Web.Controllers.API
 {
@@ -39,6 +40,25 @@ namespace GestorTareas.Web.Controllers.API
             }
 
             return Ok(priority);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> PostPriority([FromBody] PriorityResponse priorityResponse )
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var priority = new Priority
+            {
+                Id = priorityResponse.Id,
+                PriorityName = priorityResponse.PriorityName
+            };
+
+            var newPriority = await this.repository.CreateAsync(priority);
+
+            return Ok(newPriority);
         }
     }
 }

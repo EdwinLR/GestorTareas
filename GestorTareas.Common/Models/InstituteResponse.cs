@@ -8,25 +8,25 @@ namespace GestorTareas.Common.Models
         public int Id { get; set; }
 
         [JsonProperty("name")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         [JsonProperty("contactPhone")]
-        public string ContactPhone { get; set; }
+        public string? ContactPhone { get; set; }
 
         [JsonProperty("streetName")]
-        public string StreetName { get; set; }
+        public string? StreetName { get; set; }
 
         [JsonProperty("streetNumber")]
-        public string StreetNumber { get; set; }
+        public string? StreetNumber { get; set; }
 
         [JsonProperty("district")]
-        public string District { get; set; }
+        public string? District { get; set; }
 
         [JsonProperty("city")]
-        public string City { get; set; }
+        public string? City { get; set; }
 
         [JsonProperty("country")]
-        public string Country { get; set; }
+        public string? Country { get; set; }
 
         [JsonProperty("contactPeople")]
         public object? ContactPeople { get; set; }

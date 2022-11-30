@@ -1,4 +1,5 @@
-﻿using GestorTareas.Web.Data.Entities;
+﻿using GestorTareas.Common.Models;
+using GestorTareas.Web.Data.Entities;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -9,5 +10,7 @@ namespace GestorTareas.Web.Data.Repositories
         IQueryable GetAllContactPeopleWithInstitutes();
         Task<ContactPerson> GetContactPersonWithInstituteByIdAsync(int id);
         ContactPerson GetContactPersonById(int id);
+        IQueryable<ContactPersonResponse> GetAllContactPeopleResponses();
+        ContactPersonResponse GetContactPersonResponseById(int id);
     }
 }

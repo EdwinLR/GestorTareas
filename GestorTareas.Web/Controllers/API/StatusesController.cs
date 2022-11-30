@@ -1,6 +1,8 @@
-﻿using GestorTareas.Web.Data.Repositories;
-using Microsoft.AspNetCore.Http;
+﻿using GestorTareas.Common.Models;
+using GestorTareas.Web.Data.Entities;
+using GestorTareas.Web.Data.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace GestorTareas.Web.Controllers.API
 {
@@ -32,6 +34,25 @@ namespace GestorTareas.Web.Controllers.API
             }
 
             return Ok(status);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> PostStatus([FromBody] StatusResponse statusResponse)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var status = new Status
+            {
+                Id = statusResponse.Id,
+                StatusName = statusResponse.StatusName
+            };
+
+            var newStatus = await this.repository.CreateAsync(status);
+
+            return Ok(newStatus);
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using GestorTareas.Web.Data.Repositories;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GestorTareas.Web.Controllers.API
@@ -18,13 +17,13 @@ namespace GestorTareas.Web.Controllers.API
         [HttpGet]
         public IActionResult GetContactPeople()
         {
-            return Ok(this.repository.GetAllContactPeopleWithInstitutes());
+            return Ok(this.repository.GetAllContactPeopleResponses());
         }
 
         [HttpGet("{id}")]
         public IActionResult GetContactPerson(int id)
         {
-            var contactPerson = this.repository.GetContactPersonById(id);
+            var contactPerson = this.repository.GetContactPersonResponseById(id);
 
             if (contactPerson == null)
             {
