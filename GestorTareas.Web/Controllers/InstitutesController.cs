@@ -158,7 +158,14 @@ namespace GestorTareas.Web.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var institute = _repository.GetInstituteWithCountryAndContactPersonById(id);
+
+            if (institute.ContactPeople.Count != 0 || institute.Convocations.Count != 0)
+            {
+                return RedirectToAction("Delete",id);
+            }
+
             await _repository.DeleteAsync(institute);
+
             return RedirectToAction(nameof(Index));
         }
 

@@ -15,6 +15,6 @@ namespace GestorTareas.Web.Data.Repositories
         Institute GetInstituteById(int id);
         IQueryable<InstituteResponse> GetAllInstitutesResponses();
         InstituteResponse GetInstituteResponseById(int id);
-
+        Task<Institute> GetInstituteByName(string institute);
     }
 }

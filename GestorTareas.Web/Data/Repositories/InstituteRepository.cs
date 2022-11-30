@@ -17,7 +17,7 @@ namespace GestorTareas.Web.Data.Repositories
         }
 
         //Institute Methods
-        IQueryable<Institute> IInstituteRepository.GetAllInstitutesWithCountriesAndContactPeople()
+        public IQueryable<Institute> GetAllInstitutesWithCountriesAndContactPeople()
         {
             return this.context.Institutes
                 .Include(i => i.Country)
@@ -120,6 +120,11 @@ namespace GestorTareas.Web.Data.Repositories
                       Requirements = c.Requirements
                   })
               }).FirstOrDefault(i => i.Id == id);
+        }
+
+        public async Task<Institute> GetInstituteByName(string institute)
+        {
+            return await this.context.Institutes.FirstOrDefaultAsync(i => i.Name == institute);
         }
     }
 }

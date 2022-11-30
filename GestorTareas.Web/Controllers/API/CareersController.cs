@@ -53,37 +53,40 @@
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCareer(int id, Career career)
+        public async Task<IActionResult> PutCareer([FromRoute] int id, [FromBody] CareerResponse careerResponse)
         {
-            if (id != career.Id)
-            {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (id != careerResponse.Id)
                 return BadRequest();
-            }
 
-            if (!CareerExists(id).Result)
-                return NoContent();
+            var oldCareer = await this.repository.GetByIdAsync(id);
 
-            var updatedCareer = await repository.UpdateAsync(career);
+            if (oldCareer == null)
+                return BadRequest("The career doesn't exist");
+
+            oldCareer.Name = careerResponse.Name;
+            oldCareer.CareerCode = careerResponse.CareerCode;
+
+            var updatedCareer = await repository.UpdateAsync(oldCareer);
             return Ok(updatedCareer);
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Career>> DeleteCareer(int id)
+        public async Task<IActionResult> DeleteCareer([FromRoute] int id)
         {
-            var career = this.repository.GetCareerById(id);
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var career = await this.repository.GetByIdAsync(id);
+
             if (career == null)
-            {
-                return NotFound();
-            }
+                return BadRequest("The career doesn't exist");
 
             await repository.DeleteAsync(career);
 
-            return career;
-        }
-
-        private async Task<bool> CareerExists(int id)
-        {
-            return await repository.ExistAsync(id);
+            return Ok(career);
         }
     }
 }

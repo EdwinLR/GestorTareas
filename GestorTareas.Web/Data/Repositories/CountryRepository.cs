@@ -15,6 +15,11 @@ namespace GestorTareas.Web.Data.Repositories
             this.context = context;
         }
 
+        public async Task<Country> GetCountryByName(string name)
+        {
+            return await this.context.Countries.FirstOrDefaultAsync(c => c.CountryName == name);
+        }
+
         public Country GetMasterById(int id)
         {
             return this.context.Countries.Find(id);
