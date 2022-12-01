@@ -69,7 +69,7 @@ namespace GestorTareas.Web.Controllers.API
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutInstitute([FromRoute] int id, [FromBody] ContactPersonResponse contactPersonResponse)
+        public async Task<IActionResult> PutContactPerson([FromRoute] int id, [FromBody] ContactPersonResponse contactPersonResponse)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -100,7 +100,7 @@ namespace GestorTareas.Web.Controllers.API
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteInstitute([FromRoute] int id)
+        public async Task<IActionResult> DeleteContactPerson([FromRoute] int id)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);

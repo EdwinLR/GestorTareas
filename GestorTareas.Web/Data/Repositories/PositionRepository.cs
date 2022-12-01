@@ -30,6 +30,11 @@ namespace GestorTareas.Web.Data.Repositories
                 .FirstOrDefault(p => p.Id == id);
         }
 
+        public Position GetPositionByName(string name)
+        {
+            return this.context.Positions.FirstOrDefault(p => p.Description == name);
+        }
+
         public IQueryable<PositionResponse> GetAllPositionsResponsesWithWorkers()
         {
             return this.context.Positions

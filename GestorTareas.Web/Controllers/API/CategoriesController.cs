@@ -26,14 +26,14 @@ namespace GestorTareas.Web.Controllers.API
         [HttpGet("{id}")]
         public IActionResult GetCategory(int id)
         {
-            var career = this.repository.GetDetailById(id);
+            var category = this.repository.GetDetailById(id);
 
-            if (career == null)
+            if (category == null)
             {
                 return NotFound();
             }
 
-            return Ok(career);
+            return Ok(category);
         }
 
         [HttpPost]
@@ -54,6 +54,42 @@ namespace GestorTareas.Web.Controllers.API
             var newCategory = await this.repository.CreateAsync(category);
 
             return Ok(newCategory);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutCategory([FromRoute] int id, [FromBody] CategoryResponse categoryResponse)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (id != categoryResponse.Id)
+                return BadRequest();
+
+            var oldCategory = await this.repository.GetByIdAsync(id);
+
+            if (oldCategory == null)
+                return BadRequest("The category doesn't exist");
+
+            oldCategory.CategoryName = categoryResponse.CategoryName;
+
+            var updatedCategory = await repository.UpdateAsync(oldCategory);
+            return Ok(updatedCategory);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteCategory([FromRoute] int id)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var category = await this.repository.GetByIdAsync(id);
+
+            if (category == null)
+                return BadRequest("The category doesn't exist");
+
+            await repository.DeleteAsync(category);
+
+            return Ok(category);
         }
     }
 }

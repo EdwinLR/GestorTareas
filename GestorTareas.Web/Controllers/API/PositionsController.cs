@@ -55,5 +55,41 @@ namespace GestorTareas.Web.Controllers.API
 
             return Ok(newPosition);
         }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutPosition([FromRoute] int id, [FromBody] PositionResponse positionResponse)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (id != positionResponse.Id)
+                return BadRequest();
+
+            var oldPosition = await this.repository.GetByIdAsync(id);
+
+            if (oldPosition == null)
+                return BadRequest("The position doesn't exist");
+
+            oldPosition.Description = positionResponse.Description;
+
+            var updatedPosition = await repository.UpdateAsync(oldPosition);
+            return Ok(updatedPosition);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeletePosition([FromRoute] int id)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var position = await this.repository.GetByIdAsync(id);
+
+            if (position == null)
+                return BadRequest("The position doesn't exist");
+
+            await repository.DeleteAsync(position);
+
+            return Ok(position);
+        }
     }
 }

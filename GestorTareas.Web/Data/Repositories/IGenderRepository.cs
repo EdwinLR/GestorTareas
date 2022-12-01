@@ -9,6 +9,7 @@ namespace GestorTareas.Web.Data.Repositories
     {
         //Metodos unicos de la entidad
         Gender GetGenderById(int id);
+        Gender GetGenderByName(string name);
 
         IQueryable<GenderResponse> GetAllGendersResponsesWithStudents();
         GenderResponse GetGenderResponseWithStudentsById(int id);

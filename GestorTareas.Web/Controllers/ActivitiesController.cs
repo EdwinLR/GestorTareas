@@ -78,7 +78,7 @@ namespace GestorTareas.Web.Controllers
             {
                 var activityDetailTemps = await repository.GetAllActivityDetailTemps().ToListAsync();
                 if (activityDetailTemps == null || activityDetailTemps.Count() == 0)
-                    return NotFound();
+                    return View(model);
 
                 var details = activityDetailTemps.Select(adt =>
                 studentRepository.GetStudentWithUserGenderAndCareerById(adt.Student.Id)).ToList();

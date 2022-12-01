@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using System.Collections.Generic;
 using System;
 
 namespace GestorTareas.Common.Models
@@ -37,6 +36,6 @@ namespace GestorTareas.Common.Models
         public string Project { get; set; }
 
         [JsonProperty("assignedActivities")]
-        public List<object>? AssignedActivities { get; set; }
+        public object? AssignedActivities { get; set; }
     }
 }

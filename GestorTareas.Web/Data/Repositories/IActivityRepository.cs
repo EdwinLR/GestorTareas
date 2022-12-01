@@ -1,4 +1,5 @@
-﻿using GestorTareas.Web.Data.Entities;
+﻿using GestorTareas.Common.Models;
+using GestorTareas.Web.Data.Entities;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,6 +12,9 @@ namespace GestorTareas.Web.Data.Repositories
         IQueryable<Activity> GetAllActivitiesWithProjectsCategoriesPrioritiesStatuses();
         Task<Activity> GetActivityWithProjectCategoryPriorityStatusAsync(int id);
         Task<Activity> CreateActivityAsync(Activity activity, List<ActivityDetailTemp> activitiesDetails);
+
+        IQueryable<ActivityResponse> GetAllActivitiesResponse();
+        ActivityResponse GetActivityResponseById(int id);
 
         IQueryable<ActivityDetailTemp> GetAllActivityDetailTemps();
         ActivityDetailTemp GetActivityDetailTempById(int id);

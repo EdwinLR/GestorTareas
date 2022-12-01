@@ -19,5 +19,10 @@ namespace GestorTareas.Web.Data.Repositories
         {
             return this.context.Statuses.Find(id);
         }
+
+        public Status GetStatusByName(string name)
+        {
+            return context.Statuses.FirstOrDefault(s => s.StatusName == name);
+        }
     }
 }

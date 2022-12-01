@@ -54,5 +54,41 @@ namespace GestorTareas.Web.Controllers.API
 
             return Ok(newStatus);
         }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutStatus([FromRoute] int id, [FromBody] StatusResponse statusResponse)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (id != statusResponse.Id)
+                return BadRequest();
+
+            var oldStatus = await this.repository.GetByIdAsync(id);
+
+            if (oldStatus == null)
+                return BadRequest("The status doesn't exist");
+
+            oldStatus.StatusName = statusResponse.StatusName;
+
+            var updatedStatus = await repository.UpdateAsync(oldStatus);
+            return Ok(updatedStatus);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteStatus([FromRoute] int id)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var status = await this.repository.GetByIdAsync(id);
+
+            if (status == null)
+                return BadRequest("The status doesn't exist");
+
+            await repository.DeleteAsync(status);
+
+            return Ok(status);
+        }
     }
 }

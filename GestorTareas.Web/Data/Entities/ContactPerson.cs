@@ -23,9 +23,9 @@ namespace GestorTareas.Web.Data.Entities
         public string MotherLastName { get; set; }
 
         [Required(ErrorMessage = "Número de teléfono requerido")]
-        [Range(0, 9999999999)]
+        [MaxLength(12)]
         [Display(Name = "Teléfono")]
-        public long PhoneNumber { get; set; }
+        public string PhoneNumber { get; set; }
 
         [Required(ErrorMessage = "Correo electrónico requerido")]
         [MaxLength(80)]

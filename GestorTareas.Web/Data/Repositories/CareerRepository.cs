@@ -22,10 +22,9 @@ namespace GestorTareas.Web.Data.Repositories
                 .ThenInclude(c => c.Gender)
                 .Include(c => c.Students)
                 .ThenInclude(u => u.User);
-
         }
 
-            public Career GetCareerById(int id)
+        public Career GetCareerById(int id)
         {
             return this.context.Careers
                 .Include(s => s.Students)
@@ -33,6 +32,11 @@ namespace GestorTareas.Web.Data.Repositories
                 .Include(s => s.Students)
                 .ThenInclude(u => u.Gender)
                 .FirstOrDefault(c => c.Id == id);
+        }
+
+        public Career GetCareerByName(string name)
+        {
+            return this.context.Careers.FirstOrDefault(c => c.Name == name);
         }
 
         public IQueryable<CareerResponse> GetAllCareersResponseWithStudents()

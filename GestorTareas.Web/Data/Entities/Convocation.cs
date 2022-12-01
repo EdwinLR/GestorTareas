@@ -7,6 +7,7 @@ namespace GestorTareas.Web.Data.Entities
     public class Convocation : IEntity
     {
         public int Id { get; set; }
+
         [Required(ErrorMessage = "Fecha de Inicio requerida")]
         [Display(Name = "Fecha de Inicio")]
         public DateTime StartingDate { get; set; }

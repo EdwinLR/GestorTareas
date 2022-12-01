@@ -1,4 +1,5 @@
-﻿using GestorTareas.Web.Data.Entities;
+﻿using GestorTareas.Common.Models;
+using GestorTareas.Web.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,6 +44,54 @@ namespace GestorTareas.Web.Data.Repositories
                 .Include(a => a.AssignedActivities)
                 .ThenInclude(s => s.User)
                 .FirstOrDefaultAsync(a => a.Id == id);
+        }
+
+        public IQueryable<ActivityResponse> GetAllActivitiesResponse()
+        {
+            return this.context.Activities
+                .Select(a => new ActivityResponse
+                {
+                    Id = a.Id,
+                    Title = a.Title,
+                    Deadline = a.Deadline,
+                    CreationDate = a.CreationDate,
+                    Description = a.Description,
+                    Progress = a.Progress,
+                    Category = a.Category.CategoryName,
+                    Status = a.Status.StatusName,
+                    Priority = a.Priority.PriorityName,
+                    Project = a.Project.ProjectName,
+                    AssignedActivities = a.AssignedActivities
+                        .Select(aa => new AssignedActivityResponse
+                        {
+                            Id = aa.Id,
+                            StudentId = aa.StudentId
+                        }).ToList()
+                });
+        }
+
+        public ActivityResponse GetActivityResponseById(int id)
+        {
+            return this.context.Activities
+                .Select(a => new ActivityResponse
+                {
+                    Id = a.Id,
+                    Title = a.Title,
+                    Deadline = a.Deadline,
+                    CreationDate = a.CreationDate,
+                    Description = a.Description,
+                    Progress = a.Progress,
+                    Category = a.Category.CategoryName,
+                    Status = a.Status.StatusName,
+                    Priority = a.Priority.PriorityName,
+                    Project = a.Project.ProjectName,
+                    AssignedActivities = a.AssignedActivities
+                        .Select(aa => new AssignedActivityResponse
+                        {
+                            Id = aa.Id,
+                            StudentId = aa.StudentId
+                        }).ToList()
+                }).FirstOrDefault(c => c.Id == id);
         }
 
         public async Task<Activity> CreateActivityAsync(Activity activity, List<ActivityDetailTemp> activitiesDetails)

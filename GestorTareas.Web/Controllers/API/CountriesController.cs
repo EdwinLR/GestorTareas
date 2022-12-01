@@ -54,5 +54,41 @@ namespace GestorTareas.Web.Controllers.API
 
             return Ok(newCountry);
         }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutCountry([FromRoute] int id, [FromBody] CountryResponse countryResponse)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (id != countryResponse.Id)
+                return BadRequest();
+
+            var oldCountry = await this.repository.GetByIdAsync(id);
+
+            if (oldCountry == null)
+                return BadRequest("The country doesn't exist");
+
+            oldCountry.CountryName = countryResponse.CountryName;
+
+            var updatedCountry = await repository.UpdateAsync(oldCountry);
+            return Ok(updatedCountry);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteCountry([FromRoute] int id)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var country = await this.repository.GetByIdAsync(id);
+
+            if (country == null)
+                return BadRequest("The country doesn't exist");
+
+            await repository.DeleteAsync(country);
+
+            return Ok(country);
+        }
     }
 }

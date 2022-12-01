@@ -39,7 +39,7 @@ namespace GestorTareas.Web.Controllers.API
         }
 
         [HttpPost]
-        public async Task<IActionResult> PostPosition([FromBody] InstituteResponse instituteResponse)
+        public async Task<IActionResult> PostInstitute([FromBody] InstituteResponse instituteResponse)
         {
             if (!ModelState.IsValid)
             {

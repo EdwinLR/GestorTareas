@@ -17,7 +17,7 @@ namespace GestorTareas.Common.Models
         public string MotherLastName { get; set; }
 
         [JsonProperty("phoneNumber")]
-        public long PhoneNumber { get; set; }
+        public string PhoneNumber { get; set; }
 
         [JsonProperty("email")]
         public string Email { get; set; }

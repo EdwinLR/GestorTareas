@@ -19,5 +19,10 @@ namespace GestorTareas.Web.Data.Repositories
         {
             return this.context.Categories.Find(id);
         }
+
+        public Category GetCategoryByName(string name)
+        {
+            return this.context.Categories.FirstOrDefault(c => c.CategoryName == name);
+        }
     }
 }

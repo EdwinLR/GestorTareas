@@ -8,5 +8,6 @@ namespace GestorTareas.Web.Data.Repositories
     {
         //Metodos unicos de la entidad
         Status GetMasterById(int id);
+        Status GetStatusByName(string name);
     }
 }

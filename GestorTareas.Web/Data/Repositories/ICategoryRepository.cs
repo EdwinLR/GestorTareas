@@ -8,5 +8,6 @@ namespace GestorTareas.Web.Data.Repositories
     {
         //Metodos unicos de la entidad
         Category GetDetailById(int id);
+        Category GetCategoryByName(string name);
     }
 }

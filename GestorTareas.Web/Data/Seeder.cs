@@ -93,11 +93,11 @@ namespace GestorTareas.Web.Data
             if (!this.dataContext.ContactPeople.Any())
             {
                 var institute = this.dataContext.Institutes.FirstOrDefault(c => c.Id == 1);
-                await CheckContactPerson("Gilberto", "Flores", "Reyes", "gilFR@ieee.com", 2224596532, institute);
+                await CheckContactPerson("Gilberto", "Flores", "Reyes", "gilFR@ieee.com", "2224596532", institute);
                 institute = this.dataContext.Institutes.FirstOrDefault(c => c.Id == 2);
-                await CheckContactPerson("Sandra", "Sanchez", "Serrano", "sanSS@cisco.com", 2498756229, institute);
+                await CheckContactPerson("Sandra", "Sanchez", "Serrano", "sanSS@cisco.com", "2498756229", institute);
                 institute = this.dataContext.Institutes.FirstOrDefault(c => c.Id == 3);
-                await CheckContactPerson("Oscar", "Gonzalez", "Rodriguez", "oscGR@mexabat.com", 2481568765, institute);
+                await CheckContactPerson("Oscar", "Gonzalez", "Rodriguez", "oscGR@mexabat.com", "2481568765", institute);
             }
 
             if (!this.dataContext.Convocations.Any())
@@ -112,7 +112,7 @@ namespace GestorTareas.Web.Data
 
             if (!this.dataContext.Students.Any())
             {
-                var user = await CheckUser("Alejandro", "Barroeta", "Martinez", "alexbm@umad.edu.mx", "20071361ABM");
+                var user = await CheckUser("Alejandro", "Barroeta", "Martinez", "alexbm@umad.edu.mx", "2224127857", "20071361ABM");
                 var career = this.dataContext.Careers.FirstOrDefault(f => f.Id == 1);
                 var gender = this.dataContext.Genders.FirstOrDefault(f => f.Id == 1);
                 await CheckStudent(user, "Student", "20071361", career, gender);
@@ -120,18 +120,18 @@ namespace GestorTareas.Web.Data
 
             if (!this.dataContext.Workers.Any())
             {
-                var user = await CheckUser("Carlos", "Zapata", "Bretón", "carloszb@umad.edu.mx", "12345C");
+                var user = await CheckUser("Carlos", "Zapata", "Bretón", "carloszb@umad.edu.mx", "2225785421",  "12345C");
                 var position = this.dataContext.Positions.FirstOrDefault(p => p.Id == 4);
                 await CheckWorker(user, "Coordinator", "1414", position);
 
-                user = await CheckUser("Edwin", "Lozada", "Ramos", "edwinlr@umad.edu.mx", "12345B");
+                user = await CheckUser("Edwin", "Lozada", "Ramos", "edwinlr@umad.edu.mx", "24815609674", "12345B");
                 position = this.dataContext.Positions.FirstOrDefault(p => p.Id == 1);
                 await CheckWorker(user, "Teacher", "1417", position);
             }
 
             if (!this.dataContext.Admins.Any())
             {
-                var user = await CheckUser("Admin", "", "", "admin@umad.edu.mx", "12345A");
+                var user = await CheckUser("Admin", "", "", "admin@umad.edu.mx", "0", "12345A");
                 await CheckAdmin(user, "Admin");
             }
 
@@ -236,7 +236,7 @@ namespace GestorTareas.Web.Data
             await this.dataContext.SaveChangesAsync();
         }
 
-        private async Task CheckContactPerson(string firstName, string fatherName, string motherName, string email, long phone, Institute institute)
+        private async Task CheckContactPerson(string firstName, string fatherName, string motherName, string email, string phone, Institute institute)
         {
             this.dataContext.ContactPeople.Add(new ContactPerson
             {
@@ -302,7 +302,7 @@ namespace GestorTareas.Web.Data
             await userHelper.AddUserToRoleAsync(user, role);
         }
 
-        private async Task<User> CheckUser(string firstName, string fatherlastName, string motherlastName, string email, string password)
+        private async Task<User> CheckUser(string firstName, string fatherlastName, string motherlastName, string email, string phone, string password)
         {
             var user = await userHelper.GetUserByEmailAsync(email);
             if (user == null)
@@ -313,6 +313,7 @@ namespace GestorTareas.Web.Data
                     FatherLastName = fatherlastName,
                     MotherLastName = motherlastName,
                     Email = email,
+                    PhoneNumber = phone,
                     UserName = email
                 };
                 var result = await userHelper.AddUserAsync(user, password);

@@ -1,7 +1,9 @@
-﻿using GestorTareas.Web.Data.Entities;
+﻿using GestorTareas.Common.Models;
+using GestorTareas.Web.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Permissions;
 using System.Threading.Tasks;
 
 namespace GestorTareas.Web.Data.Repositories
@@ -32,6 +34,47 @@ namespace GestorTareas.Web.Data.Repositories
                 .FirstOrDefault(p => p.Id == id);
         }
 
+        //Responses Methods
+        public IQueryable<ProjectResponse> GetAllProjectsResponse()
+        {
+            return this.context.Projects
+                .Select(p => new ProjectResponse
+                {
+                    Id = p.Id,
+                    ProjectName = p.ProjectName,
+                    Convocation = p.Convocation.Summary,
+                    ProjectCollaborators = p.ProjectCollaborators
+                        .Select(pc => new ProjectColaboratorResponse
+                        {
+                            Id = pc.Id,
+                            UserId = pc.User.Id
+                        }).ToList()
+                });
+        }
+
+        public Project GetProjectByName(string name)
+        {
+            return this.context.Projects.FirstOrDefault(p => p.ProjectName == name);
+        }
+
+        public ProjectResponse GetProjectResponseById(int id)
+        {
+            return this.context.Projects
+                .Select(p => new ProjectResponse
+                {
+                    Id = p.Id,
+                    ProjectName = p.ProjectName,
+                    Convocation = p.Convocation.Summary,
+                    ProjectCollaborators = p.ProjectCollaborators
+                        .Select(pc => new ProjectColaboratorResponse
+                        {
+                            Id = pc.Id,
+                            UserId = pc.User.Id
+                        }).ToList()
+                }).FirstOrDefault(c => c.Id == id);
+        }
+
+        //DetailTemps Methods
         public async Task<ProjectCollaboratorsDetailTemp> AddProjectCollaboratorDetailTemp(ProjectCollaboratorsDetailTemp projectCollaboratorsDetailTemp)
         {
             await this.context.ProjectCollaboratorsDetailTemps.AddAsync(projectCollaboratorsDetailTemp);
@@ -70,6 +113,11 @@ namespace GestorTareas.Web.Data.Repositories
         public ProjectCollaborator GetProjectCollaboratorsById(int projectId, string userId)
         {
            return this.context.ProjectCollaborators.FirstOrDefault(p => p.Project.Id == projectId && p.User.Id == userId );
+        }
+
+        public IQueryable<ProjectCollaborator> GetProjectCollaboratorsByProjectId(int projectId)
+        {
+            return this.context.ProjectCollaborators.Where(pc => pc.Project.Id == projectId);
         }
 
         public void DeleteCollaboratorFromList(ProjectCollaborator projectCollaborator)

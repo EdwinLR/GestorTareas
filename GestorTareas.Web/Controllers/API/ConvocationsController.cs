@@ -101,7 +101,7 @@ namespace GestorTareas.Web.Controllers.API
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteInstitute([FromRoute] int id)
+        public async Task<IActionResult> DeleteConvocation([FromRoute] int id)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);

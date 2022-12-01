@@ -8,5 +8,6 @@ namespace GestorTareas.Web.Data.Repositories
     {
         //Metodos unicos de la entidad
         Priority GetMasterById(int id);
+        Priority GetPriorityByName(string name);
     }
 }

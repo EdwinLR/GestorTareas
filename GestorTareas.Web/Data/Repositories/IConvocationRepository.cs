@@ -11,6 +11,7 @@ namespace GestorTareas.Web.Data.Repositories
         IQueryable GetAllConvocationsWithInstitutes();
         Convocation GetConvocationWithInstituteById(int id);
         Convocation GetConvocationById(int id);
+        Convocation GetConvocationByName(string name);
         IQueryable<ConvocationResponse> GetAllConvocationsResponses();
         ConvocationResponse GetConvocationResponseById(int id);
     }

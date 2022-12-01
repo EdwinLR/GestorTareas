@@ -10,6 +10,8 @@ namespace GestorTareas.Web.Data.Repositories
         //Metodos unicos de la entidad
         IQueryable<Position> GetAllPositionsWithWorkers();
         Position GetPositionWithWorkersById(int id);
+        Position GetPositionByName(string name);
+
         IQueryable<PositionResponse> GetAllPositionsResponsesWithWorkers();
         PositionResponse GetPositionResponseById(int id);
     }

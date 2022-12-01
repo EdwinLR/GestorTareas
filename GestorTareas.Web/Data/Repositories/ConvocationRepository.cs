@@ -41,6 +41,11 @@ namespace GestorTareas.Web.Data.Repositories
                 .FirstOrDefault(c => c.Id == id);
         }
 
+        public Convocation GetConvocationByName(string name)
+        {
+            return this.context.Convocations.FirstOrDefault(c => c.Summary == name);
+        }
+
         public IQueryable<ConvocationResponse> GetAllConvocationsResponses()
         {
             return this.context.Convocations

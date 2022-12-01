@@ -19,5 +19,10 @@ namespace GestorTareas.Web.Data.Repositories
         {
             return this.context.Priorities.Find(id);
         }
+
+        public Priority GetPriorityByName(string name)
+        {
+            return this.context.Priorities.FirstOrDefault(p => p.PriorityName == name);
+        }
     }
 }

@@ -19,6 +19,11 @@ namespace GestorTareas.Web.Data.Repositories
             return this.context.Genders.Find(id);
         }
 
+        public Gender GetGenderByName(string name)
+        {
+            return this.context.Genders.FirstOrDefault(g => g.GenderName == name);
+        }
+
         public IQueryable<GenderResponse> GetAllGendersResponsesWithStudents()
         {
             return this.context.Genders

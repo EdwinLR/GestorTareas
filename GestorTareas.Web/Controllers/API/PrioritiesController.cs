@@ -60,5 +60,41 @@ namespace GestorTareas.Web.Controllers.API
 
             return Ok(newPriority);
         }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutPriority([FromRoute] int id, [FromBody] PriorityResponse priorityResponse)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (id != priorityResponse.Id)
+                return BadRequest();
+
+            var oldPriority = await this.repository.GetByIdAsync(id);
+
+            if (oldPriority == null)
+                return BadRequest("The priority doesn't exist");
+
+            oldPriority.PriorityName = priorityResponse.PriorityName;
+
+            var updatedPriority = await repository.UpdateAsync(oldPriority);
+            return Ok(updatedPriority);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeletePriority([FromRoute] int id)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var priority = await this.repository.GetByIdAsync(id);
+
+            if (priority == null)
+                return BadRequest("The priority doesn't exist");
+
+            await repository.DeleteAsync(priority);
+
+            return Ok(priority);
+        }
     }
 }
