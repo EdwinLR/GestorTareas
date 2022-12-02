@@ -2,6 +2,7 @@
 using GestorTareas.Web.Data.Entities;
 using GestorTareas.Web.Data.Repositories;
 using GestorTareas.Web.Helpers;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -51,33 +52,69 @@ namespace GestorTareas.Web.Controllers.API
                 return BadRequest(ModelState);
             }
 
-            var career = careerRepository.GetCareerByName(studentResponse.Career);
-            if (career == null)
-                return BadRequest("The career does not exit");
-
-            var gender = genderRepository.GetGenderByName(studentResponse.Gender);
-            if (gender == null)
-                return BadRequest("The gender does not exist");
-
-            var user = await userHelper.GetUserByIdAsync(studentResponse.UserId);
+            var user = await this.userHelper.GetUserByIdAsync(studentResponse.UserId);
             if (user == null)
             {
-                //Create user
-                //Create student
+                user = new User
+                {
+                    FirstName = studentResponse.FirstName,
+                    FatherLastName = studentResponse.FatherLastName,
+                    MotherLastName = studentResponse.MotherLastName,
+                    Email = studentResponse.Email
+                };
+                string password = studentResponse.StudentId + studentResponse.FatherLastName[0] + studentResponse.MotherLastName[0] + studentResponse.FirstName[0] + studentResponse.FirstName[1];
+                var result = await userHelper.AddUserAsync(user, password.ToUpper());
+                if (result != IdentityResult.Success)
+                    return BadRequest();
+
+                var career = careerRepository.GetCareerByName(studentResponse.Career);
+                if (career == null)
+                    return BadRequest("The career does not exit");
+
+                var gender = genderRepository.GetGenderByName(studentResponse.Gender);
+                if (gender == null)
+                    return BadRequest("The gender does not exist");
+
+                var student = new Student
+                {
+                    Id = studentResponse.Id,
+                    StudentId = studentResponse.StudentId,
+                    Career = career,
+                    Gender = gender,
+                    User = user
+                };
+
+                var newStudent = await this.repository.CreateAsync(student);
+                return Ok(newStudent);
             }
-
-            var student = new Student
+            else
             {
-                Id = studentResponse.Id,
-                StudentId = studentResponse.StudentId,
-                Career = career,
-                Gender = gender,
-                User = user
-            };
+                var worker = repository.GetStudentWithUserGenderAndCareerByUserId(user.Id);
+                if (worker == null)
+                    return BadRequest("This worker already exists");
+                else
+                {
+                    var career = careerRepository.GetCareerByName(studentResponse.Career);
+                    if (career == null)
+                        return BadRequest("The career does not exit");
 
-            var newStudent = await this.repository.CreateAsync(student);
+                    var gender = genderRepository.GetGenderByName(studentResponse.Gender);
+                    if (gender == null)
+                        return BadRequest("The gender does not exist");
 
-            return Ok(newStudent);
+                    var student = new Student
+                    {
+                        Id = studentResponse.Id,
+                        StudentId = studentResponse.StudentId,
+                        Career = career,
+                        Gender = gender,
+                        User = user
+                    };
+
+                    var newStudent = await this.repository.CreateAsync(student);
+                    return Ok(newStudent);
+                }
+            }
         }
 
         [HttpPut("{id}")]
@@ -103,8 +140,13 @@ namespace GestorTareas.Web.Controllers.API
                 return BadRequest("The gender does not exist");
 
             var user = await userHelper.GetUserByIdAsync(studentResponse.UserId);
+            if (user == null)
+                return BadRequest("The user does not exist");
 
-            //Change user properties
+            user.FirstName = studentResponse.FirstName;
+            user.FatherLastName = studentResponse.FatherLastName;
+            user.MotherLastName = studentResponse.MotherLastName;
+            user.Email = studentResponse.Email;
 
             oldStudent.Id = studentResponse.Id;
             oldStudent.StudentId = studentResponse.StudentId;
@@ -112,6 +154,9 @@ namespace GestorTareas.Web.Controllers.API
             oldStudent.Gender = gender;
             oldStudent.User = user;
 
+            var result = await userHelper.UpdateUserAsync(user);
+            if (result != IdentityResult.Success)
+                return BadRequest();
             var updatedStudent = await repository.UpdateAsync(oldStudent);
             return Ok(updatedStudent);
         }

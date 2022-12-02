@@ -2,6 +2,7 @@
 using GestorTareas.Web.Data.Entities;
 using GestorTareas.Web.Data.Repositories;
 using GestorTareas.Web.Helpers;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -49,29 +50,60 @@ namespace GestorTareas.Web.Controllers.API
                 return BadRequest(ModelState);
             }
 
-            var position = this.positionRepository.GetPositionByName(workerResponse.Position);
-            if (position == null)
-                return BadRequest("The position does not exist");
-
             var user = await this.userHelper.GetUserByIdAsync(workerResponse.UserId);
             if (user == null)
             {
-                //Create user
-                //Create worker
+                user = new User
+                {
+                    FirstName = workerResponse.FirstName,
+                    FatherLastName = workerResponse.FatherLastName,
+                    MotherLastName = workerResponse.MotherLastName,
+                    Email = workerResponse.Email,
+                    PhoneNumber = workerResponse.PhoneNumber
+                };
+                string password = workerResponse.WorkerId + workerResponse.FatherLastName[0] + workerResponse.MotherLastName[0] + workerResponse.FirstName[0] + workerResponse.FirstName[1];
+                var result = await userHelper.AddUserAsync(user, password.ToUpper());
+                if (result != IdentityResult.Success)
+                    return BadRequest();
+
+                var position = this.positionRepository.GetPositionByName(workerResponse.Position);
+                if (position == null)
+                    return BadRequest("The position does not exist");
+
+                var worker = new Worker
+                {
+                    Id = workerResponse.Id,
+                    WorkerId = workerResponse.WorkerId,
+                    Position = position,
+                    User = user
+                };
+                var newWorker = await this.repository.CreateAsync(worker);
+                await userHelper.AddUserToRoleAsync(user, "Worker");
+                return Ok(newWorker);
             }
-                
-
-            var worker = new Worker
+            else
             {
-                Id = workerResponse.Id,
-                WorkerId = workerResponse.WorkerId,
-                Position = position,
-                User = user
-            };
+                var worker = repository.GetWorkerWithUserAndPositionByUserId(user.Id);
+                if (worker == null)
+                    return BadRequest("This worker already exists");
+                else
+                {
+                    var position = this.positionRepository.GetPositionByName(workerResponse.Position);
+                    if (position == null)
+                        return BadRequest("The position does not exist");
 
-            var newWorker = await this.repository.CreateAsync(worker);
-
-            return Ok(newWorker);
+                    worker = new Worker
+                    {
+                        Id = workerResponse.Id,
+                        WorkerId = workerResponse.WorkerId,
+                        Position = position,
+                        User = user
+                    };
+                    var newWorker = await this.repository.CreateAsync(worker);
+                    await userHelper.AddUserToRoleAsync(user, "Worker");
+                    return Ok(newWorker);
+                }
+            }
         }
 
         [HttpPut("{id}")]
@@ -96,14 +128,20 @@ namespace GestorTareas.Web.Controllers.API
             if (user == null)
                 return BadRequest("The user does not exist");
 
-            //Change user properties
-            //user.FirstName = workerResponse.FirstName;
+            user.FirstName = workerResponse.FirstName;
+            user.FatherLastName = workerResponse.FatherLastName;
+            user.MotherLastName = workerResponse.MotherLastName;
+            user.Email = workerResponse.Email;
+            user.PhoneNumber = workerResponse.PhoneNumber;
 
             oldWorker.Id = workerResponse.Id;
             oldWorker.WorkerId = workerResponse.WorkerId;
             oldWorker.Position = position;
             oldWorker.User = user;
 
+            var result = await userHelper.UpdateUserAsync(user);
+            if (result != IdentityResult.Success)
+                return BadRequest();
             var updatedWorker = await repository.UpdateAsync(oldWorker);
             return Ok(updatedWorker);
         }

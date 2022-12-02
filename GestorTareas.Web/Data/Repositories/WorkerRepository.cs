@@ -49,6 +49,22 @@ namespace GestorTareas.Web.Data.Repositories
                 });
         }
 
+        public Worker GetWorkerWithUserAndPositionById(int id)
+        {
+            return context.Workers
+                .Include(u => u.User)
+                .Include(p => p.Position)
+                .FirstOrDefault(w => w.Id == id);
+        }
+
+        public Worker GetWorkerWithUserAndPositionByUserId(string userId)
+        {
+            return context.Workers
+                .Include(u => u.User)
+                .Include(p => p.Position)
+                .FirstOrDefault(w => w.User.Id == userId);
+        }
+
         public WorkerResponse GetWorkerResponseById(int id)
         {
             return this.context.Workers
@@ -64,14 +80,6 @@ namespace GestorTareas.Web.Data.Repositories
                     WorkerId = w.WorkerId,
                     UserId = w.User.Id
                 }).FirstOrDefault(w => w.Id == id);
-        }
-
-        public Worker GetWorkerWithUserAndPositionById(int id)
-        {
-            return context.Workers
-                .Include(u => u.User)
-                .Include(p => p.Position)
-                .FirstOrDefault(w => w.Id == id);
         }
     }
 }

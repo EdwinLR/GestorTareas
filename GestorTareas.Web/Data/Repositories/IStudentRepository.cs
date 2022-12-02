@@ -11,6 +11,7 @@ namespace GestorTareas.Web.Data.Repositories
         IQueryable GetAllStudentsWithUserAndCareerOrderByFatherLastname();
         IQueryable GetAllStudentsWithUserAndCareerOrderByCareerId(int id);
         Student GetStudentWithUserGenderAndCareerById(int id);
+        Student GetStudentWithUserGenderAndCareerByUserId(string userId);
         Task DeleteStudentAndUserAsync(Student student);
 
         IQueryable<StudentResponse> GetAllStudentsResponseWithGenderAndCareer();

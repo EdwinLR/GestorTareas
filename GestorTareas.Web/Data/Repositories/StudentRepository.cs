@@ -47,6 +47,26 @@ namespace GestorTareas.Web.Data.Repositories
                         .OrderBy(s => s.Career.Name);
         }
 
+        public Student GetStudentWithUserGenderAndCareerById(int id)
+        {
+            return context.Students
+                .Include(u => u.User)
+                .Include(s => s.Career)
+                .Include(g => g.Gender)
+                .Include(a => a.AssignedActivities)
+                .FirstOrDefault(s => s.Id == id);
+        }
+
+        public Student GetStudentWithUserGenderAndCareerByUserId(string userId)
+        {
+            return context.Students
+                .Include(u => u.User)
+                .Include(s => s.Career)
+                .Include(g => g.Gender)
+                .Include(a => a.AssignedActivities)
+                .FirstOrDefault(s => s.User.Id == userId);
+        }
+
         public IQueryable<StudentResponse> GetAllStudentsResponseWithGenderAndCareer()
         {
             return this.context.Students
@@ -81,16 +101,6 @@ namespace GestorTareas.Web.Data.Repositories
                     UserId = s.User.Id,
                     AssignedActivities = s.AssignedActivities
                 }).FirstOrDefault(s => s.Id == id);
-        }
-
-        public Student GetStudentWithUserGenderAndCareerById(int id)
-        {
-            return context.Students
-                .Include(u => u.User)
-                .Include(s => s.Career)
-                .Include(g => g.Gender)
-                .Include(a => a.AssignedActivities)
-                .FirstOrDefault(s => s.Id == id);
         }
 
         public async Task DeleteStudentAndUserAsync(Student student)
