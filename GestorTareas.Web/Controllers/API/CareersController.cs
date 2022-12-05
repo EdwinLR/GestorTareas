@@ -36,7 +36,7 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> PostCareer(CareerResponse careerResponse)
+        public async Task<IActionResult> PostCareer([FromBody]CareerResponse careerResponse)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);

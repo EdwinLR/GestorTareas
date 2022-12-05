@@ -13,9 +13,10 @@ namespace GestorTareas.Web.Controllers.API
         private readonly IProjectRepository repository;
         private readonly IConvocationRepository convocationRepository;
 
-        public ProjectsController(IProjectRepository repository)
+        public ProjectsController(IProjectRepository repository, IConvocationRepository convocationRepository)
         {
             this.repository = repository;
+            this.convocationRepository = convocationRepository;
         }
 
         [HttpGet]
