@@ -9,5 +9,10 @@ namespace GestorTareas.Common.Models
 
         [JsonProperty("userId")]
         public string UserId { get; set; }
+
+        [JsonProperty("projectId")]
+        public string ProjectId { get; set; }
+
+
     }
 }

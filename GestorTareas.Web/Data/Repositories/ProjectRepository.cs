@@ -125,5 +125,11 @@ namespace GestorTareas.Web.Data.Repositories
             this.context.ProjectCollaborators.Remove(projectCollaborator);
             this.context.SaveChanges();
         }
+
+        public async void AddCollaboratorsAsync(ProjectCollaborator collaborator)
+        {
+            await this.context.ProjectCollaborators.AddAsync(collaborator);
+            this.context.SaveChanges();
+        }
     }
 }

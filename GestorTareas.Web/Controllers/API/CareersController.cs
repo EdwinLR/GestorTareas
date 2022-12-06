@@ -36,7 +36,7 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> PostCareer([FromBody]CareerResponse careerResponse)
+        public async Task<IActionResult> PostCareer([FromBody] CareerResponse careerResponse)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -79,10 +79,13 @@
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var career = await this.repository.GetByIdAsync(id);
+            var career = this.repository.GetCareerById(id);
 
             if (career == null)
                 return BadRequest("The career doesn't exist");
+
+            if (career.Students.Count != 0)
+                return BadRequest("The Career cannot be deleted. It is linked with one or more students");
 
             await repository.DeleteAsync(career);
 

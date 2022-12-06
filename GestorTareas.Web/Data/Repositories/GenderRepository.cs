@@ -1,6 +1,8 @@
 ﻿using GestorTareas.Common.Models;
 using GestorTareas.Web.Data.Entities;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace GestorTareas.Web.Data.Repositories
 {
@@ -22,6 +24,13 @@ namespace GestorTareas.Web.Data.Repositories
         public Gender GetGenderByName(string name)
         {
             return this.context.Genders.FirstOrDefault(g => g.GenderName == name);
+        }
+
+        public async Task<Gender> GetGenderWithStudentsById(int id)
+        {
+            return await this.context.Genders.Include(g=>g.Students)
+                .ThenInclude(s=>s.User)
+                .FirstOrDefaultAsync(g => g.Id == id);
         }
 
         public IQueryable<GenderResponse> GetAllGendersResponsesWithStudents()

@@ -11,6 +11,8 @@ namespace GestorTareas.Web.Data.Repositories
         Gender GetGenderById(int id);
         Gender GetGenderByName(string name);
 
+        Task<Gender> GetGenderWithStudentsById(int id);
+
         IQueryable<GenderResponse> GetAllGendersResponsesWithStudents();
         GenderResponse GetGenderResponseWithStudentsById(int id);
     }

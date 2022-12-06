@@ -1,7 +1,6 @@
 ﻿using GestorTareas.Common.Models;
 using GestorTareas.Web.Data.Entities;
 using GestorTareas.Web.Data.Repositories;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -82,10 +81,13 @@ namespace GestorTareas.Web.Controllers.API
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var position = await this.repository.GetByIdAsync(id);
+            var position = this.repository.GetPositionWithWorkersById(id);
 
             if (position == null)
                 return BadRequest("The position doesn't exist");
+
+            if (position.Workers.Count != 0)
+                return BadRequest("The Position cannot be deleted. It is linked with one or more workers");
 
             await repository.DeleteAsync(position);
 

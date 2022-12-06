@@ -107,7 +107,7 @@ namespace GestorTareas.Web.Controllers.API
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var institute = await this.repository.GetByIdAsync(id);
+            var institute = this.repository.GetInstituteWithCountryAndContactPersonById(id);
 
             if (institute == null)
                 return BadRequest("The institute doesn't exist");

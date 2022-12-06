@@ -21,6 +21,7 @@ namespace GestorTareas.Web.Data.Repositories
         IQueryable<ProjectCollaborator> GetProjectCollaboratorsByProjectId(int projectId);
         void DeleteCollaboratorDetailTemp(ProjectCollaboratorsDetailTemp projectCollaborator);
         Task<Project> AddCollaboratorsAsync(int id, List<ProjectCollaborator> collaborators, List<ProjectCollaboratorsDetailTemp> projectCollaboratorsTemp);
+        void AddCollaboratorsAsync(ProjectCollaborator collaborator);
         ProjectCollaborator GetProjectCollaboratorsById(int projectId, string userId);
         void DeleteCollaboratorFromList(ProjectCollaborator projectCollaborator);
     }

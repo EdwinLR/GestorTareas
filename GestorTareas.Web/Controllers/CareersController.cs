@@ -119,7 +119,11 @@ namespace GestorTareas.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var career = await this.repository.GetByIdAsync(id);
+            var career = this.repository.GetCareerById(id);
+
+            if (career.Students.Count != 0)
+                return RedirectToAction("Delete", career.Id);
+
             await this.repository.DeleteAsync(career);
             return RedirectToAction(nameof(Index));
         }

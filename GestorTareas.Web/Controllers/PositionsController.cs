@@ -122,6 +122,10 @@ namespace GestorTareas.Web.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var position = await _repository.GetByIdAsync(id);
+
+            if (position.Workers.Count != 0)
+                return RedirectToAction("Delete", position.Id);
+
             await _repository.DeleteAsync(position);
             return RedirectToAction(nameof(Index));
         }

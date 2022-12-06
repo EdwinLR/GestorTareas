@@ -80,9 +80,12 @@ namespace GestorTareas.Web.Controllers.API
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var gender = await this.repository.GetByIdAsync(id);
-            if (gender == null)
+            var gender = await this.repository.GetGenderWithStudentsById(id);
+            if (gender.Students.Count != 0)
                 return BadRequest("Gender does not exist");
+
+            if (gender.Students != null)
+                return BadRequest("The gender cannot be deleted. It is linked with one or more students");
 
             await repository.DeleteAsync(gender);
             return Ok(gender);

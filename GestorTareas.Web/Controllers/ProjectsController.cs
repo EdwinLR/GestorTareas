@@ -119,7 +119,13 @@ namespace GestorTareas.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var project = await projectRepository.GetByIdAsync(id);
+            var project = projectRepository.GetProjectWithConvocationAndCollaboratorsById(id);
+
+            if (project.ProjectCollaborators.Count != 0)
+            {
+                return RedirectToAction("Delete", project.Id);
+            }
+
             await projectRepository.DeleteAsync(project);
 
             await context.SaveChangesAsync();

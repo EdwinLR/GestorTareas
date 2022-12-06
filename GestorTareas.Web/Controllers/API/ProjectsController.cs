@@ -1,6 +1,7 @@
 ﻿using GestorTareas.Common.Models;
 using GestorTareas.Web.Data.Entities;
 using GestorTareas.Web.Data.Repositories;
+using GestorTareas.Web.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -12,11 +13,15 @@ namespace GestorTareas.Web.Controllers.API
     {
         private readonly IProjectRepository repository;
         private readonly IConvocationRepository convocationRepository;
+        private readonly IProjectRepository projectRepository;
+        private readonly IUserHelper userHelper;
 
-        public ProjectsController(IProjectRepository repository, IConvocationRepository convocationRepository)
+        public ProjectsController(IProjectRepository repository, IConvocationRepository convocationRepository, IUserHelper userHelper, IProjectRepository projectRepository)
         {
             this.repository = repository;
             this.convocationRepository = convocationRepository;
+            this.projectRepository = projectRepository;
+            this.userHelper = userHelper;
         }
 
         [HttpGet]
@@ -93,11 +98,44 @@ namespace GestorTareas.Web.Controllers.API
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var project = await this.repository.GetByIdAsync(id);
+            var project = this.repository.GetProjectWithConvocationAndCollaboratorsById(id);
             if (project == null)
                 return BadRequest("Project not exist");
 
+            if (project.ProjectCollaborators.Count != 0)
+                return BadRequest("The project cannot be deleted. It is linked with other entities");
+
             await repository.DeleteAsync(project);
+            return Ok(project);
+        }
+
+        [HttpPost("{id}")]
+        public async Task<IActionResult> PostProjectCollaborators([FromRoute] int id, [FromBody] ProjectColaboratorResponse projectColaboratorResponse)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var user = await this.userHelper.GetUserByIdAsync(projectColaboratorResponse.UserId);
+            if (user == null)
+                return BadRequest("The User does not exist");
+
+            if (id != projectColaboratorResponse.Id)
+                return BadRequest();
+
+            var project = await this.repository.GetByIdAsync(id);
+            if (project == null)
+                return BadRequest("The project does not exist.");
+
+            var projectCollaborator = new ProjectCollaborator
+            {
+                Project = project,
+                User = user
+            };
+
+            this.projectRepository.AddCollaboratorsAsync(projectCollaborator);
+
             return Ok(project);
         }
     }
