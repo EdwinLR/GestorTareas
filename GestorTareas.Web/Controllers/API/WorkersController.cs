@@ -59,12 +59,13 @@ namespace GestorTareas.Web.Controllers.API
                     FatherLastName = workerResponse.FatherLastName,
                     MotherLastName = workerResponse.MotherLastName,
                     Email = workerResponse.Email,
-                    PhoneNumber = workerResponse.PhoneNumber
+                    PhoneNumber = workerResponse.PhoneNumber,
+                    UserName = workerResponse.Email
                 };
                 string password = workerResponse.WorkerId + workerResponse.FatherLastName[0] + workerResponse.MotherLastName[0] + workerResponse.FirstName[0] + workerResponse.FirstName[1];
                 var result = await userHelper.AddUserAsync(user, password.ToUpper());
                 if (result != IdentityResult.Success)
-                    return BadRequest();
+                    return BadRequest(result);
 
                 var position = this.positionRepository.GetPositionByName(workerResponse.Position);
                 if (position == null)
@@ -78,7 +79,10 @@ namespace GestorTareas.Web.Controllers.API
                     User = user
                 };
                 var newWorker = await this.repository.CreateAsync(worker);
-                await userHelper.AddUserToRoleAsync(user, "Worker");
+                if (worker.Position.Description != "Coordinador")
+                    await userHelper.AddUserToRoleAsync(user, "Teacher");
+                else
+                    await userHelper.AddUserToRoleAsync(user, "Coordinator");
                 return Ok(newWorker);
             }
             else
@@ -133,6 +137,7 @@ namespace GestorTareas.Web.Controllers.API
             user.MotherLastName = workerResponse.MotherLastName;
             user.Email = workerResponse.Email;
             user.PhoneNumber = workerResponse.PhoneNumber;
+            user.UserName = workerResponse.Email;
 
             oldWorker.Id = workerResponse.Id;
             oldWorker.WorkerId = workerResponse.WorkerId;

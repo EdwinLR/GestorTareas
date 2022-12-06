@@ -60,12 +60,13 @@ namespace GestorTareas.Web.Controllers.API
                     FirstName = studentResponse.FirstName,
                     FatherLastName = studentResponse.FatherLastName,
                     MotherLastName = studentResponse.MotherLastName,
-                    Email = studentResponse.Email
+                    Email = studentResponse.Email,
+                    UserName = studentResponse.Email
                 };
                 string password = studentResponse.StudentId + studentResponse.FatherLastName[0] + studentResponse.MotherLastName[0] + studentResponse.FirstName[0] + studentResponse.FirstName[1];
                 var result = await userHelper.AddUserAsync(user, password.ToUpper());
                 if (result != IdentityResult.Success)
-                    return BadRequest();
+                    return BadRequest(result);
 
                 var career = careerRepository.GetCareerByName(studentResponse.Career);
                 if (career == null)
@@ -147,6 +148,7 @@ namespace GestorTareas.Web.Controllers.API
             user.FatherLastName = studentResponse.FatherLastName;
             user.MotherLastName = studentResponse.MotherLastName;
             user.Email = studentResponse.Email;
+            user.UserName = studentResponse.Email;
 
             oldStudent.Id = studentResponse.Id;
             oldStudent.StudentId = studentResponse.StudentId;

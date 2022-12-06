@@ -73,7 +73,7 @@ namespace GestorTareas.Web.Controllers.API
             {
                 Id = activityResponse.Id,
                 Title = activityResponse.Title,
-                CreationDate = activityResponse.CreationDate,
+                CreationDate = System.DateTime.Now,
                 Description = activityResponse.Description,
                 Deadline = activityResponse.Deadline,
                 Progress = activityResponse.Progress,
