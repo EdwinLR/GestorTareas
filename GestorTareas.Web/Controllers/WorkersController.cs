@@ -35,26 +35,21 @@ namespace GestorTareas.Web.Controllers
         [Authorize(Roles = "Coordinator,Admin")]
         public IActionResult Index(string sortOrder)
         {
-            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_asc" : "";
-            ViewBag.PositionSortParm = String.IsNullOrEmpty(sortOrder) ? "position_asc" : "";
+            var studentsList = repository.GetAllWorkersWithUserAndPositionOrderByFatherLastname();
 
-            var studentsList = repository.GetAllWorkersWithUserAndPositionOrderByPosition();
-
-            switch (sortOrder)
+            if (sortOrder == "name_asc")
             {
-                case "name_asc":
-                    {
-                        studentsList = repository.GetAllWorkersWithUserAndPositionOrderByFatherLastname();
-                        break;
-                    }
-                case "position_asc":
-                    {
-                        studentsList = repository.GetAllWorkersWithUserAndPositionOrderByPosition();
-                        break;
-                    }
+                studentsList = repository.GetAllWorkersWithUserAndPositionOrderByFatherLastname();
+                return View(studentsList);
             }
 
+            if (sortOrder == "position_asc")
+            {
+                studentsList = repository.GetAllWorkersWithUserAndPositionOrderByPosition();
+                return View(studentsList);
+            }
             return View(studentsList);
+
         }
 
         [Authorize(Roles = "Coordinator,Admin")]

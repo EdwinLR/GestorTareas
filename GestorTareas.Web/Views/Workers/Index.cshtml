@@ -30,8 +30,8 @@
         Ordenar por:
       </button>
       <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <a class="dropdown-item" href="#"> @Html.ActionLink("Por Apellido Paterno (Ascendente)", "Index", new { sortOrder = ViewBag.NameSortParm }, new { @class="linkButton", style="color:black; text-decoration: none; padding: 10px;" }) </a>
-        <a class="dropdown-item" href="#"> @Html.ActionLink(" Por Puesto (Ascendente) ", "Index", new { sortOrder = ViewBag.PositionSortParm }, new { style="color:black; text-decoration: none; padding: 10px;"}) </a>
+                <a class="dropdown-item" asp-route-sortOrder="name_asc" asp-action="Index">Por Apellido Paterno (Ascendente) </a>
+                <a class="dropdown-item" asp-route-sortOrder="position_asc" asp-action="Index"> Por Puesto (Ascendente) </a>
       </div>
     </div>
 </div>
