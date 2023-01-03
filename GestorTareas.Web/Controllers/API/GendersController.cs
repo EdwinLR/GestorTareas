@@ -2,6 +2,7 @@ using GestorTareas.Common.Models;
 using GestorTareas.Web.Data.Entities;
 using GestorTareas.Web.Data.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace GestorTareas.Web.Controllers.API
@@ -55,6 +56,7 @@ namespace GestorTareas.Web.Controllers.API
             return Ok(newGender);
         }
 
+        [HttpPut("{id}")]
         public async Task<IActionResult> PutGender([FromRoute] int id, [FromBody] GenderResponse genderResponse)
         {
             if (!ModelState.IsValid)
@@ -81,10 +83,10 @@ namespace GestorTareas.Web.Controllers.API
                 return BadRequest(ModelState);
 
             var gender = await this.repository.GetGenderWithStudentsById(id);
-            if (gender.Students.Count != 0)
+            if (gender == null)
                 return BadRequest("Gender does not exist");
 
-            if (gender.Students != null)
+            if (gender.Students == null || gender.Students.Count != 0)
                 return BadRequest("The gender cannot be deleted. It is linked with one or more students");
 
             await repository.DeleteAsync(gender);
